@@ -2,7 +2,7 @@
 
 This is a discord scraper that retrieves public server chat history using self bots
 
-> [!DANGER]
+> [!WARNING]
 > Be aware that discord selfbots are against ToS. Use at your own risk
 
 ---

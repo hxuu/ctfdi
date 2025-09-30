@@ -47,8 +47,10 @@ main() {
         curl_args+=( -H "$key: ${headers[$key]}" )
     done
 
-    # create the file to store the dumped data
-    local file="dump_${channel_id}.txt"
+    # create the file to store the dumped data (IFF is empty)
+    if [[ -z "$file" ]]; then
+        local file="dump_${channel_id}.txt"
+    fi
 
     local query_parameters="limit=50"
     local before_last_id=
@@ -63,6 +65,10 @@ main() {
         fi
 
         local url="https://discord.com/api/v9/channels/${channel_id}/messages?${query_parameters}"
+        echo "url: $url"
+        echo "file: ${file}"
+        echo "${curl_args[*]}"
+        exit 1
         response=$(curl -sS --http3 "${curl_args[@]}" "${url}")
         count=$(echo "$response" | jq 'length')
 

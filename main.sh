@@ -10,6 +10,12 @@
 # Date: Sep 29, 2025
 # Reference: https://curl.se/docs/http3.html
 
+RED='\033[1;31m'
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[1;36m'
+RESET='\033[0m'
+
 usage() {
     echo "Usage: $0 -t <token> -c <channel_id>"
     echo
@@ -68,7 +74,7 @@ main() {
         response=$(curl -sS --http3 "${curl_args[@]}" "${url}")
         count=$(echo "$response" | jq 'length')
 
-        echo "[+] Fetched <${count}>"
+        echo "  [-] Fetched <${count}>"
         echo "$response" >> "$file"
 
         last_message_id=$(echo "$response" | jq -r '.[-1].id')
@@ -87,4 +93,5 @@ if [[ -z "$token" || -z "$channel_id" ]]; then
     exit 1
 fi
 
+echo -e "[+] Processing channel:${GREEN}$channel_id${RESET} | file:${CYAN}$file${RESET}"
 main

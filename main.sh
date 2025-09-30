@@ -63,23 +63,28 @@ main() {
     local last_message_id=
     while [[ true ]]; do
         if [[ -n $last_message_id ]]; then
-            if [[ $before_last_id == $last_message_id ]]; then
+            if [[ "$before_last_id" == "$last_message_id" ]]; then
+                echo "[+] Sucess! Check ${file}"
+                echo "---------------------------------------------------------"
                 break
             fi
             before_last_id="$last_message_id"
-            query_parameters+="&before=$last_message_id"
+            query_parameters="limit=50&before=$last_message_id"
         fi
 
         local url="https://discord.com/api/v9/channels/${channel_id}/messages?${query_parameters}"
-        response=$(curl -sS --http3 "${curl_args[@]}" "${url}")
-        count=$(echo "$response" | jq 'length')
+        local response=$(curl -sS --http3 -w "%{http_code}" -o /tmp/temp_response.json "${curl_args[@]}" "${url}")
+        local body=$(< /tmp/temp_response.json)
+        local count=$(echo $body | jq 'length')
 
-        echo "  [-] Fetched <${count}>"
-        echo "$response" >> "$file"
+        rm /tmp/temp_response.json # shouldn't be necessary but whatever
 
-        last_message_id=$(echo "$response" | jq -r '.[-1].id')
+        echo "  [-] Fetched <${count}> | Status code: ${response:-3}"
+        echo "$body" >> "$file"
+
+        last_message_id=$(echo "$body" | tail -n 1 | jq -r '.[-1].id')
         # Randomize wait time
-        sleep $(( RANDOM % 4 + 1))
+        sleep $(( RANDOM % 8 + 1))
     done
 }
 

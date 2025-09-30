@@ -38,12 +38,13 @@ main() {
 
             mkdir -p "$target"
             echo $repo_link > "${name}.txt";
-        else
-            # main.sh is forking another process. Have to export
-            export file="${name}_${channel_id}.json"
-            ./main.sh -t "$token" -c "$channel_id" || exit 1
-            echo "[+] Sucess. Check <${file}>"
+            continue
         fi
+        # main.sh is forking another process. Have to export
+        export file="${name}_${channel_id}.json"
+        ./main.sh -t "$token" -c "$channel_id" || exit 1
+
+        sleep $(( RANDOM % 15 + 1 ))
     done < ${data_file}
 }
 

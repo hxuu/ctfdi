@@ -78,6 +78,7 @@ main() {
         local count=$(echo $body | jq 'length')
 
         rm /tmp/temp_response.json # shouldn't be necessary but whatever
+        (( count == 0 )) && break
 
         echo "  [-] Fetched <${count}> | Status code: ${response:-3}"
         echo "$body" >> "$file"

@@ -65,10 +65,6 @@ main() {
         fi
 
         local url="https://discord.com/api/v9/channels/${channel_id}/messages?${query_parameters}"
-        echo "url: $url"
-        echo "file: ${file}"
-        echo "${curl_args[*]}"
-        exit 1
         response=$(curl -sS --http3 "${curl_args[@]}" "${url}")
         count=$(echo "$response" | jq 'length')
 
@@ -76,7 +72,8 @@ main() {
         echo "$response" >> "$file"
 
         last_message_id=$(echo "$response" | jq -r '.[-1].id')
-        sleep 1
+        # Randomize wait time
+        sleep $(( RANDOM % 4 + 1))
     done
 }
 

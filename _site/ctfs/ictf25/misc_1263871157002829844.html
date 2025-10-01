@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTFdi</title>
+  <style>
+    :root {
+        --primary: #ff2e63;   /* neon red/pink */
+        --secondary: #162447;
+        --accent: #08d9d6;    /* neon blue/cyan */
+        --background: #0a0a0f;
+        --surface: rgba(20, 20, 40, 0.9);
+        --text: #e6f1ff;
+    }
+
+    body {
+        font-family: 'Press Start 2P', monospace;
+        background-color: var(--background);
+        color: var(--text);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px; /* bigger font */
+    }
+
+    .chat {
+        width: 100%;
+        max-width: 800px;
+        height: 500px;
+        overflow-y: auto;
+        background: var(--surface);
+        border-radius: 8px;
+        box-shadow: 0 0 25px rgba(255, 46, 99, 0.3);
+        padding: 12px;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .message {
+        margin: 12px 0;
+        padding: 10px;
+        border-radius: 6px;
+        background: rgba(15, 15, 25, 0.85);
+        box-shadow: 0 0 6px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .timestamp {
+        font-size: 11px;
+        color: var(--primary); /* red timestamps */
+        margin-bottom: 4px;
+        display: block;
+        opacity: 0.55;
+    }
+
+    #summary {
+        width: 100%;
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background: var(--surface);
+        line-height: 1.6;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+    }
+
+    .content a {
+        color: var(--accent); /* blue links */
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .content a:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+    }
+
+    /* CRT scanline effect */
+    .scanline {
+        background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.05) 10%,
+            rgba(255, 255, 255, 0) 100%);
+        animation: scanline 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scanline {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+</style>
+</head>
+<body>
+  <h1>Channel: [data/ctfs/ictf25/misc_1263871157002829844.json]</h1>
+  <h3>Writeup Chat</h3>
+  <div id="chat" class="chat">
+    <div class="message">
+      <span class="timestamp">2025-09-15T05:54:40.246000+00:00</span>
+      <div class="content"><a href="https://github.com/paveledits/Writeups/tree/main/ICTF%202025" target="_blank">https://github.com/paveledits/Writeups/tree/main/ICTF%202025</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-09T05:05:26.833000+00:00</span>
+      <div class="content">here’s my tax return solution <a href="https://cdn.discordapp.com/attachments/1340460112904458322/1413903088376479774/Untitled.pdf" target="_blank">https://cdn.discordapp.com/attachments/1340460112904458322/1413903088376479774/Untitled.pdf</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T01:30:51.839000+00:00</span>
+      <div class="content"><a href="https://github.com/ImaginaryCTF/ImaginaryCTF-2025-Challenges/tree/main/Misc/twisted" target="_blank">https://github.com/ImaginaryCTF/ImaginaryCTF-2025-Challenges/tree/main/Misc/twisted</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-07T20:01:55.723000+00:00</span>
+      <div class="content"><a href="https://github.com/SoftKernel72/imaginaryCTF2025/tree/master/misc-whoami" target="_blank">https://github.com/SoftKernel72/imaginaryCTF2025/tree/master/misc-whoami</a>
+my writeup for whoami</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T13:41:42.797000+00:00</span>
+      <div class="content"><a href="https://www.youtube.com/shorts/XKWvPxWLJW0" target="_blank">https://www.youtube.com/shorts/XKWvPxWLJW0</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T00:32:31.427000+00:00</span>
+      <div class="content">For PBJ challenge, why it close the connexion after minuts:
+
+```Context:
+- Error #0: client error (Connect)
+- Error #1: tcp connect error: Connection refused (os error 111)
+Error: error sending request for url (<a href="http://34.45.211.133:44076/)" target="_blank">http://34.45.211.133:44076/)</a>
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-03-08T09:55:32.338000+00:00</span>
+      <div class="content">I started a new project  called liveexploit (Exploit development toolkit). Check it out friends [<a href="https://github.com/livepwn/liveexploit]." target="_blank">https://github.com/livepwn/liveexploit].</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-11-01T18:26:12.567000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/nuh-uh-beocord-no-lol-gif-24435520" target="_blank">https://tenor.com/view/nuh-uh-beocord-no-lol-gif-24435520</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T19:23:19.301000+00:00</span>
+      <div class="content">&lt;@839888264616869908&gt; <a href="https://discord.com/channels/732308165265326080/1263871245662031984/1265026341137551380" target="_blank">https://discord.com/channels/732308165265326080/1263871245662031984/1265026341137551380</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T14:28:50.179000+00:00</span>
+      <div class="content"><a href="https://github.com/NoobMaster9999/My-CTF-Challenges/tree/main" target="_blank">https://github.com/NoobMaster9999/My-CTF-Challenges/tree/main</a> Author writeups for Bank, Bank-revenge and ok-nice.</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T09:16:47.123000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/732308165265326080/1263871157002829844/1264673738193109052" target="_blank">https://discord.com/channels/732308165265326080/1263871157002829844/1264673738193109052</a> this is gdbjail2</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T07:26:30.511000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/precisely-on-schedule-right-on-schedule-right-on-time-shocked-good-timing-gif-16489616" target="_blank">https://tenor.com/view/precisely-on-schedule-right-on-schedule-right-on-time-shocked-good-timing-gif-16489616</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T20:33:39.337000+00:00</span>
+      <div class="content"><a href="https://yun.ng/c/ctf/2024-ictf/misc/left-in-the-dark" target="_blank">https://yun.ng/c/ctf/2024-ictf/misc/left-in-the-dark</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T20:19:54.651000+00:00</span>
+      <div class="content">calc: <a href="https://github.com/maple3142/My-CTF-Challenges/tree/master/ImaginaryCTF%202024/calc" target="_blank">https://github.com/maple3142/My-CTF-Challenges/tree/master/ImaginaryCTF%202024/calc</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T20:16:48.977000+00:00</span>
+      <div class="content"><a href="https://omthorat.me/blog/ictf-ok-nice/" target="_blank">https://omthorat.me/blog/ictf-ok-nice/</a>
+
+a lil writeup for ok-nice whoever needs</div>
+    </div>
+  </div>
+  <h3>Gemini Chat Summary</h3>
+  <section id="summary">
+<div style="font-family: sans-serif; line-height: 1.6;">
+    <h3>
+        Comprehensive Summary of CTF Resources and Technical Discussion
+    </h3>
+    <p>
+        The conversation is a rich exchange of information primarily centered around Capture The Flag (CTF) events, project announcements, and technical troubleshooting. Participants shared a multitude of links to writeups, challenge source code, and solutions for various CTFs, notably <strong>ICTF 2025</strong> and <strong>ImaginaryCTF 2025</strong>.
+    </p>
+
+    <h4>
+        CTF Challenge Writeups &amp; Solutions
+    </h4>
+    <p>
+        A significant portion of the discussion involved sharing resources for recently concluded and past CTF challenges.
+    </p>
+    <ul>
+        <li>
+            <strong>ICTF 2025 &amp; 2024:</strong>
+            <ul>
+                <li>A solution for the "tax return" challenge was provided via a <a href="https://github.com/paveledits/Writeups/tree/main/ICTF%202025" target="_blank" rel="noopener noreferrer">GitHub repository</a> and a direct <a href="https://cdn.discordapp.com/attachments/1340460112904458322/1413903088376479774/Untitled.pdf" target="_blank" rel="noopener noreferrer">PDF document</a>.</li>
+                <li>The official author writeups for the "Bank," "Bank-revenge," and "ok-nice" challenges were shared from <a href="https://github.com/NoobMaster9999/My-CTF-Challenges/tree/main" target="_blank" rel="noopener noreferrer">this repository</a>.</li>
+                <li>An additional community writeup for "ok-nice" was posted on a <a href="https://omthorat.me/blog/ictf-ok-nice/" target="_blank" rel="noopener noreferrer">personal blog</a>.</li>
+                <li>A <a href="https://discord.com/channels/732308165265326080/1263871157002829844/1264673738193109052" target="_blank" rel="noopener noreferrer">Discord message</a> pointed to a discussion about the "gdbjail2" challenge.</li>
+                 <li>A writeup for the ICTF 2024 misc challenge "left-in-the-dark" was shared from <a href="https://yun.ng/c/ctf/2024-ictf/misc/left-in-the-dark" target="_blank" rel="noopener noreferrer">yun.ng</a>.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>ImaginaryCTF 2025 &amp; 2024:</strong>
+            <ul>
+                <li>The source code for the "twisted" misc challenge was made available in the <a href="https://github.com/ImaginaryCTF/ImaginaryCTF-2025-Challenges/tree/main/Misc/twisted" target="_blank" rel="noopener noreferrer">official challenges repository</a>.</li>
+                <li>A participant shared their personal writeup for the "whoami" misc challenge on <a href="https://github.com/SoftKernel72/imaginaryCTF2025/tree/master/misc-whoami" target="_blank" rel="noopener noreferrer">GitHub</a>.</li>
+                <li>Source code for the ImaginaryCTF 2024 "calc" challenge was linked <a href="https://github.com/maple3142/My-CTF-Challenges/tree/master/ImaginaryCTF%202024/calc" target="_blank" rel="noopener noreferrer">here</a>.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4>
+        New Project Announcement
+    </h4>
+    <p>
+        A user announced a new personal project called <strong>liveexploit</strong>, described as an "Exploit development toolkit." Other members were encouraged to view the project on <a href="https://github.com/livepwn/liveexploit" target="_blank" rel="noopener noreferrer">GitHub</a>.
+    </p>
+
+    <h4>
+        Technical Troubleshooting
+    </h4>
+    <p>
+        One user sought help for a technical problem related to the "PBJ challenge." The issue involved the remote connection being terminated unexpectedly. The user provided the following error log for context:
+    </p>
+    <pre style="background-color: #f0f0f0; border: 1px solid #ccc; padding: 10px; border-radius: 5px; white-space: pre-wrap;"><code>Context:
+- Error #0: client error (Connect)
+- Error #1: tcp connect error: Connection refused (os error 111)
+Error: error sending request for url (http://34.45.211.133:44076/)</code></pre>
+
+    <h4>
+        Miscellaneous Content
+    </h4>
+    <p>
+        The conversation also contained informal elements, including reaction GIFs (<a href="https://tenor.com/view/nuh-uh-beocord-no-lol-gif-24435520" target="_blank" rel="noopener noreferrer">Nuh Uh</a>, <a href="https://tenor.com/view/precisely-on-schedule-right-on-schedule-right-on-time-shocked-good-timing-gif-16489616" target="_blank" rel="noopener noreferrer">Precisely on schedule</a>), a <a href="https://www.youtube.com/shorts/XKWvPxWLJW0" target="_blank" rel="noopener noreferrer">YouTube Short</a>, and direct links to specific <a href="https://discord.com/channels/732308165265326080/1263871245662031984/1265026341137551380" target="_blank" rel="noopener noreferrer">Discord messages</a> for additional context.
+    </p>
+</div>
+  </section>
+  <script>
+    // Force chat to start at the bottom (newest messages)
+    const chat = document.getElementById("chat");
+    chat.scrollTop = chat.scrollHeight;
+  </script>
+</body>
+</html>

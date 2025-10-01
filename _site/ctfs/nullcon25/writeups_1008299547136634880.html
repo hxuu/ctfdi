@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTFdi</title>
+  <style>
+    :root {
+        --primary: #ff2e63;   /* neon red/pink */
+        --secondary: #162447;
+        --accent: #08d9d6;    /* neon blue/cyan */
+        --background: #0a0a0f;
+        --surface: rgba(20, 20, 40, 0.9);
+        --text: #e6f1ff;
+    }
+
+    body {
+        font-family: 'Press Start 2P', monospace;
+        background-color: var(--background);
+        color: var(--text);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px; /* bigger font */
+    }
+
+    .chat {
+        width: 100%;
+        max-width: 800px;
+        height: 500px;
+        overflow-y: auto;
+        background: var(--surface);
+        border-radius: 8px;
+        box-shadow: 0 0 25px rgba(255, 46, 99, 0.3);
+        padding: 12px;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .message {
+        margin: 12px 0;
+        padding: 10px;
+        border-radius: 6px;
+        background: rgba(15, 15, 25, 0.85);
+        box-shadow: 0 0 6px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .timestamp {
+        font-size: 11px;
+        color: var(--primary); /* red timestamps */
+        margin-bottom: 4px;
+        display: block;
+        opacity: 0.55;
+    }
+
+    #summary {
+        width: 100%;
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background: var(--surface);
+        line-height: 1.6;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+    }
+
+    .content a {
+        color: var(--accent); /* blue links */
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .content a:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+    }
+
+    /* CRT scanline effect */
+    .scanline {
+        background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.05) 10%,
+            rgba(255, 255, 255, 0) 100%);
+        animation: scanline 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scanline {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+</style>
+</head>
+<body>
+  <h1>Channel: [data/ctfs/nullcon25/writeups_1008299547136634880.json]</h1>
+  <h3>Writeup Chat</h3>
+  <div id="chat" class="chat">
+    <div class="message">
+      <span class="timestamp">2025-09-13T13:47:42.410000+00:00</span>
+      <div class="content">Writeups for some challenge of nullcon containing dogfinderv2 and gorevgohome + more : 
+
+<a href="https://github.com/R4ptX/CTF-Writeups/tree/main/nullconCTF%2F2025" target="_blank">https://github.com/R4ptX/CTF-Writeups/tree/main/nullconCTF%2F2025</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-09T01:35:35.522000+00:00</span>
+      <div class="content">Detailed solution for web/slasher. For absolute beginners
+
+<a href="https://github.com/S450R1/nullcon-ctf-writeups/tree/main/web/slasher" target="_blank">https://github.com/S450R1/nullcon-ctf-writeups/tree/main/web/slasher</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T22:47:23.680000+00:00</span>
+      <div class="content">Detailed solution for web/webby. Using burpsuite for absolute beginners:
+
+<a href="https://github.com/S450R1/nullcon-ctf-writeups/tree/main/web/webby" target="_blank">https://github.com/S450R1/nullcon-ctf-writeups/tree/main/web/webby</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T21:27:24.468000+00:00</span>
+      <div class="content">Detailed solution for web/pwgen:
+
+<a href="https://github.com/S450R1/nullcon-ctf-writeups/tree/main/web/pwgen" target="_blank">https://github.com/S450R1/nullcon-ctf-writeups/tree/main/web/pwgen</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T05:45:19.199000+00:00</span>
+      <div class="content"><a href="https://koustubha.com/ctf/nullcon-2025/" target="_blank">https://koustubha.com/ctf/nullcon-2025/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T16:12:38.029000+00:00</span>
+      <div class="content"><a href="https://writeups.thebusfactoris1.online/posts/2025-09-05-decryption-execution-service-writeup" target="_blank">https://writeups.thebusfactoris1.online/posts/2025-09-05-decryption-execution-service-writeup</a>
+
+<a href="https://writeups.thebusfactoris1.online/posts/2025-09-05-field-trip-writeup" target="_blank">https://writeups.thebusfactoris1.online/posts/2025-09-05-field-trip-writeup</a>
+
+<a href="https://writeups.thebusfactoris1.online/posts/2025-09-05-magnetic-tape-writeup" target="_blank">https://writeups.thebusfactoris1.online/posts/2025-09-05-magnetic-tape-writeup</a>
+
+<a href="https://writeups.thebusfactoris1.online/posts/2025-09-05-pwngen-writeup" target="_blank">https://writeups.thebusfactoris1.online/posts/2025-09-05-pwngen-writeup</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T19:04:10.092000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/666188272103325716/666188462038450176/1413479970118041681" target="_blank">https://discord.com/channels/666188272103325716/666188462038450176/1413479970118041681</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T13:51:29.657000+00:00</span>
+      <div class="content"><a href="https://jia.je/ctf-writeups/2025-09-04-nullcon-berlin-hackim-2025-ctf/" target="_blank">https://jia.je/ctf-writeups/2025-09-04-nullcon-berlin-hackim-2025-ctf/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-11T15:57:53.606000+00:00</span>
+      <div class="content"><a href="https://ctftime.org/event/2642/tasks/" target="_blank">https://ctftime.org/event/2642/tasks/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-03T23:28:16.059000+00:00</span>
+      <div class="content">All crypto 🙂
+<a href="https://mindcrafters.xyz/writeups/nullconctf-2025-crypto/" target="_blank">https://mindcrafters.xyz/writeups/nullconctf-2025-crypto/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-03T07:53:14.153000+00:00</span>
+      <div class="content"><a href="https://ctftime.org/writeup/39859" target="_blank">https://ctftime.org/writeup/39859</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-03T07:53:05.887000+00:00</span>
+      <div class="content"><a href="https://ctftime.org/writeup/39859" target="_blank">https://ctftime.org/writeup/39859</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-03T05:52:29.764000+00:00</span>
+      <div class="content"><a href="https://youtu.be/YB7-3jouC0c" target="_blank">https://youtu.be/YB7-3jouC0c</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T23:36:32.812000+00:00</span>
+      <div class="content">All web writeups
+ <a href="https://mindcrafters.xyz/writeups/nullconctf-2025-web/" target="_blank">https://mindcrafters.xyz/writeups/nullconctf-2025-web/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T19:46:34.034000+00:00</span>
+      <div class="content"><a href="https://nikzu.dev/writeups/oscilloscope/" target="_blank">https://nikzu.dev/writeups/oscilloscope/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T18:43:21.561000+00:00</span>
+      <div class="content"><a href="https://nikzu.dev/writeups/backtrack/" target="_blank">https://nikzu.dev/writeups/backtrack/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T18:11:02.170000+00:00</span>
+      <div class="content">checkout my writeup for Challenges:
+- Bfail
+- Crahp
+- Numberizer
+- Paginator
+- Sess.io
+
+<a href="https://aftabsama.com/writeups/ctf/nullcon-hackim-ctf-goa-2025/" target="_blank">https://aftabsama.com/writeups/ctf/nullcon-hackim-ctf-goa-2025/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T13:54:46.916000+00:00</span>
+      <div class="content">Find that some packets are bigger than others due to some data. Then find the one that looks like a PNG and decode the QR-Code: <a href="https://gchq.github.io/CyberChef/#recipe=From_Hex('Auto')Parse_QR_Code(false)&amp;input=ODk1MDRlNDcwZDBhMWEwYTAwMDAwMDBkNDk0ODQ0NTIwMDAwMDA2ZjAwMDAwMDZmMDEwMzAwMDAwMGQ4MGIwYzIzMDAwMDAwMDY1MDRjNTQ0NTAwMDAwMGZmZmZmZmE1ZDk5ZmRkMDAwMDAwMDI3NDUyNGU1M2ZmZmZjOGI1ZGZjNzAwMDAwMDA5NzA0ODU5NzMwMDAwMGIxMjAwMDAwYjEyMDFkMmRkN2VmYzAwMDAwMTIzNDk0NDQxNTQzODhkZDVkNDNiOGU4NDMwMGMwNjYwMjMwYTc3Y2IwNTIyZTUxYWU5NzIyNWI4MDA4ZjBiYzA5NWQyNzE4ZDkxNzI4MWQwYTU4OGY4ZDdjYzY4NzdiNDBkNGUzM2M1NDZhMWY4OTA0MjFjNjM4N2YwNjdkMGZmNjAyMmVhOTk4NjUwODhhY2NhMDNhNWU3MzI2NDMzYTE4MmMxNWMwYmQ5ZjQ1Y2M1ZGVjNWI5OWExM2UyOTY0YjE1NzE4NTM0ZDIzYmM4MWJjYTc5ODdkZGM4ZmMzZGZlMGQ2NTljZGU4Y2ZlOWRkODFiMjY0ZjUzYzY5NmIxYmUzZTc1Y2JkM2I1ODk2ZDkyMjNiYjFhOWEyZTliNmVhNzkxNzUyNjhhNDcyODIzYzdkMzQzYTUzY2IyYjBjOWVkMTFhYzRhNTliMmZhMzIwNDJjM2I3NDcyZTlmNjM4NWYyZmFkNGFlYzU2ZTZjYWVkZWNhMGYyYzg0NGY0ZTg3ZWEyNTIyODNmMWQ2NmM4OTgxOTJhMTE0YzkzYTk4M2Y5N2E2NjUyMjFlMjEyMjQ4ZDY1ZjQzYTEzMWJlMjc2YmI2MjgzNGExOTA3MWU0M2IwODk3NTRhYzU0YTA1YWUyYzQ1NmI1NTVlYmQwMGU5MDUyOWFkMGE0YWZmNjZjOTI0MzU3YjE1YTVmYzkyOGYwYmVhZThhODBiZDc1ZTNhZTVjZWExOThhODhjNGVlN2IzN2Y1YmMwY2UwNDk1OWZiYjcyM2ZjNTZmZDNkNjBlMzFlMDBjOGY1ZTAwMDAwMDAwNDk0NTRlNDRhZTQyNjA4Mg" target="_blank">https://gchq.github.io/CyberChef/#recipe=From_Hex('Auto')Parse_QR_Code(false)&amp;input=ODk1MDRlNDcwZDBhMWEwYTAwMDAwMDBkNDk0ODQ0NTIwMDAwMDA2ZjAwMDAwMDZmMDEwMzAwMDAwMGQ4MGIwYzIzMDAwMDAwMDY1MDRjNTQ0NTAwMDAwMGZmZmZmZmE1ZDk5ZmRkMDAwMDAwMDI3NDUyNGU1M2ZmZmZjOGI1ZGZjNzAwMDAwMDA5NzA0ODU5NzMwMDAwMGIxMjAwMDAwYjEyMDFkMmRkN2VmYzAwMDAwMTIzNDk0NDQxNTQzODhkZDVkNDNiOGU4NDMwMGMwNjYwMjMwYTc3Y2IwNTIyZTUxYWU5NzIyNWI4MDA4ZjBiYzA5NWQyNzE4ZDkxNzI4MWQwYTU4OGY4ZDdjYzY4NzdiNDBkNGUzM2M1NDZhMWY4OTA0MjFjNjM4N2YwNjdkMGZmNjAyMmVhOTk4NjUwODhhY2NhMDNhNWU3MzI2NDMzYTE4MmMxNWMwYmQ5ZjQ1Y2M1ZGVjNWI5OWExM2UyOTY0YjE1NzE4NTM0ZDIzYmM4MWJjYTc5ODdkZGM4ZmMzZGZlMGQ2NTljZGU4Y2ZlOWRkODFiMjY0ZjUzYzY5NmIxYmUzZTc1Y2JkM2I1ODk2ZDkyMjNiYjFhOWEyZTliNmVhNzkxNzUyNjhhNDcyODIzYzdkMzQzYTUzY2IyYjBjOWVkMTFhYzRhNTliMmZhMzIwNDJjM2I3NDcyZTlmNjM4NWYyZmFkNGFlYzU2ZTZjYWVkZWNhMGYyYzg0NGY0ZTg3ZWEyNTIyODNmMWQ2NmM4OTgxOTJhMTE0YzkzYTk4M2Y5N2E2NjUyMjFlMjEyMjQ4ZDY1ZjQzYTEzMWJlMjc2YmI2MjgzNGExOTA3MWU0M2IwODk3NTRhYzU0YTA1YWUyYzQ1NmI1NTVlYmQwMGU5MDUyOWFkMGE0YWZmNjZjOTI0MzU3YjE1YTVmYzkyOGYwYmVhZThhODBiZDc1ZTNhZTVjZWExOThhODhjNGVlN2IzN2Y1YmMwY2UwNDk1OWZiYjcyM2ZjNTZmZDNkNjBlMzFlMDBjOGY1ZTAwMDAwMDAwNDk0NTRlNDRhZTQyNjA4Mg</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T10:00:17.283000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/666188272103325716/666188478983176202/1335547068223062018" target="_blank">https://discord.com/channels/666188272103325716/666188478983176202/1335547068223062018</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T09:08:22.385000+00:00</span>
+      <div class="content"># keinvieh_2 [Crypto]
+That was a cute chall ngl
+
+<a href="https://l0mb4rd.gitbook.io/crypto/cool-ctf-challenges/kleinvieh_2" target="_blank">https://l0mb4rd.gitbook.io/crypto/cool-ctf-challenges/kleinvieh_2</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T08:34:00.349000+00:00</span>
+      <div class="content"><a href="https://blog.n0va.in/posts/nullcon-writeup/" target="_blank">https://blog.n0va.in/posts/nullcon-writeup/</a>
+
+zoney writeup</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-03-20T00:53:34.903000+00:00</span>
+      <div class="content">SNI Writeup
+<a href="https://hackmd.io/@SNI/S1cMTu-Ra" target="_blank">https://hackmd.io/@SNI/S1cMTu-Ra</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-03-16T08:38:30.924000+00:00</span>
+      <div class="content">The updated write-up for HackMe is online: <a href="https://cryptax.github.io/nullcon2024/" target="_blank">https://cryptax.github.io/nullcon2024/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-03-15T16:24:54.500000+00:00</span>
+      <div class="content">Writeup for HackMe Fix the board, and HackMe Dump the memory. <a href="https://cryptax.github.io/nullcon2024/" target="_blank">https://cryptax.github.io/nullcon2024/</a>
+More to come... but my plane leaves 😉</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-03-15T11:41:11.161000+00:00</span>
+      <div class="content">Writeup for Timecode: <a href="https://f1ndus.de/notes/2024/nullcon2024/" target="_blank">https://f1ndus.de/notes/2024/nullcon2024/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-11-14T20:24:35.937000+00:00</span>
+      <div class="content">hey guys 
+my new wrietup
+
+
+<a href="https://medium.com/@jay_rana/critical-bug-alert-how-i-hacked-into-a-companys-database-287fa27c8339" target="_blank">https://medium.com/@jay_rana/critical-bug-alert-how-i-hacked-into-a-companys-database-287fa27c8339</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-11-14T14:39:01.254000+00:00</span>
+      <div class="content">Hi Folks 
+Last Month, There Were Alot Of Ctfs Which Benefit Me Very Mush, And This Is My Write-ups For Them:
+
+ASCWG Finals 2023 Ctf : Rev ( Ghost Kisses )
+<a href="https://medium.com/@0xMr_Robot/ascwg-finals-ctf-2023-reverse-engineering-challenges-317fa02225ce" target="_blank">https://medium.com/@0xMr_Robot/ascwg-finals-ctf-2023-reverse-engineering-challenges-317fa02225ce</a>
+
+Blackhat MEA Quals 2023 Ctf : Rev ( Who Am I - Can You Break The Armor ? )
+<a href="https://medium.com/@0xMr_Robot/black-hat-mea-quals-ctf-2023-reverse-challenges-662449be9108" target="_blank">https://medium.com/@0xMr_Robot/black-hat-mea-quals-ctf-2023-reverse-challenges-662449be9108</a>
+
+CyCTF Quals 2023 Ctf : Rev ( Init - Spaghetti )
+<a href="https://medium.com/@0xMr_Robot/cyctf-quals-ctf-2023-reverse-engineering-challenges-2dda8efa38d2" target="_blank">https://medium.com/@0xMr_Robot/cyctf-quals-ctf-2023-reverse-engineering-challenges-2dda8efa38d2</a>
+
+CyCTF Quals 2023 Ctf : Misc ( Case Investigation Lead N1! - Wild )
+<a href="https://medium.com/@0xMr_Robot/cyctf-quals-ctf-2023-misc-challenges-eeca1af34739" target="_blank">https://medium.com/@0xMr_Robot/cyctf-quals-ctf-2023-misc-challenges-eeca1af34739</a>
+
+CyberTalents Arab Regional 2023 Ctf : I Was So So So Close To Solve The Two Challs But Time Was Not Sufficient To Me.. 
+
+Buckeye 2023 Ctf : Rev ( Currency - 8ball )
+<a href="https://medium.com/@0xMr_Robot/buckeye-ctf-2023-reverse-engineering-challenges-f050d3dd4dd3" target="_blank">https://medium.com/@0xMr_Robot/buckeye-ctf-2023-reverse-engineering-challenges-f050d3dd4dd3</a>
+
+Buckeye 2023 Ctf : Misc ( Needle-In-The-Wifi-Stack )
+<a href="https://medium.com/@0xMr_Robot/buckeye-ctf-2023-misc-challenges-43504de1264a" target="_blank">https://medium.com/@0xMr_Robot/buckeye-ctf-2023-misc-challenges-43504de1264a</a>
+
+Tcp/Ip 2023 Ctf : Rev ( Take Some Byte - Subject Encallment )
+<a href="https://medium.com/@0xMr_Robot/tcp-ip-ctf-2023-reverse-engineering-challenges-663024bced1a" target="_blank">https://medium.com/@0xMr_Robot/tcp-ip-ctf-2023-reverse-engineering-challenges-663024bced1a</a>
+
+Tcp/Ip 2023 Ctf : Misc ( ZipZipZip - Guess My Number - Sanity Check )
+<a href="https://medium.com/@0xMr_Robot/tcp-ip-ctf-2023-misc-challenges-592074234358" target="_blank">https://medium.com/@0xMr_Robot/tcp-ip-ctf-2023-misc-challenges-592074234358</a>
+
+BlueHens 2023 Ctf : Rev ( Classic Checkers ) 
+<a href="https://medium.com/@0xMr_Robot/bluehens-ctf-2023-reverse-engineering-challenge-644caf6300bf" target="_blank">https://medium.com/@0xMr_Robot/bluehens-ctf-2023-reverse-engineering-challenge-644caf6300bf</a>
+
+Xpand Quals 2023 Ctf : Osint ( The Code Mystery - Stolen - Digital Footprint 01 )
+<a href="https://medium.com/@0xMr_Robot/xpand-quals-ctf-2023-osint-challenges-82e31b671e4f" target="_blank">https://medium.com/@0xMr_Robot/xpand-quals-ctf-2023-osint-challenges-82e31b671e4f</a>
+
+Xpand Quals 2023 Ctf : Rev ( Warmup - C1PH3R ) 
+<a href="https://medium.com/@0xMr_Robot/xpand-quals-ctf-2023-reverse-engineering-challenges-7bac11bb6a9c" target="_blank">https://medium.com/@0xMr_Robot/xpand-quals-ctf-2023-reverse-engineering-challenges-7bac11bb6a9c</a>
+
+ISITDTU Quals 2023 Ctf : Rev ( Dot )
+<a href="https://medium.com/@0xMr_Robot/isitdtu-quals-ctf-2023-reverse-engineering-challenges-8f5234a1d7c4" target="_blank">https://medium.com/@0xMr_Robot/isitdtu-quals-ctf-2023-reverse-engineering-challenges-8f5234a1d7c4</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-25T17:00:43.114000+00:00</span>
+      <div class="content">``All Pwns,1 Crypto and 1 Rev writeups:-`` <a href="https://github.com/vital-information-resource-under-siege/PWN-Challenges/blob/main/hackim-goa23/README.md" target="_blank">https://github.com/vital-information-resource-under-siege/PWN-Challenges/blob/main/hackim-goa23/README.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-25T16:59:27.347000+00:00</span>
+      <div class="content">``All Web Writeups``:-<a href="https://github.com/navy356/Null23/blob/main/README.md" target="_blank">https://github.com/navy356/Null23/blob/main/README.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-25T13:41:56.140000+00:00</span>
+      <div class="content">**Writeups from team 1/0**
+
+<a href="https://carelessfinch.me/posts/ctf-writeups/2023/nullcon-hackim-2023/" target="_blank">https://carelessfinch.me/posts/ctf-writeups/2023/nullcon-hackim-2023/</a>
+
+<a href="https://deut-erium.github.io/WriteUps/2023/nullcon_hackim/crypto/curvy_decryptor/2023-08-21-Nullcon-HackIM-Curvy-Decryptor" target="_blank">https://deut-erium.github.io/WriteUps/2023/nullcon_hackim/crypto/curvy_decryptor/2023-08-21-Nullcon-HackIM-Curvy-Decryptor</a>
+
+<a href="https://blog.dreyand.rs/post/nullcon-ctf-2023-writeup/" target="_blank">https://blog.dreyand.rs/post/nullcon-ctf-2023-writeup/</a>
+
+<a href="https://ctf-notes.zh3r0.com/s/sdCmWjhSW" target="_blank">https://ctf-notes.zh3r0.com/s/sdCmWjhSW</a>
+
+Pwn solns are uploded in ctftime</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-21T10:44:16.747000+00:00</span>
+      <div class="content">if you have written writeups please be so kind to link them on ctftime so others are able to find it
+<a href="https://ctftime.org/event/2065/tasks/" target="_blank">https://ctftime.org/event/2065/tasks/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-21T07:55:20.170000+00:00</span>
+      <div class="content"><a href="https://albovo.github.io/writeups/nullCon-HackIM-CTF-2023/" target="_blank">https://albovo.github.io/writeups/nullCon-HackIM-CTF-2023/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T19:02:37.015000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/666188272103325716/666188512109920266/1142756145166024704" target="_blank">https://discord.com/channels/666188272103325716/666188512109920266/1142756145166024704</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T08:07:47.480000+00:00</span>
+      <div class="content"><a href="https://stackoverflow.com/questions/21956970/why-can-i-read-from-stdout-and-get-a-users-terminal-input" target="_blank">https://stackoverflow.com/questions/21956970/why-can-i-read-from-stdout-and-get-a-users-terminal-input</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T08:05:36.149000+00:00</span>
+      <div class="content">quick and dirty writeups for IPfilter, Debugger, TYPicalBoss, Babypwn and Heavens Flow (the only ones I made notes for 😅)
+<a href="https://gist.github.com/shinmai/b85b0befcb8f5871310be41efdfceea8" target="_blank">https://gist.github.com/shinmai/b85b0befcb8f5871310be41efdfceea8</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T07:29:45.877000+00:00</span>
+      <div class="content">&gt; &lt;<a href="https://xhacka.github.io/tags/nullcon2023/&gt;" target="_blank">https://xhacka.github.io/tags/nullcon2023/&gt;</a>
+&gt; Nullcon 2023 - Magic Cars
+&gt; Nullcon 2023 - IPFilter
+&gt; Nullcon 2023 - TYPicalBoss</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T07:19:47.946000+00:00</span>
+      <div class="content">My approach to euclideanRSA <a href="https://themj0ln1r.github.io/posts/nullconhackimctf23" target="_blank">https://themj0ln1r.github.io/posts/nullconhackimctf23</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T07:13:06.943000+00:00</span>
+      <div class="content">cloud
+<a href="https://sh4dy.com/posts/cloud/" target="_blank">https://sh4dy.com/posts/cloud/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T06:24:35.196000+00:00</span>
+      <div class="content">babypwn, hackthehash: <a href="https://github.com/MaherAzzouzi/LinuxExploitation/tree/master/nullcon-ctf-23" target="_blank">https://github.com/MaherAzzouzi/LinuxExploitation/tree/master/nullcon-ctf-23</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-03-11T16:04:43.796000+00:00</span>
+      <div class="content">Here are our write-ups: <a href="https://wrecktheline.com/writeups/nullcon-2023/" target="_blank">https://wrecktheline.com/writeups/nullcon-2023/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-03-11T12:36:55.164000+00:00</span>
+      <div class="content">Demonstration: <a href="https://www.youtube.com/shorts/TJ7Xa-W1ul4" target="_blank">https://www.youtube.com/shorts/TJ7Xa-W1ul4</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-03-10T17:19:31.306000+00:00</span>
+      <div class="content">Video writeup for `crypto/twin`, `crypto/bmpass`, `crypto/breaking news`, `crypto/collector`, `misc/babyrand`, `misc/randrevenge`, `misc/randrevengerevenge`, `pwn/spygame`,`rev/pythopia`,`rev/wheel`,`web/reguest`,`web/zpr`. I put them all in one video, but there's timestamps to skip ahead
+<a href="https://www.youtube.com/watch?v=2DzqGho1oww" target="_blank">https://www.youtube.com/watch?v=2DzqGho1oww</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-03-10T11:49:50.252000+00:00</span>
+      <div class="content">cloud ig <a href="https://discordapp.com/channels/666188272103325716/1083350900439011329/1083715581003432027" target="_blank">https://discordapp.com/channels/666188272103325716/1083350900439011329/1083715581003432027</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-03-10T11:48:20.292000+00:00</span>
+      <div class="content">Did you see this ? <a href="https://discord.com/channels/666188272103325716/666188512109920266/1083706997196734465" target="_blank">https://discord.com/channels/666188272103325716/666188512109920266/1083706997196734465</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-03-10T11:20:31.474000+00:00</span>
+      <div class="content"><a href="https://github.com/icemonster/symbolic_mersenne_cracker" target="_blank">https://github.com/icemonster/symbolic_mersenne_cracker</a>
+<a href="https://github.com/fx5/not_random" target="_blank">https://github.com/fx5/not_random</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-16T07:00:46.065000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/666188272103325716/666188462038450176/1008254846513713152" target="_blank">https://discord.com/channels/666188272103325716/666188462038450176/1008254846513713152</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-14T13:51:39.448000+00:00</span>
+      <div class="content"><a href="https://github.com/TrixterTheTux/CTF-Writeups/tree/main/nullconctf_2022" target="_blank">https://github.com/TrixterTheTux/CTF-Writeups/tree/main/nullconctf_2022</a> - all 4 clouds + git to the core and i love browsers from web</div>
+    </div>
+  </div>
+  <h3>Gemini Chat Summary</h3>
+  <section id="summary">
+<div style="font-family: sans-serif; line-height: 1.6;">
+    <details open>
+        <summary style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px; cursor: pointer;">Nullcon HackIM CTF 2025</summary>
+        <div style="padding-left: 20px;">
+            <h4>General / Multiple Categories</h4>
+            <ul>
+                <li><a href="https://github.com/R4ptX/CTF-Writeups/tree/main/nullconCTF%2F2025" target="_blank">dogfinderv2, gorevgohome, and more</a></li>
+                <li><a href="https://aftabsama.com/writeups/ctf/nullcon-hackim-ctf-goa-2025/" target="_blank">Bfail, Crahp, Numberizer, Paginator, Sess.io</a></li>
+                <li><a href="https://koustubha.com/ctf/nullcon-2025/" target="_blank">Koustubha's Nullcon 2025 Writeups</a></li>
+                <li><a href="https://jia.je/ctf-writeups/2025-09-04-nullcon-berlin-hackim-2025-ctf/" target="_blank">Jia.je Nullcon Berlin HackIM 2025 Writeups</a></li>
+                <li><a href="https://blog.n0va.in/posts/nullcon-writeup/" target="_blank">zoney &amp; SNI Writeups (n0va.in)</a></li>
+                <li><a href="https://hackmd.io/@SNI/S1cMTu-Ra" target="_blank">SNI Writeup on HackMD</a></li>
+                <li><a href="https://ctftime.org/event/2642/tasks/" target="_blank">Official Task List on CTFtime</a></li>
+            </ul>
+
+            <h4>Web</h4>
+            <ul>
+                <li><a href="https://mindcrafters.xyz/writeups/nullconctf-2025-web/" target="_blank">MindCrafters - All Web Writeups</a></li>
+                <li><a href="https://github.com/S450R1/nullcon-ctf-writeups/tree/main/web/slasher" target="_blank">slasher (Beginner-friendly)</a></li>
+                <li><a href="https://github.com/S450R1/nullcon-ctf-writeups/tree/main/web/webby" target="_blank">webby (Beginner-friendly, with Burp Suite)</a></li>
+                <li><a href="https://github.com/S450R1/nullcon-ctf-writeups/tree/main/web/pwgen" target="_blank">pwgen</a></li>
+                <li><a href="https://writeups.thebusfactoris1.online/posts/2025-09-05-pwngen-writeup" target="_blank">pwngen (TheBusFactorIs1)</a></li>
+                <li><a href="https://nikzu.dev/writeups/oscilloscope/" target="_blank">oscilloscope</a></li>
+                <li><a href="https://nikzu.dev/writeups/backtrack/" target="_blank">backtrack</a></li>
+            </ul>
+
+            <h4>Crypto</h4>
+            <ul>
+                <li><a href="https://mindcrafters.xyz/writeups/nullconctf-2025-crypto/" target="_blank">MindCrafters - All Crypto Writeups</a></li>
+                <li><a href="https://writeups.thebusfactoris1.online/posts/2025-09-05-decryption-execution-service-writeup" target="_blank">decryption-execution-service</a></li>
+                <li><a href="https://l0mb4rd.gitbook.io/crypto/cool-ctf-challenges/kleinvieh_2" target="_blank">keinvieh_2</a></li>
+                <li><a href="https://ctftime.org/writeup/39859" target="_blank">CTFtime Writeup 39859</a></li>
+            </ul>
+
+            <h4>Miscellaneous</h4>
+            <ul>
+                <li><a href="https://writeups.thebusfactoris1.online/posts/2025-09-05-field-trip-writeup" target="_blank">field-trip</a></li>
+                <li><a href="https://writeups.thebusfactoris1.online/posts/2025-09-05-magnetic-tape-writeup" target="_blank">magnetic-tape</a></li>
+                <li><a href="https://gchq.github.io/CyberChef/#recipe=From_Hex('Auto')Parse_QR_Code(false)&input=ODk1MDRlNDcwZDBhMWEwYTAwMDAwMDBkNDk0ODQ0NTIwMDAwMDA2ZjAwMDAwMDZmMDEwMzAwMDAwMGQ4MGIwYzIzMDAwMDAwMDY1MDRjNTQ0NTAwMDAwMGZmZmZmZmE1ZDk5ZmRkMDAwMDAwMDI3NDUyNGU1M2ZmZmZjOGI1ZGZjNzAwMDAwMDA5NzA0ODU5NzMwMDAwMGIxMjAwMDAwYjEyMDFkMmRkN2VmYzAwMDAwMTIzNDk0NDQxNTQzODhkZDVkNDNiOGU4NDMwMGMwNjYwMjMwYTc3Y2IwNTIyZTUxYWU5NzIyNWI4MDA4ZjBiYzA5NWQyNzE4ZDkxNzI4MWQwYTU4OGY4ZDdjYzY4NzdiNDBkNGUzM2M1NDZhMWY4OTA0MjFjNjM4N2YwNjdkMGZmNjAyMmVhOTk4NjUwODhhY2NhMDNhNWU3MzI2NDMzYTE4MmMxNWMwYmQ5ZjQ1Y2M1ZGVjNWI5OWExM2UyOTY0YjE1NzE4NTM0ZDIzYmM4MWJjYTc5ODdkZGM4ZmMzZGZlMGQ2NTljZGU4Y2ZlOWRkODFiMjY0ZjUzYzY5NmIxYmUzZTc1Y2JkM2I1ODk2ZDkyMjNiYjFhOWEyZTliNmVhNzkxNzUyNjhhNDcyODIzYzdkMzQzYTUzY2IyYjBjOWVkMTFhYzRhNTliMmZhMzIwNDJjM2I3NDcyZTlmNjM4NWYyZmFkNGFlYzU2ZTZjYWVkZWNhMGYyYzg0NGY0ZTg3ZWEyNTIyODNmMWQ2NmM4OTgxOTJhMTE0YzkzYTk4M2Y5N2E2NjUyMjFlMjEyMjQ4ZDY1ZjQzYTEzMWJlMjc2YmI2MjgzNGExOTA3MWU0M2IwODk3NTRhYzU0YTA1YWUyYzQ1NmI1NTVlYmQwMGU5MDUyOWFkMGE0YWZmNjZjOTI0MzU3YjE1YTVmYzkyOGYwYmVhZThhODBiZDc1ZTNhZTVjZWExOThhODhjNGVlN2IzN2Y1YmMwY2UwNDk1OWZiYjcyM2ZjNTZmZDNkNjBlMzFlMDBjOGY1ZTAwMDAwMDAwNDk0NTRlNDRhZTQyNjA4Mg" target="_blank">QR Code Packet Analysis (CyberChef Link)</a></li>
+            </ul>
+
+            <h4>Video</h4>
+            <ul>
+                <li><a href="https://youtu.be/YB7-3jouC0c" target="_blank">Video Writeup</a></li>
+            </ul>
+        </div>
+    </details>
+
+    <details>
+        <summary style="font-size: 1.5em; font-weight: bold; margin-top: 20px; margin-bottom: 10px; cursor: pointer;">Nullcon HackIM CTF 2024</summary>
+        <div style="padding-left: 20px;">
+            <ul>
+                <li><a href="https://cryptax.github.io/nullcon2024/" target="_blank">HackMe, Fix the board, HackMe Dump the memory</a></li>
+                <li><a href="https://f1ndus.de/notes/2024/nullcon2024/" target="_blank">Timecode</a></li>
+            </ul>
+        </div>
+    </details>
+
+    <details>
+        <summary style="font-size: 1.5em; font-weight: bold; margin-top: 20px; margin-bottom: 10px; cursor: pointer;">Nullcon HackIM CTF 2023</summary>
+        <div style="padding-left: 20px;">
+            <h4>General / Multiple Categories</h4>
+            <ul>
+                <li><a href="https://wrecktheline.com/writeups/nullcon-2023/" target="_blank">WreckTheLine Writeups</a></li>
+                <li><a href="https://github.com/vital-information-resource-under-siege/PWN-Challenges/blob/main/hackim-goa23/README.md" target="_blank">Pwn, Crypto, and Rev Collection</a></li>
+                <li><a href="https://github.com/navy356/Null23/blob/main/README.md" target="_blank">Web Writeup Collection</a></li>
+                <li><a href="https://carelessfinch.me/posts/ctf-writeups/2023/nullcon-hackim-2023/" target="_blank">Team 1/0 Writeups</a></li>
+                <li><a href="https://blog.dreyand.rs/post/nullcon-ctf-2023-writeup/" target="_blank">dreyand.rs Writeup</a></li>
+                <li><a href="https://gist.github.com/shinmai/b85b0befcb8f5871310be41efdfceea8" target="_blank">IPfilter, Debugger, TYPicalBoss, Babypwn, Heavens Flow</a></li>
+                <li><a href="https://xhacka.github.io/tags/nullcon2023/" target="_blank">Magic Cars, IPFilter, TYPicalBoss</a></li>
+                <li><a href="https://albovo.github.io/writeups/nullCon-HackIM-CTF-2023/" target="_blank">albovo's Writeups</a></li>
+                <li><a href="https://ctftime.org/event/2065/tasks/" target="_blank">Official Task List on CTFtime</a></li>
+            </ul>
+            <h4>Specific Challenges</h4>
+            <ul>
+                <li><a href="https://deut-erium.github.io/WriteUps/2023/nullcon_hackim/crypto/curvy_decryptor/2023-08-21-Nullcon-HackIM-Curvy-Decryptor" target="_blank">Crypto: curvy_decryptor</a></li>
+                <li><a href="https://themj0ln1r.github.io/posts/nullconhackimctf23" target="_blank">Crypto: euclideanRSA</a></li>
+                <li><a href="https://github.com/MaherAzzouzi/LinuxExploitation/tree/master/nullcon-ctf-23" target="_blank">Pwn: babypwn, hackthehash</a></li>
+                <li><a href="https://sh4dy.com/posts/cloud/" target="_blank">Cloud Challenges</a></li>
+            </ul>
+            <h4>Video Writeups</h4>
+            <ul>
+                <li><a href="https://www.youtube.com/watch?v=2DzqGho1oww" target="_blank">Comprehensive Video (Crypto, Misc, Pwn, Rev, Web)</a></li>
+                <li><a href="https://www.youtube.com/shorts/TJ7Xa-W1ul4" target="_blank">Short Demonstration</a></li>
+            </ul>
+        </div>
+    </details>
+
+    <details>
+        <summary style="font-size: 1.5em; font-weight: bold; margin-top: 20px; margin-bottom: 10px; cursor: pointer;">Nullcon HackIM CTF 2022</summary>
+        <div style="padding-left: 20px;">
+            <ul>
+                <li><a href="https://github.com/TrixterTheTux/CTF-Writeups/tree/main/nullconctf_2022" target="_blank">Cloud, Web (git to the core, i love browsers)</a></li>
+                <li><a href="https://github.com/icemonster/symbolic_mersenne_cracker" target="_blank">symbolic_mersenne_cracker</a></li>
+                <li><a href="https://github.com/fx5/not_random" target="_blank">not_random</a></li>
+            </ul>
+        </div>
+    </details>
+
+    <details>
+        <summary style="font-size: 1.5em; font-weight: bold; margin-top: 20px; margin-bottom: 10px; cursor: pointer;">Other CTF Writeups (2023)</summary>
+        <div style="padding-left: 20px;">
+            <p>A collection of writeups by <a href="https://medium.com/@0xMr_Robot" target="_blank">0xMr_Robot on Medium</a>:</p>
+            <ul>
+                <li><b>ASCWG Finals:</b> <a href="https://medium.com/@0xMr_Robot/ascwg-finals-ctf-2023-reverse-engineering-challenges-317fa02225ce" target="_blank">Rev (Ghost Kisses)</a></li>
+                <li><b>Blackhat MEA Quals:</b> <a href="https://medium.com/@0xMr_Robot/black-hat-mea-quals-ctf-2023-reverse-challenges-662449be9108" target="_blank">Rev (Who Am I, Can You Break The Armor?)</a></li>
+                <li><b>CyCTF Quals:</b> <a href="https://medium.com/@0xMr_Robot/cyctf-quals-ctf-2023-reverse-engineering-challenges-2dda8efa38d2" target="_blank">Rev (Init, Spaghetti)</a> &amp; <a href="https://medium.com/@0xMr_Robot/cyctf-quals-ctf-2023-misc-challenges-eeca1af34739" target="_blank">Misc (Case Investigation, Wild)</a></li>
+                <li><b>Buckeye CTF:</b> <a href="https://medium.com/@0xMr_Robot/buckeye-ctf-2023-reverse-engineering-challenges-f050d3dd4dd3" target="_blank">Rev (Currency, 8ball)</a> &amp; <a href="https://medium.com/@0xMr_Robot/buckeye-ctf-2023-misc-challenges-43504de1264a" target="_blank">Misc (Needle-In-The-Wifi-Stack)</a></li>
+                <li><b>Tcp/Ip CTF:</b> <a href="https://medium.com/@0xMr_Robot/tcp-ip-ctf-2023-reverse-engineering-challenges-663024bced1a" target="_blank">Rev (Take Some Byte, Subject Encallment)</a> &amp; <a href="https://medium.com/@0xMr_Robot/tcp-ip-ctf-2023-misc-challenges-592074234358" target="_blank">Misc (ZipZipZip, etc.)</a></li>
+                <li><b>BlueHens CTF:</b> <a href="https://medium.com/@0xMr_Robot/bluehens-ctf-2023-reverse-engineering-challenge-644caf6300bf" target="_blank">Rev (Classic Checkers)</a></li>
+                <li><b>Xpand Quals:</b> <a href="https://medium.com/@0xMr_Robot/xpand-quals-ctf-2023-osint-challenges-82e31b671e4f" target="_blank">OSINT</a> &amp; <a href="https://medium.com/@0xMr_Robot/xpand-quals-ctf-2023-reverse-engineering-challenges-7bac11bb6a9c" target="_blank">Rev</a></li>
+                <li><b>ISITDTU Quals:</b> <a href="https://medium.com/@0xMr_Robot/isitdtu-quals-ctf-2023-reverse-engineering-challenges-8f5234a1d7c4" target="_blank">Rev (Dot)</a></li>
+            </ul>
+        </div>
+    </details>
+</div>
+  </section>
+  <script>
+    // Force chat to start at the bottom (newest messages)
+    const chat = document.getElementById("chat");
+    chat.scrollTop = chat.scrollHeight;
+  </script>
+</body>
+</html>

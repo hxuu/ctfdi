@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTFdi</title>
+  <style>
+    :root {
+        --primary: #ff2e63;   /* neon red/pink */
+        --secondary: #162447;
+        --accent: #08d9d6;    /* neon blue/cyan */
+        --background: #0a0a0f;
+        --surface: rgba(20, 20, 40, 0.9);
+        --text: #e6f1ff;
+    }
+
+    body {
+        font-family: 'Press Start 2P', monospace;
+        background-color: var(--background);
+        color: var(--text);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px; /* bigger font */
+    }
+
+    .chat {
+        width: 100%;
+        max-width: 800px;
+        height: 500px;
+        overflow-y: auto;
+        background: var(--surface);
+        border-radius: 8px;
+        box-shadow: 0 0 25px rgba(255, 46, 99, 0.3);
+        padding: 12px;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .message {
+        margin: 12px 0;
+        padding: 10px;
+        border-radius: 6px;
+        background: rgba(15, 15, 25, 0.85);
+        box-shadow: 0 0 6px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .timestamp {
+        font-size: 11px;
+        color: var(--primary); /* red timestamps */
+        margin-bottom: 4px;
+        display: block;
+        opacity: 0.55;
+    }
+
+    #summary {
+        width: 100%;
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background: var(--surface);
+        line-height: 1.6;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+    }
+
+    .content a {
+        color: var(--accent); /* blue links */
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .content a:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+    }
+
+    /* CRT scanline effect */
+    .scanline {
+        background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.05) 10%,
+            rgba(255, 255, 255, 0) 100%);
+        animation: scanline 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scanline {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+</style>
+</head>
+<body>
+  <h1>Channel: [data/ctfs/ictf25/pwn_1263871116082937987.json]</h1>
+  <h3>Writeup Chat</h3>
+  <div id="chat" class="chat">
+    <div class="message">
+      <span class="timestamp">2025-09-21T02:33:26.572000+00:00</span>
+      <div class="content">My writeup (upsolve) for {addition, babybof, cascade, multiplication, stillerer-printf, twowrite}:
+<a href="https://github.com/r1ru/pwn-writeups/tree/main/2025/imaginary-ctf" target="_blank">https://github.com/r1ru/pwn-writeups/tree/main/2025/imaginary-ctf</a>
+I especially enjoyed multiplication and stillerer-printf. Thanks for the great challs. I learned a lot ❤️ .</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-11T08:16:09.703000+00:00</span>
+      <div class="content">You overwrite tls+0x28 (stack_guard) and 0x404000 so that the one_gadget gets executed, so there’s no need to worry about pointer mangling.
+
+My solution (I guess a lot of people did the same) is to overwrite tls+0x30 (pointer_guard) and invoke system("/bin/sh") in `__run_exit_handlers`:
+<a href="https://elixir.bootlin.com/glibc/glibc-2.41/source/stdlib/exit.c#L108-L121" target="_blank">https://elixir.bootlin.com/glibc/glibc-2.41/source/stdlib/exit.c#L108-L121</a>
+
+That’s why we care about pointer mangling. But indeed, if one_gadget can be used, your approach is the simplest. Nice!</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-09T13:11:51.655000+00:00</span>
+      <div class="content">I finally figured out the reason.
+The problem was the filesystem. On the host, the offset changed each time, but inside the container it stayed constant. This was because the host uses ext4, while the container uses overlayfs.
+
+When I ran it on tmpfs, the offset remained constant even on the host. I hope this is helpful to someone.
+
+ref: <a href="https://blog.zolutal.io/aslrnt/" target="_blank">https://blog.zolutal.io/aslrnt/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T12:55:19.826000+00:00</span>
+      <div class="content">Thanks. I understand:
+- The TLS of main thread is initialized in `init_tls`:
+<a href="https://elixir.bootlin.com/glibc/glibc-2.41/source/elf/rtld.c#L732-L783" target="_blank">https://elixir.bootlin.com/glibc/glibc-2.41/source/elf/rtld.c#L732-L783</a>
+- The memory region for TLS is allocate in `_dl_allocate_tls_storage`:
+<a href="https://elixir.bootlin.com/glibc/glibc-2.41/source/elf/dl-tls.c#L507-L535" target="_blank">https://elixir.bootlin.com/glibc/glibc-2.41/source/elf/dl-tls.c#L507-L535</a>
+As you mentioned, the TLS memory region is indeed allocated with `malloc`. But, is it really always constant?? I tried the following, and the offset changed on each run:
+1. Run vuln
+2. Attach gdb and calculate the offset
+3. Repeat 1 and 2
+Fist:
+```
+pwndbg&gt; p/x $fs_base - 0x72c876200000
+$1 = 0x3af740
+```
+Second:
+```
+pwndbg&gt; p/x $fs_base - 0x793382600000
+$1 = 0x3b6740
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T01:11:56.370000+00:00</span>
+      <div class="content"><a href="https://github.com/ImaginaryCTF/ImaginaryCTF-2025-Challenges/blob/main/Pwn/avalanche/challenge/src/Avalanche.cpp" target="_blank">https://github.com/ImaginaryCTF/ImaginaryCTF-2025-Challenges/blob/main/Pwn/avalanche/challenge/src/Avalanche.cpp</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-08T01:09:49.390000+00:00</span>
+      <div class="content"><a href="https://github.com/ImaginaryCTF/ImaginaryCTF-2025-Challenges/blob/main/Pwn/avalanche/challenge/solve/solve.py" target="_blank">https://github.com/ImaginaryCTF/ImaginaryCTF-2025-Challenges/blob/main/Pwn/avalanche/challenge/solve/solve.py</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-07T19:56:59.159000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/732308165265326080/1263871116082937987/1414332090228539442" target="_blank">https://discord.com/channels/732308165265326080/1263871116082937987/1414332090228539442</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-07T19:24:43.713000+00:00</span>
+      <div class="content">fast writeup done in 10 mins
+
+<a href="https://medium.com/@zeyadsalah686/imaginary-ctf-2025-addition-pwn-chall-ebeb32f516a8" target="_blank">https://medium.com/@zeyadsalah686/imaginary-ctf-2025-addition-pwn-chall-ebeb32f516a8</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-07T19:06:20.782000+00:00</span>
+      <div class="content"><a href="https://ub1cu0.gitbook.io/pwn-writeups/imaginaryctf-2025/addition" target="_blank">https://ub1cu0.gitbook.io/pwn-writeups/imaginaryctf-2025/addition</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-07T17:15:49.234000+00:00</span>
+      <div class="content">What is <a href="https://eth007.me/blog/posts/stiller-printf" target="_blank">https://eth007.me/blog/posts/stiller-printf</a> not enough for u?!?!?</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T19:51:13.544000+00:00</span>
+      <div class="content"><a href="https://cdn.discordapp.com/emojis/1179604210283716639.gif?size=48&amp;quality=lossless&amp;name=4020_MonkaShoot" target="_blank">https://cdn.discordapp.com/emojis/1179604210283716639.gif?size=48&amp;quality=lossless&amp;name=4020_MonkaShoot</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T19:50:55.584000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/the-simpsons-homer-exiting-uncomfortable-leaving-now-gif-2537108106024763419" target="_blank">https://tenor.com/view/the-simpsons-homer-exiting-uncomfortable-leaving-now-gif-2537108106024763419</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T19:40:25.176000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/smg4-smg4skill-issue-skill-issue-smg4mario-smg4skill-gif-26104493" target="_blank">https://tenor.com/view/smg4-smg4skill-issue-skill-issue-smg4mario-smg4skill-gif-26104493</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T22:27:36.564000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/celebration-happy-yay-yes-handsup-gif-8401069432693585390" target="_blank">https://tenor.com/view/celebration-happy-yay-yes-handsup-gif-8401069432693585390</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T22:20:59.188000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/ali187xr-gif-23052876" target="_blank">https://tenor.com/view/ali187xr-gif-23052876</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-03-08T09:54:40.709000+00:00</span>
+      <div class="content">I started a new project  called liveexploit (Exploit development toolkit). Check it out friends [<a href="https://github.com/livepwn/liveexploit]." target="_blank">https://github.com/livepwn/liveexploit].</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-23T02:44:34.181000+00:00</span>
+      <div class="content">&lt;<a href="https://github.com/Gallopsled/pwntools/issues/1871&gt;" target="_blank">https://github.com/Gallopsled/pwntools/issues/1871&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T19:24:11.975000+00:00</span>
+      <div class="content"><a href="https://github.com/thinxer/ftp_project/blob/master/ftpd/ftp_session.c#L66-L68" target="_blank">https://github.com/thinxer/ftp_project/blob/master/ftpd/ftp_session.c#L66-L68</a></div>
+    </div>
+  </div>
+  <h3>Gemini Chat Summary</h3>
+  <section id="summary">
+<div class="summary-container">
+    <style>
+        .summary-container {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .summary-container h2 {
+            color: #0056b3;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .summary-container h3 {
+            color: #1a73e8;
+            margin-top: 25px;
+        }
+        .summary-container h4 {
+            color: #444;
+            font-style: italic;
+        }
+        .summary-container p {
+            margin-bottom: 15px;
+        }
+        .summary-container code {
+            background-color: #eef;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9em;
+        }
+        .summary-container ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        .summary-container li {
+            margin-bottom: 8px;
+        }
+        .summary-container a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .summary-container a:hover {
+            text-decoration: underline;
+        }
+        .resource-list {
+            background-color: #fff;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+    </style>
+
+    <h2>CTF Writeups & Security Discussion Summary</h2>
+
+    <h3>Imaginary CTF 2025: Pwn Challenge Analysis</h3>
+    <p>
+        A participant shared a collection of writeups for several Imaginary CTF 2025 pwn challenges, including <code>addition</code>, <code>babybof</code>, <code>cascade</code>, <code>multiplication</code>, <code>stillerer-printf</code>, and <code>twowrite</code>. The challenges <code>multiplication</code> and <code>stillerer-printf</code> were highlighted as particularly educational.
+    </p>
+
+    <h4>Technical Deep Dive: Glibc Exploit Techniques</h4>
+    <p>
+        The conversation detailed two primary exploit strategies for a challenge involving glibc's Thread-Local Storage (TLS):
+    </p>
+    <ul>
+        <li><strong>Stack Guard Overwrite:</strong> One method involves overwriting <code>tls+0x28</code>, which holds the <code>stack_guard</code> value. This allows for a straightforward stack overflow to trigger a <code>one_gadget</code>, simplifying the exploit by avoiding the complexities of pointer mangling.</li>
+        <li><strong>Pointer Guard Overwrite:</strong> An alternative solution is to overwrite <code>tls+0x30</code>, the <code>pointer_guard</code>. This technique aims to execute <code>system("/bin/sh")</code> by manipulating function pointers called by <code>__run_exit_handlers</code>. This approach, however, requires the attacker to correctly handle glibc's pointer mangling protections.</li>
+    </ul>
+
+    <h4>Investigation: Filesystem Effects on ASLR and TLS</h4>
+    <p>
+        A key discussion point was the variability of the TLS base address offset. A user discovered that the offset remained constant within a container (using <code>overlayfs</code>) but changed with each execution on the host machine (using <code>ext4</code>). Further investigation revealed that running the binary on <code>tmpfs</code> also resulted in a constant offset. This behavior is linked to how different filesystems interact with memory layout and ASLR. The provided reference, <a href="https://blog.zolutal.io/aslrnt/" target="_blank">ASLR's Next Top Model</a>, explains these nuances in detail.
+    </p>
+
+    <h4>Shared Writeups and Resources:</h4>
+    <ul class="resource-list">
+        <li><strong>Main Writeup Collection:</strong> <a href="https://github.com/r1ru/pwn-writeups/tree/main/2025/imaginary-ctf" target="_blank">r1ru/pwn-writeups (Imaginary CTF 2025)</a></li>
+        <li><strong>Addition Challenge Writeups:</strong>
+            <ul>
+                <li><a href="https://medium.com/@zeyadsalah686/imaginary-ctf-2025-addition-pwn-chall-ebeb32f516a8" target="_blank">Medium Article by @zeyadsalah686</a></li>
+                <li><a href="https://ub1cu0.gitbook.io/pwn-writeups/imaginaryctf-2025/addition" target="_blank">ub1cu0.gitbook.io Writeup</a></li>
+            </ul>
+        </li>
+        <li><strong>Stiller-Printf Reference:</strong> <a href="https://eth007.me/blog/posts/stiller-printf" target="_blank">eth007.me Blog Post</a></li>
+        <li><strong>Challenge Source Code:</strong> <a href="https://github.com/ImaginaryCTF/ImaginaryCTF-2025-Challenges/blob/main/Pwn/avalanche/challenge/src/Avalanche.cpp" target="_blank">Avalanche Challenge Source</a></li>
+        <li><strong>Glibc Source References (via Elixir):</strong>
+             <ul>
+                <li><a href="https://elixir.bootlin.com/glibc/glibc-2.41/source/stdlib/exit.c#L108" target="_blank">exit.c (__run_exit_handlers)</a></li>
+                <li><a href="https://elixir.bootlin.com/glibc/glibc-2.41/source/elf/rtld.c#L732" target="_blank">rtld.c (init_tls)</a></li>
+                <li><a href="https://elixir.bootlin.com/glibc/glibc-2.41/source/elf/dl-tls.c#L507" target="_blank">dl-tls.c (_dl_allocate_tls_storage)</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3>Community Projects & Miscellaneous Links</h3>
+    <p>
+        A new exploit development toolkit was announced:
+    </p>
+    <ul>
+        <li><strong>LiveExploit:</strong> Check out the project on GitHub at <a href="https://github.com/livepwn/liveexploit" target="_blank">github.com/livepwn/liveexploit</a>.</li>
+    </ul>
+    <p>Additional links were shared for context in discussions:</p>
+    <ul class="resource-list">
+        <li><a href="https://github.com/Gallopsled/pwntools/issues/1871" target="_blank">Pwntools Issue #1871</a></li>
+        <li><a href="https://github.com/thinxer/ftp_project/blob/master/ftpd/ftp_session.c#L66-L68" target="_blank">FTP Project Source Code Snippet</a></li>
+    </ul>
+</div>
+  </section>
+  <script>
+    // Force chat to start at the bottom (newest messages)
+    const chat = document.getElementById("chat");
+    chat.scrollTop = chat.scrollHeight;
+  </script>
+</body>
+</html>

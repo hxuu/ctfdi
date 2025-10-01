@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTFdi</title>
+  <style>
+    :root {
+        --primary: #ff2e63;   /* neon red/pink */
+        --secondary: #162447;
+        --accent: #08d9d6;    /* neon blue/cyan */
+        --background: #0a0a0f;
+        --surface: rgba(20, 20, 40, 0.9);
+        --text: #e6f1ff;
+    }
+
+    body {
+        font-family: 'Press Start 2P', monospace;
+        background-color: var(--background);
+        color: var(--text);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px; /* bigger font */
+    }
+
+    .chat {
+        width: 100%;
+        max-width: 800px;
+        height: 500px;
+        overflow-y: auto;
+        background: var(--surface);
+        border-radius: 8px;
+        box-shadow: 0 0 25px rgba(255, 46, 99, 0.3);
+        padding: 12px;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .message {
+        margin: 12px 0;
+        padding: 10px;
+        border-radius: 6px;
+        background: rgba(15, 15, 25, 0.85);
+        box-shadow: 0 0 6px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .timestamp {
+        font-size: 11px;
+        color: var(--primary); /* red timestamps */
+        margin-bottom: 4px;
+        display: block;
+        opacity: 0.55;
+    }
+
+    #summary {
+        width: 100%;
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background: var(--surface);
+        line-height: 1.6;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+    }
+
+    .content a {
+        color: var(--accent); /* blue links */
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .content a:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+    }
+
+    /* CRT scanline effect */
+    .scanline {
+        background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.05) 10%,
+            rgba(255, 255, 255, 0) 100%);
+        animation: scanline 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scanline {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+</style>
+</head>
+<body>
+  <h1>Channel: [data/ctfs/ictf25/reverse_1263871245662031984.json]</h1>
+  <h3>Writeup Chat</h3>
+  <div id="chat" class="chat">
+    <div class="message">
+      <span class="timestamp">2025-09-08T11:52:16.274000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/scream-loud-scream-girl-kid-hispanic-girl-gif-3761151244536557927" target="_blank">https://tenor.com/view/scream-loud-scream-girl-kid-hispanic-girl-gif-3761151244536557927</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-07T19:40:12.295000+00:00</span>
+      <div class="content"><a href="https://en.wikipedia.org/wiki/Recursion#In_computer_science" target="_blank">https://en.wikipedia.org/wiki/Recursion#In_computer_science</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T23:19:55.312000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/spongebob-done-all-done-all-set-im-finished-gif-14305651" target="_blank">https://tenor.com/view/spongebob-done-all-done-all-set-im-finished-gif-14305651</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-06T05:07:15.499000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/crash-out-strangle-over-it-im-done-wtf-gif-5733066100478599257" target="_blank">https://tenor.com/view/crash-out-strangle-over-it-im-done-wtf-gif-5733066100478599257</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-12T04:54:27.031000+00:00</span>
+      <div class="content"><a href="https://crackmes.one/" target="_blank">https://crackmes.one/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-12T18:07:54.503000+00:00</span>
+      <div class="content"><a href="https://imaginaryctf.org/ArchivedChallenges" target="_blank">https://imaginaryctf.org/ArchivedChallenges</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-23T03:54:13.941000+00:00</span>
+      <div class="content"><a href="https://hackmd.io/@yqroo/SJSF85n_A" target="_blank">https://hackmd.io/@yqroo/SJSF85n_A</a>
+
+my writeup for `printf`</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T20:28:07.640000+00:00</span>
+      <div class="content"><a href="https://www.nayuki.io/page/optimizing-brainfuck-compiler" target="_blank">https://www.nayuki.io/page/optimizing-brainfuck-compiler</a> to python, then replace with z3</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T14:28:59.417000+00:00</span>
+      <div class="content"><a href="https://github.com/NoobMaster9999/My-CTF-Challenges/tree/main" target="_blank">https://github.com/NoobMaster9999/My-CTF-Challenges/tree/main</a> Author writeups for BF and Rust</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-22T11:43:35.192000+00:00</span>
+      <div class="content">My BF solve in python and The C file is a modification of what this repo's program produced <a href="https://github.com/zesterer/funkicrab" target="_blank">https://github.com/zesterer/funkicrab</a> That I used some Regex to search and replace stuff for me. (the C file was given by a team member that failed to solve this, so I modified it to show him how to solve it)
+The idea is that each character is this basic equation: `(input_char + offset) - (flag_char - offset) = 0`
+quick maths: `(input_char) - (flag_char) = 0` -&gt; `input_char = 0 + flag_char`</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-07-21T20:04:39.076000+00:00</span>
+      <div class="content"><a href="https://github.com/maple3142/My-CTF-Challenges/tree/master/ImaginaryCTF%202024/vokram" target="_blank">https://github.com/maple3142/My-CTF-Challenges/tree/master/ImaginaryCTF%202024/vokram</a></div>
+    </div>
+  </div>
+  <h3>Gemini Chat Summary</h3>
+  <section id="summary">
+```html
+<div>
+    <h4>Comprehensive Summary of a Technical CTF Discussion</h4>
+    <p>
+        This text encapsulates a multifaceted conversation among individuals engaged in solving Capture The Flag (CTF) challenges. The dialogue highlights the typical lifecycle of tackling complex cybersecurity and programming puzzles, including the initial struggle, sharing of resources, collaborative problem-solving, and the eventual creation and documentation of solutions. The tone shifts between frustration, as indicated by reaction GIFs, and focused technical analysis.
+    </p>
+
+    <strong>Key Themes and Shared Resources</strong>
+    <p>
+        The conversation revolves around several core topics, supported by a rich set of shared links for learning and reference.
+    </p>
+    <ul>
+        <li>
+            <strong>Emotional Expressions:</strong> The use of <a href="https://tenor.com/view/scream-loud-scream-girl-kid-hispanic-girl-gif-3761151244536557927" target="_blank" rel="noopener noreferrer">GIFs</a> depicting <a href="https://tenor.com/view/crash-out-strangle-over-it-im-done-wtf-gif-5733066100478599257" target="_blank" rel="noopener noreferrer">frustration</a> and <a href="https://tenor.com/view/spongebob-done-all-done-all-set-im-finished-gif-14305651" target="_blank" rel="noopener noreferrer">completion</a> suggests the challenging nature of the tasks being discussed.
+        </li>
+        <li>
+            <strong>Educational Materials:</strong> Participants shared foundational and advanced resources, including a Wikipedia article on <a href="https://en.wikipedia.org/wiki/Recursion#In_computer_science" target="_blank" rel="noopener noreferrer">Recursion in Computer Science</a> and a detailed guide on <a href="https://www.nayuki.io/page/optimizing-brainfuck-compiler" target="_blank" rel="noopener noreferrer">optimizing a Brainfuck compiler</a>.
+        </li>
+        <li>
+            <strong>Challenge Platforms:</strong> Links to practice sites like <a href="https://crackmes.one/" target="_blank" rel="noopener noreferrer">Crackmes.one</a> and archives of past events like the <a href="https://imaginaryctf.org/ArchivedChallenges" target="_blank" rel="noopener noreferrer">ImaginaryCTF challenges</a> were exchanged.
+        </li>
+    </ul>
+
+    <strong>In-Depth Analysis of Specific Challenges</strong>
+    <p>
+        A significant portion of the discussion is dedicated to the mechanics of solving particular CTF problems, showcasing a variety of advanced techniques.
+    </p>
+    <ul>
+        <li>
+            <strong>Brainfuck (BF) and Rust Challenges:</strong> A participant detailed their process for creating a Python-based solver for a Brainfuck challenge, with a consideration to enhance it using the Z3 SMT solver. They also pointed to a repository of <a href="https://github.com/NoobMaster9999/My-CTF-Challenges/tree/main" target="_blank" rel="noopener noreferrer">author writeups for BF and Rust challenges</a>.
+        </li>
+        <li>
+            <strong>Reverse Engineering and Code Modification:</strong> One solution involved modifying a C file that was initially generated from the <a href="https://github.com/zesterer/funkicrab" target="_blank" rel="noopener noreferrer"><code>funkicrab</code></a> repository. The modification was achieved by applying regular expressions to automate search-and-replace operations, demonstrating a practical approach to reverse engineering a program to reveal its solution.
+        </li>
+        <li>
+            <strong>Personal Write-ups:</strong> Participants shared their own documented solutions, including a <a href="https://hackmd.io/@yqroo/SJSF85n_A" target="_blank" rel="noopener noreferrer">HackMD write-up for a `printf` challenge</a> and a GitHub repository detailing the solution to the <a href="https://github.com/maple3142/My-CTF-Challenges/tree/master/ImaginaryCTF%202024/vokram" target="_blank" rel="noopener noreferrer">"vokram" challenge</a> from ImaginaryCTF 2024.
+        </li>
+    </ul>
+
+    <strong>Core Logical Breakdown of a Challenge</strong>
+    <p>
+        A central point of the technical discussion was the deconstruction of a challenge's validation mechanism. A participant explained that the core logic boiled down to a simple mathematical check for each character of the input.
+    </p>
+    <blockquote style="background-color: #f0f0f0; border-left: 5px solid #ccc; padding: 10px; margin: 10px 0;">
+        <p>The fundamental idea behind the check was described by the equation:</p>
+        <pre><code style="font-family: monospace;">(input_char + offset) - (flag_char - offset) = 0</code></pre>
+        <p>Through basic algebraic manipulation, this simplifies to a direct comparison:</p>
+        <pre><code style="font-family: monospace;">input_char = flag_char</code></pre>
+        <p>This insight reveals that the program is performing a straightforward character-by-character comparison between the user's input and the hidden flag, a common pattern in entry-level reverse engineering tasks.</p>
+    </blockquote>
+</div>
+```
+  </section>
+  <script>
+    // Force chat to start at the bottom (newest messages)
+    const chat = document.getElementById("chat");
+    chat.scrollTop = chat.scrollHeight;
+  </script>
+</body>
+</html>

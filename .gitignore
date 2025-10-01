@@ -1,2 +1,4 @@
 dump_*
 ctfs/*
+.env*
+data/

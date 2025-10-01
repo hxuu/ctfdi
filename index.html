@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>CTFDi</title>
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+        :root {
+            --primary: #ff0055;
+            --secondary: #1a1a2e;
+            --accent: #00e0ff;
+            --background: #0a0a0f;
+            --surface: rgba(20, 20, 40, 0.9);
+            --text: #f1f1f1;
+            --border: #ff0055;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: radial-gradient(circle at top, #111, #000);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header img {
+            max-width: 200px;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 12px var(--accent));
+        }
+
+        pre.ascii {
+            color: var(--primary);
+            text-shadow: 0 0 8px rgba(255, 0, 85, 0.8), 0 0 16px rgba(0, 224, 255, 0.6);
+            font-size: 14px;
+            line-height: 1.2em;
+            margin-bottom: 2rem;
+        }
+
+        .ctf-list {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .ctf {
+            background: linear-gradient(135deg, rgba(255,0,85,0.15), rgba(0,224,255,0.15));
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.3), 0 0 15px rgba(0, 224, 255, 0.2);
+            padding: 1rem 1.5rem;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .ctf:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 25px rgba(255, 0, 85, 0.6), 0 0 20px rgba(0, 224, 255, 0.4);
+        }
+
+        .ctf h2 {
+            font-size: 16px;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 6px rgba(0,224,255,0.7);
+        }
+
+        .ctf ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ctf ul li {
+            margin: 0.5rem 0;
+        }
+
+        .ctf a {
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            background: linear-gradient(90deg, transparent, transparent);
+            transition: all 0.3s ease;
+        }
+
+        .ctf a:hover {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: #fff;
+            text-shadow: 0 0 6px #000;
+        }
+        </style>
+</head>
+<body>
+        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGs0MWVwbjA0YW83c2t2aXBzNHZvd2MzcXQ0YnB5ZDM5dmd0MnFhdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/uFhKYISJSb7RC/giphy.gif" alt="oogwagen">
+  <pre class="ascii">Writeup CTF Archive for Discord (CTFDi)</pre>
+        <p>Check <a href="https://github.com/hxuu/ctfdi">our repo</a> for more information</p>
+  <div class="ctf-list">
+    <div class="ctf">
+      <h2>ictf25</h2>
+      <ul>
+        <li><a href="ctfs/ictf25/crypto_1263871130167545947.html">crypto</a></li>
+        <li><a href="ctfs/ictf25/forensics_1263871147422777505.html">forensics</a></li>
+        <li><a href="ctfs/ictf25/misc_1263871157002829844.html">misc</a></li>
+        <li><a href="ctfs/ictf25/pwn_1263871116082937987.html">pwn</a></li>
+        <li><a href="ctfs/ictf25/reverse_1263871245662031984.html">reverse</a></li>
+        <li><a href="ctfs/ictf25/web_1263871179966644245.html">web</a></li>
+      </ul>
+    </div>
+
+    <div class="ctf">
+      <h2>kctf25</h2>
+      <ul>
+        <li><a href="ctfs/kctf25/web_1411344120273702932.html">web</a></li>
+        <li><a href="ctfs/kctf25/writeups_1411682333765140631.html">writeups</a></li>
+      </ul>
+    </div>
+
+    <div class="ctf">
+      <h2>lit25</h2>
+      <ul>
+        <li><a href="ctfs/lit25/web_865613173859418153.html">web</a></li>
+        <li><a href="ctfs/lit25/writeups_866529872737075221.html">writeups</a></li>
+      </ul>
+    </div>
+
+    <div class="ctf">
+      <h2>nullcon25</h2>
+      <ul>
+        <li><a href="ctfs/nullcon25/web_666188462038450176.html">web</a></li>
+        <li><a href="ctfs/nullcon25/writeups_1008299547136634880.html">writeups</a></li>
+      </ul>
+    </div>
+
+    <div class="ctf">
+      <h2>script25</h2>
+      <ul>
+        <li><a href="ctfs/script25/writeups_1378077092981375076.html">writeups</a></li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
+

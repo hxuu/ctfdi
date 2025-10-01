@@ -13,11 +13,11 @@ if (( $# < 1 )); then
     exit 1
 fi
 
-mkdir -p "data/${1%/*}" "_site/${1%/*}"
+mkdir -p "../data/${1%/*}" "../_site/${1%/*}"
 ./link-extractor.sh "$1" > "data/$1" || exit 1
 
-input="data/$1"
-output="_site/${1%.*}.html"
+input="../data/$1"
+output="../_site/${1%.*}.html"
 
 # start HTML
 cat <<EOF > "$output"

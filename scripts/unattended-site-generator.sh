@@ -6,7 +6,7 @@
 # Author: hxuu <an.mokhtari@esi-sba.dz>
 # License: GPL
 
-chat_dumps=(ctfs/**/*)
+chat_dumps=(../ctfs/**/*)
 
 for chat in "${chat_dumps[@]}"; do
     [[ "$chat" =~ 'repo' || -e "${chat%.json}.html" ]] && continue
